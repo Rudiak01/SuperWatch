@@ -1,8 +1,27 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+}
+
 html{
-    background-color: black;
+    background-color: rgb(255, 255, 255);
 }
 header{
     background-color: rgb(56, 56, 56);
     color: white;
     text-align: center;
+    box-shadow: 10px;
+}
+.etiquette{
+    margin: 1%;
+    height: 170px;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    max-width: 33%;
+    display: flex;
+    font-weight: bold;
+    flex-direction: column; 
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
