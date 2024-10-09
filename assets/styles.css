@@ -2,10 +2,8 @@
     padding: 0;
     margin: 0;
     box-sizing: content-box;
-}
-
-html{
-    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+    color: white;
 }
 header{
     background-color: rgb(56, 56, 56);
@@ -13,21 +11,41 @@ header{
     text-align: center;
     box-shadow: 10px;
 }
+footer{
+    background-color: rgb(56, 56, 56);
+    color: white;
+    text-align: center;
+    box-shadow: 10px;
+}
 .etiquette{
-    
+    background-color: rgba(255, 255, 255, 0.477);
     margin: 1%;
     height: 170px;
     border-radius: 10px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: rgba(50, 50, 93) -3px inset;
     min-width: 31%;
     display: flex;
     flex-direction: column; 
     justify-content: space-around;
     align-content: flex-start;
     flex-wrap: wrap;
+
 }
 section{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+html{
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(7,7,120,1) 35%, rgba(0,212,255,1) 100%);
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.Status{
+    text-align: center;
+    align-self: center;
+    background-color: red;
+    width: 150px;
+    height: 25px;
 }

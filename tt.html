@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>fetch('http://arthonetwork.fr:8001/api')
+        .then(response => response.json())
+        .then(data => tri(data));
+        
+        function tri(data){
+
+
+        
+        
+              const getRandomObject = () => {
+                const objectKeys = Object.keys(data.players.list);
+                const randomIndex = Math.floor(Math.random() * objectKeys.length);
+                return data.players.list[objectKeys[randomIndex]];
+              };
+              
+              const randomObject = getRandomObject();
+              console.log(randomObject); // Output: one of the objects (e.g., { id: 2, name: "Object 2" })
+
+        } </script>
+</body>
+</html>
