@@ -220,20 +220,49 @@ function Init(data) {
             function handlekickClick() {
                 kickclickCount++;
                 if (kickclickCount == 1) {
-                    kickbutton.innerText = `Kick ${playerName} ?`;
-                    $(`.kicksousbox${playerName} `).toggleClass(`kicksousbox-clicked${playerName} `);
+                    if (player.status == "offline") {
+                        kickbutton.innerText = "Joueur hors ligne"
+                        kickclickCount = 0;
+                    }
+                    else {
+                        kickbutton.innerText = `Kick ${playerName} ?`;
+                        $(`.kicksousbox${playerName} `).toggleClass(`kicksousbox-clicked${playerName} `);
+
+                    }
                 }
                 if (kickclickCount === 2) {
+
+
                     kickbutton.innerText = "Action effectuée";
+                    fetch(`http://arthonetwork.fr:8001/api/kick`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ uuid: player.uuid })
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            console.log(`${playerName} a été kick.`);
+                            alert(`${playerName} a été kick.`);
+                        })
+                        .catch(error => {
+                            console.error('Erreur, impossible de kick le joueur:', error);
+                            alert(`Erreur, impossible de kick ${playerName}.`);
+                        });
+
                 }
             }
             // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
             function resetkickButton() {
-                if (kickclickCount != 0) {
+                window.setTimeout(function () {
                     kickbutton.innerText = "kick";
-                    $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
-                    kickclickCount = 0;
-                }
+                    if (player.status == "online" && kickclickCount != 0) {
+                        $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
+                        kickclickCount = 0;
+                    }
+                }, 350);
+
             }
             // Ajoute les événements
             kickbutton.addEventListener('click', handlekickClick);
@@ -252,21 +281,40 @@ function Init(data) {
                     $(`.bansousbox${playerName} `).toggleClass(`bansousbox-clicked${playerName} `);
                 }
                 if (banclickCount === 2) {
-                    banbutton.innerText = "Action effectuée";
+                    banbutton.innerText = `${playerName} banni`;
+                    fetch(`http://arthonetwork.fr:8001/api/ban`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ uuid: player.uuid })
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            console.log(`${playerName} a été banni.`);
+                            alert(`${playerName} a été banni.`);
+                        })
+                        .catch(error => {
+                            console.error('Erreur, impossible de bannir le joueur:', error);
+                            alert(`Erreur, impossible de bannir ${playerName}.`);
+                        });
                 }
             }
             // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
             function resetBanButton() {
                 if (banclickCount != 0) {
-                    banbutton.innerText = "ban";
-                    $(`.bansousbox${playerName}`).toggleClass(`bansousbox-clicked${playerName}`);
-                    banclickCount = 0;
+                    window.setTimeout(function () {
+                        banbutton.innerText = "ban";
+                        $(`.bansousbox${playerName}`).toggleClass(`bansousbox-clicked${playerName}`);
+                        banclickCount = 0;
+                    }, 350);
                 }
             }
 
             // Ajoute les événements
             banbutton.addEventListener('click', handleBanClick);
             banbutton.addEventListener('mouseleave', resetBanButton);
+
         }
     }
 }
