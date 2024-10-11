@@ -25,3 +25,4 @@ overlayBg.addEventListener('click', () => {
     isMenuOpen = false;
   }
 });
+

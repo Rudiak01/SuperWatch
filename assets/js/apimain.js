@@ -6,14 +6,11 @@ fetch('http://arthonetwork.fr:8001/api')
 
 function Init(data) {
     const playerCounter = document.getElementById("navbar-counter");
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     playerCounter.innerHTML = data.players.online;
     for (const playerName in data.players.list) {
         if (data.players.list.hasOwnProperty(playerName)) {
             const player = data.players.list[playerName];
-            console.log(`Nom du joueur: ${playerName}`);
-            console.log(`Statut: ${player.status}`);
-            console.log(`uuid : ${player.uuid}`);
-            console.log("-----");
             var article = document.createElement("article");
             var text = document.createElement("div");
             var pseudo = document.createElement("p");
@@ -21,30 +18,44 @@ function Init(data) {
             var version = document.createElement("p");
             var skin = document.createElement("img");
             var windowWidth = window.innerWidth;
-            if (windowWidth < 768) {
+            if (isMobile) {
                 skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
+                article.className = "etiquette";
+                text.className = "text-etiquette";
+                pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
+                uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
+                version.innerHTML = "version **API**"; version.className = "version";
+                const parent = document.querySelector("section");
+                parent.appendChild(article);
+                article.appendChild(pseudo);
+                article.appendChild(skin);
+                article.appendChild(text)
+
+                text.appendChild(uuid);
+                text.appendChild(version);
             }
             else {
                 skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
+                article.className = "etiquette";
+                text.className = "text-etiquette";
+                pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
+                uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
+                version.innerHTML = "version **API**"; version.className = "version";
+                const parent = document.querySelector("section");
+                parent.appendChild(article);
+                article.appendChild(skin);
+                article.appendChild(text)
+                text.appendChild(pseudo);
+                text.appendChild(uuid);
+                text.appendChild(version);
             }
-            article.className = "etiquette";
-            text.className = "text-etiquette";
-            pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
-            uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
-            version.innerHTML = "version **API**"; version.className = "version";
-            const parent = document.querySelector("section");
-            parent.appendChild(article);
-            article.appendChild(skin);
-            article.appendChild(text)
-            text.appendChild(pseudo);
-            text.appendChild(uuid);
-            text.appendChild(version);
+
 
             if (player.status === "online") {
-                article.style.boxShadow = " lime 0px 0px 0px 3px";
+                article.style.boxShadow = " lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)";
             }
             else {
-                article.style.boxShadow = " red 0px 0px 0px 3px";
+                article.style.boxShadow = " red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1)";//cheat inset 0 0 50px red
             }
             var bottom = document.createElement("div");
             text.append(bottom); bottom.className = "bottom"
@@ -226,11 +237,21 @@ function Init(data) {
                 kickclickCount++;
                 if (kickclickCount == 1) {
                     if (player.status == "offline") {
-                        kickbutton.innerText = "Joueur hors ligne"
+                        if (isMobile) {
+                            kickbutton.innerText = "hors ligne"; kickbutton.style = "font-size:small";
+                        }
+                        else {
+                            kickbutton.innerText = "Joueur hors ligne";
+                        }
                         kickclickCount = 0;
                     }
                     else {
-                        kickbutton.innerText = `Kick ${playerName} ?`;
+                        if (isMobile) {
+                            kickbutton.innerText = `Vraiment ?`; kickbutton.style = "font-size:small";
+                        }
+                        else {
+                            kickbutton.innerText = "Joueur hors ligne";
+                        }
                         $(`.kicksousbox${playerName} `).toggleClass(`kicksousbox-clicked${playerName} `);
 
                     }
@@ -238,7 +259,7 @@ function Init(data) {
                 if (kickclickCount === 2) {
 
 
-                    kickbutton.innerText = "Action effectuée";
+                    kickbutton.innerText = "Kicked"; kickbutton.style = ("font-size:large");
                     fetch(`http://arthonetwork.fr:8001/api/kick`, {
                         method: 'POST',
                         headers: {
@@ -258,10 +279,10 @@ function Init(data) {
 
                 }
             }
-            // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
+            // Resetkick //
             function resetkickButton() {
                 window.setTimeout(function () {
-                    kickbutton.innerText = "kick";
+                    kickbutton.innerText = "kick"; kickbutton.style = "font-size:large"
                     if (player.status == "online" && kickclickCount != 0) {
                         $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
                         kickclickCount = 0;
@@ -282,11 +303,20 @@ function Init(data) {
             function handleBanClick() {
                 banclickCount++;
                 if (banclickCount == 1) {
-                    banbutton.innerText = `Ban ${playerName} ?`;
+                    if (isMobile) {
+                        banbutton.innerText = `Vraiment ?`; banbutton.style = "font-size:small";
+                    }
+                    else {
+                        banbutton.innerText = `Ban ${playerName} ?`;
+                    }
+
                     $(`.bansousbox${playerName} `).toggleClass(`bansousbox-clicked${playerName} `);
                 }
                 if (banclickCount === 2) {
-                    banbutton.innerText = `${playerName} banni`;
+                    banbutton.innerText = `${playerName} banni`; banbutton.style = "font-size:large";
+
+                    /* -- A FAIRE -- WAITING ON API -- */
+
                     fetch(`http://arthonetwork.fr:8001/api/ban`, {
                         method: 'POST',
                         headers: {
@@ -303,6 +333,7 @@ function Init(data) {
                             console.error('Erreur, impossible de bannir le joueur:', error);
                             alert(`Erreur, impossible de bannir ${playerName}.`);
                         });
+                    /* -----------------------  */
                 }
             }
             // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
@@ -320,7 +351,20 @@ function Init(data) {
             banbutton.addEventListener('click', handleBanClick);
             banbutton.addEventListener('mouseleave', resetBanButton);
 
-
+            if (isMobile) {
+                $(document).on("scroll", function () {
+                    if (banclickCount != 0) {
+                        banbutton.innerText = "ban"; banbutton.style = "font-size:large";
+                        $(`.bansousbox${playerName}`).toggleClass(`bansousbox-clicked${playerName}`);
+                        banclickCount = 0;
+                    }
+                    kickbutton.innerText = "kick"; kickbutton.style = "font-size:large";
+                    if (player.status == "offline" && kickclickCount != 0) {
+                        $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
+                        kickclickCount = 0;
+                    }
+                });
+            }
 
 
         }

@@ -138,7 +138,7 @@ main {
 
 .etiquette {
   background-color: rgba(255, 255, 255, 0.477);
-  margin:  1vw;
+  margin: 1vh;
   height: fit-content;
   border-radius: 10px;
   min-width: 31%;
@@ -155,10 +155,12 @@ main {
   width: 100%;
   padding-top: 10px;
 }
+
 section {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 html {
@@ -180,9 +182,11 @@ img {
 
 .username {
   font-weight: bold;
+  padding-top: 5px;
+  align-self: center;
 }
 
-.bottom{
+.bottom {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -196,14 +200,29 @@ footer {
   box-shadow: 10px;
 }
 
-@media (max-width: 768px){
-  .etiquette {
-    width: 47%;
+@media (max-width: 768px) {
+  .navbar {
+    margin-left: 20px;
   }
+
+  .etiquette {
+    width: 42vw;
+    margin: 5vw;
+    margin-right: 0px;
+  }
+
   img {
     padding: 10px;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     align-self: center;
+  }
+
+  .etiquette {
+    flex-direction: column;
+  }
+
+  main {
+    padding: 50px 10px;
   }
 }
