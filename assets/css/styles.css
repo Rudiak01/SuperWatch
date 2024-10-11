@@ -196,9 +196,9 @@ footer {
 }
 
 
+/*
 
-
-.boxbtnkick {
+.boxbtn {
   height: 100%;
   width:100%;
   display: flex;
@@ -208,20 +208,20 @@ footer {
   padding: 5px;
   border-radius: 5px;
 }
-.btnkick {
+.btnsousbox {
   line-height: 50px;
   height: 50px;
   text-align: center;
   width: 100%;
   cursor: pointer;
-  color: #FFF;
+  color: #ebebeb;
   transition: all 0.5s;
   position: relative;
 }
 
 
 
-.btnkick span {
+.btnsousbox span {
   z-index: 998;
   display: block;
   position: absolute;
@@ -229,7 +229,7 @@ footer {
   height: 100%;
 }
 
-.btnkick::before {
+.btnsousbox::before {
   content: '';
   position: absolute;
   top: 0;
@@ -243,7 +243,7 @@ footer {
   border-radius: 5px;
 }
 
-.btnkick::after {
+.btnsousbox::after {
   content: '';
   position: absolute;
   top: 0;
@@ -254,9 +254,10 @@ footer {
   transition: all 0.5s;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
 }
 
-.btnkick:hover::before {
+.btnsousbox-clicked::before {
   transform: rotate(-225deg)  scaleX(1.5);
   background-color: rgba(255, 0, 0, 0.5);
   backdrop-filter: blur(2px);
@@ -264,10 +265,11 @@ footer {
   border-radius: 0;
 }
 
-.btnkick:hover::after {
+.btnsousbox-clicked::after {
   transform: rotate(225deg) scaleX(1.5);
   background-color: rgba(255, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   border-color: rgba(255, 0, 0, 0.5);
   border-radius: 0;
 }
+*/
