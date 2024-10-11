@@ -15,14 +15,19 @@ function Init(data) {
             console.log(`uuid : ${player.uuid}`);
             console.log("-----");
             var article = document.createElement("article");
-            var skin = document.createElement("img");
             var text = document.createElement("div");
             var pseudo = document.createElement("p");
             var uuid = document.createElement("p")
             var version = document.createElement("p");
-
+            var skin = document.createElement("img");
+            var windowWidth = window.innerWidth;
+            if (windowWidth < 768) {
+                skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
+            }
+            else {
+                skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
+            }
             article.className = "etiquette";
-            skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
             text.className = "text-etiquette";
             pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
             uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
@@ -314,6 +319,9 @@ function Init(data) {
             // Ajoute les événements
             banbutton.addEventListener('click', handleBanClick);
             banbutton.addEventListener('mouseleave', resetBanButton);
+
+
+
 
         }
     }

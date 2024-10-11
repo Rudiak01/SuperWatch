@@ -195,3 +195,15 @@ footer {
   text-align: center;
   box-shadow: 10px;
 }
+
+@media (max-width: 768px){
+  .etiquette {
+    width: 47%;
+  }
+  img {
+    padding: 10px;
+    width: 100px;
+    height: 100px;
+    align-self: center;
+  }
+}
