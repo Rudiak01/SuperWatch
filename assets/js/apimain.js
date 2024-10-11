@@ -44,24 +44,24 @@ function Init(data) {
             var bottom = document.createElement("div");
             text.append(bottom); bottom.className = "bottom"
 
-/*
+
             var banbox = document.createElement("div");
-            banbox.className = `boxbtnkick${playerName}`;
+            banbox.className = `banbox${playerName}`;
             var bansousbox = document.createElement("div");
-            bansousbox.className = `btnkick${playerName}`;
+            bansousbox.className = `bansousbox${playerName}`;
             var ban = document.createElement("span");
-            ban.innerHTML = "ban";
+            ban.innerHTML = "ban"; ban.id = `banbutton${playerName}`;
 
             bottom.appendChild(banbox);
             banbox.appendChild(bansousbox);
             bansousbox.appendChild(ban);
-*/
+
             var kickbox = document.createElement("div");
-            kickbox.className = `boxbtn${playerName}`;
+            kickbox.className = `kickbox${playerName}`;
             var kicksousbox = document.createElement("div");
-            kicksousbox.className = `btnsousbox${playerName}`;
+            kicksousbox.className = `kicksousbox${playerName}`;
             var kick = document.createElement("span");
-            kick.innerHTML = "kick"; kick.id = `button${playerName}`;
+            kick.innerHTML = "kick"; kick.id = `kickbutton${playerName}`;
 
             bottom.appendChild(kickbox);
             kickbox.appendChild(kicksousbox);
@@ -69,7 +69,7 @@ function Init(data) {
 
             var style = document.createElement('style');
             style.innerHTML = `
-            .boxbtn${playerName} {
+            .kickbox${playerName} {
                 width: inherit;
                 display: flex;
                 justify-content: center;
@@ -78,7 +78,7 @@ function Init(data) {
                 padding: 5px;
                 border-radius: 5px;
             }
-            .btnsousbox${playerName} {
+            .kicksousbox${playerName} {
                 line-height: 50px;
                 height: 50px;
                 text-align: center;
@@ -88,10 +88,7 @@ function Init(data) {
                 transition: all 0.5s;
                 position: relative;
             }
-
-
-
-            .btnsousbox${playerName} span {
+            .kicksousbox${playerName} span {
                 z-index: 998;
                 display: block;
                 position: absolute;
@@ -99,7 +96,7 @@ function Init(data) {
                 height: inherit;
             }
 
-            .btnsousbox${playerName}::before {
+            .kicksousbox${playerName}::before {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -113,7 +110,7 @@ function Init(data) {
                 border-radius: 5px;
             }
 
-            .btnsousbox${playerName}::after {
+            .kicksousbox${playerName}::after {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -127,7 +124,7 @@ function Init(data) {
                 border-radius: 5px;
             }
 
-            .btnsousbox-clicked${playerName}::before {
+            .kicksousbox-clicked${playerName}::before {
                 transform: rotate(-225deg)  scaleX(1.5);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
@@ -135,43 +132,141 @@ function Init(data) {
                 border-radius: 0;
             }
 
-            .btnsousbox-clicked${playerName}::after {
+            .kicksousbox-clicked${playerName}::after {
+                transform: rotate(225deg) scaleX(1.5);
+                background-color: rgba(255, 0, 0, 0.5);
+                backdrop-filter: blur(2px);
+                border-color: rgba(255, 0, 0, 0.5);
+                border-radius: 0;
+            }
+            .banbox${playerName} {
+                width: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-self: flex-end;
+                padding: 5px;
+                border-radius: 5px;
+            }
+            .bansousbox${playerName} {
+                line-height: 50px;
+                height: 50px;
+                text-align: center;
+                width: inherit;
+                cursor: pointer;
+                color: #ebebeb;
+                transition: all 0.5s;
+                position: relative;
+            }
+            .bansousbox${playerName} span {
+                z-index: 998;
+                display: block;
+                position: absolute;
+                width: inherit;
+                height: inherit;
+            }
+
+            .bansousbox${playerName}::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: inherit;
+                height: inherit;
+                z-index: 997;
+                transition: all 0.5s;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 5px;
+            }
+
+            .bansousbox${playerName}::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: inherit;
+                height: inherit;
+                z-index: 997;
+                transition: all 0.5s;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 5px;
+            }
+
+            .bansousbox-clicked${playerName}::before {
+                transform: rotate(-225deg)  scaleX(1.5);
+                background-color: rgba(255, 0, 0, 0.5);
+                backdrop-filter: blur(2px);
+                border-color: rgba(255, 0, 0, 0.5);
+                border-radius: 0;
+            }
+
+            .bansousbox-clicked${playerName}::after {
                 transform: rotate(225deg) scaleX(1.5);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
                 border-color: rgba(255, 0, 0, 0.5);
                 border-radius: 0;
             }`;
+
+            // -- kick section -- //
+
             document.getElementsByTagName('head')[0].appendChild(style);
-            const button = document.getElementById(`button${playerName}`);
-
+            const kickbutton = document.getElementById(`kickbutton${playerName}`);
             // Variable pour compter les clics
-            let clickCount = 0;
-
+            let kickclickCount = 0;
             // Fonction qui exécute l'action après 2 clics
-            function handleClick() {
-                clickCount++;
-                if (clickCount == 1) {
-                    button.innerText = 'Are You Sure ?';
-                    $(`.btnsousbox${playerName} `).toggleClass(`btnsousbox-clicked${playerName} `);
+            function handlekickClick() {
+                kickclickCount++;
+                if (kickclickCount == 1) {
+                    kickbutton.innerText = `Kick ${playerName} ?`;
+                    $(`.kicksousbox${playerName} `).toggleClass(`kicksousbox-clicked${playerName} `);
                 }
-                if (clickCount === 2) {
-                    button.innerText = "Action effectuée";
+                if (kickclickCount === 2) {
+                    kickbutton.innerText = "Action effectuée";
                 }
             }
-
             // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
-            function resetButton() {
-                if (clickCount != 0) {
-                    button.innerText = "kick";
-                    $(`.btnsousbox${playerName}`).toggleClass(`btnsousbox-clicked${playerName}`);
-                    clickCount = 0;
+            function resetkickButton() {
+                if (kickclickCount != 0) {
+                    kickbutton.innerText = "kick";
+                    $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
+                    kickclickCount = 0;
+                }
+            }
+            // Ajoute les événements
+            kickbutton.addEventListener('click', handlekickClick);
+            kickbutton.addEventListener('mouseleave', resetkickButton);
+
+            // -- ban section -- //
+
+            const banbutton = document.getElementById(`banbutton${playerName}`);
+            // Variable pour compter les clics
+            let banclickCount = 0;
+            // Fonction qui exécute l'action après 2 clics
+            function handleBanClick() {
+                banclickCount++;
+                if (banclickCount == 1) {
+                    banbutton.innerText = `Ban ${playerName} ?`;
+                    $(`.bansousbox${playerName} `).toggleClass(`bansousbox-clicked${playerName} `);
+                }
+                if (banclickCount === 2) {
+                    banbutton.innerText = "Action effectuée";
+                }
+            }
+            // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
+            function resetBanButton() {
+                if (banclickCount != 0) {
+                    banbutton.innerText = "ban";
+                    $(`.bansousbox${playerName}`).toggleClass(`bansousbox-clicked${playerName}`);
+                    banclickCount = 0;
                 }
             }
 
             // Ajoute les événements
-            button.addEventListener('click', handleClick);
-            button.addEventListener('mouseleave', resetButton);
+            banbutton.addEventListener('click', handleBanClick);
+            banbutton.addEventListener('mouseleave', resetBanButton);
         }
     }
 }
