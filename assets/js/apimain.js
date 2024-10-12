@@ -1,13 +1,17 @@
 fetch('http://arthonetwork.fr:8001/api')
     .then(response => response.json())
     .then(data => Init(data));
-
-
-
+/*
+setTimeout(function () {
+    window.location.reload(1);
+}, 5000);
+*/
 function Init(data) {
+    // ----- Copy Pasta All js files ----- //
     const playerCounter = document.getElementById("navbar-counter");
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     playerCounter.innerHTML = data.players.online;
+    // ----------------------------------- //
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     for (const playerName in data.players.list) {
         if (data.players.list.hasOwnProperty(playerName)) {
             const player = data.players.list[playerName];
@@ -17,45 +21,41 @@ function Init(data) {
             var uuid = document.createElement("p")
             var version = document.createElement("p");
             var skin = document.createElement("img");
-            var windowWidth = window.innerWidth;
+            var pagedetail = document.createElement("a");
+            transferplayer();
+            article.className = "etiquette";
+            text.className = "text-etiquette";
+            skin.title = `Page détaillé de ${playerName}`;
+            skin.alt = `skin de ${playerName}`;
+            pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
+            uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
+            version.innerHTML = "version **API**"; version.className = "version";
+            const parent = document.querySelector("section");
+            parent.appendChild(article);
             if (isMobile) {
                 skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
-                article.className = "etiquette";
-                text.className = "text-etiquette";
-                pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
-                uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
-                version.innerHTML = "version **API**"; version.className = "version";
-                const parent = document.querySelector("section");
-                parent.appendChild(article);
                 article.appendChild(pseudo);
-                article.appendChild(skin);
-                article.appendChild(text)
-
-                text.appendChild(uuid);
-                text.appendChild(version);
+                article.appendChild(pagedetail);
+                pagedetail.appendChild(skin);
+                article.appendChild(text);
             }
             else {
                 skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
-                article.className = "etiquette";
-                text.className = "text-etiquette";
-                pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
-                uuid.innerHTML = `UUID : ${player.uuid}`; uuid.className = "uuid";
-                version.innerHTML = "version **API**"; version.className = "version";
-                const parent = document.querySelector("section");
-                parent.appendChild(article);
-                article.appendChild(skin);
-                article.appendChild(text)
+                article.appendChild(pagedetail);
+                pagedetail.appendChild(skin);
+                article.appendChild(text);
                 text.appendChild(pseudo);
-                text.appendChild(uuid);
-                text.appendChild(version);
             }
-
-
+            text.appendChild(uuid);
+            text.appendChild(version);
+            if (player.permissions.isOp == "true") {
+                article.classList.add("isOp");
+            }
             if (player.status === "online") {
-                article.style.boxShadow = " lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)";
+                article.classList.add("online");
             }
             else {
-                article.style.boxShadow = " red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1)";//cheat inset 0 0 50px red
+                article.classList.add("offline");//cheat inset 0 0 50px red
             }
             var bottom = document.createElement("div");
             text.append(bottom); bottom.className = "bottom"
@@ -257,9 +257,10 @@ function Init(data) {
                     }
                 }
                 if (kickclickCount === 2) {
-
-
                     kickbutton.innerText = "Kicked"; kickbutton.style = ("font-size:large");
+
+                    /* -- A FAIRE -- WAITING ON API -- */
+
                     fetch(`http://arthonetwork.fr:8001/api/kick`, {
                         method: 'POST',
                         headers: {
@@ -270,19 +271,21 @@ function Init(data) {
                         .then(response => response.json())
                         .then(result => {
                             console.log(`${playerName} a été kick.`);
-                            alert(`${playerName} a été kick.`);
+                            //alert(`${playerName} a été kick.`);
                         })
                         .catch(error => {
                             console.error('Erreur, impossible de kick le joueur:', error);
                             alert(`Erreur, impossible de kick ${playerName}.`);
                         });
 
+                    /* -----------------------  */
+
                 }
             }
             // Resetkick //
             function resetkickButton() {
                 window.setTimeout(function () {
-                    kickbutton.innerText = "kick"; kickbutton.style = "font-size:large"
+                    kickbutton.innerText = "kick"; kickbutton.style = "font-size:extralarge"
                     if (player.status == "online" && kickclickCount != 0) {
                         $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
                         kickclickCount = 0;
@@ -313,7 +316,12 @@ function Init(data) {
                     $(`.bansousbox${playerName} `).toggleClass(`bansousbox-clicked${playerName} `);
                 }
                 if (banclickCount === 2) {
-                    banbutton.innerText = `${playerName} banni`; banbutton.style = "font-size:large";
+                    if (isMobile) {
+                        banbutton.innerText = `banni`; banbutton.style = "font-size:large";
+                    }
+                    else {
+                        banbutton.innerText = `${playerName} banni`; banbutton.style = "font-size:large";
+                    }
 
                     /* -- A FAIRE -- WAITING ON API -- */
 
@@ -327,7 +335,7 @@ function Init(data) {
                         .then(response => response.json())
                         .then(result => {
                             console.log(`${playerName} a été banni.`);
-                            alert(`${playerName} a été banni.`);
+                            //alert(`${playerName} a été banni.`);
                         })
                         .catch(error => {
                             console.error('Erreur, impossible de bannir le joueur:', error);
@@ -340,7 +348,7 @@ function Init(data) {
             function resetBanButton() {
                 if (banclickCount != 0) {
                     window.setTimeout(function () {
-                        banbutton.innerText = "ban";
+                        banbutton.innerText = "ban"; banbutton.style = "font-size:extralarge";
                         $(`.bansousbox${playerName}`).toggleClass(`bansousbox-clicked${playerName}`);
                         banclickCount = 0;
                     }, 350);
@@ -351,6 +359,8 @@ function Init(data) {
             banbutton.addEventListener('click', handleBanClick);
             banbutton.addEventListener('mouseleave', resetBanButton);
 
+            /* Mobile Specific */
+
             if (isMobile) {
                 $(document).on("scroll", function () {
                     if (banclickCount != 0) {
@@ -359,7 +369,7 @@ function Init(data) {
                         banclickCount = 0;
                     }
                     kickbutton.innerText = "kick"; kickbutton.style = "font-size:large";
-                    if (player.status == "offline" && kickclickCount != 0) {
+                    if (player.status == "online" && kickclickCount != 0) {
                         $(`.kicksousbox${playerName}`).toggleClass(`kicksousbox-clicked${playerName}`);
                         kickclickCount = 0;
                     }
@@ -367,9 +377,15 @@ function Init(data) {
             }
 
 
+
+            function transferplayer() {
+                    url = 'http://127.0.0.1:5500/2.html?name=' + encodeURIComponent(playerName);
+                pagedetail.href = url;
+            }
         }
     }
 }
+
 
 
 

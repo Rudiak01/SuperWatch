@@ -4,17 +4,17 @@ const overlayBg = document.getElementById('overlay-bg'); // Sélection de l'over
 let isMenuOpen = false; // Variable de suivi pour l'état du menu
 
 menuBtn.addEventListener('click', () => {
-    if (!isMenuOpen) {
-      overlayBg.classList.add('open');  // Fade in background
-      overlayMenu.classList.add('open');  // Slide in menu
-      menuBtn.innerHTML = '&times;'; // Change icon to "close"
-    } else {
-      overlayBg.classList.remove('open');  // Fade out background
-      overlayMenu.classList.remove('open');  // Slide out menu
-      menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
-    }
-    isMenuOpen = !isMenuOpen; // Toggle the state
-  });
+  if (!isMenuOpen) {
+    overlayBg.classList.add('open');  // Fade in background
+    overlayMenu.classList.add('open');  // Slide in menu
+    menuBtn.innerHTML = '&times;'; // Change icon to "close"
+  } else {
+    overlayBg.classList.remove('open');  // Fade out background
+    overlayMenu.classList.remove('open');  // Slide out menu
+    menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
+  }
+  isMenuOpen = !isMenuOpen; // Toggle the state
+});
 
 // Optional: Close the menu when clicking on the background
 overlayBg.addEventListener('click', () => {
@@ -26,3 +26,11 @@ overlayBg.addEventListener('click', () => {
   }
 });
 
+const alreadyhere = document.getElementById("alreadyhere")
+function clickalreadyhere(){
+
+  alreadyhere.innerHTML="You are already here :)";
+  window.setTimeout(function () {
+    alreadyhere.innerHTML="Overall";
+}, 2000);}
+alreadyhere.addEventListener('click', clickalreadyhere);
