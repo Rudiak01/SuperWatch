@@ -13,57 +13,67 @@ html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.navbar {
+nav {
   position: sticky;
   top: 20px;
-  /* floating effect */
   margin: 0 auto;
   max-width: 90%;
-  /* keeps navbar from touching edges */
+  height: 75px;
   background: rgba(0, 120, 215, 0.7);
-  /* semi-transparent blue */
   backdrop-filter: blur(10px);
-  /* blur effect */
   border-radius: 15px;
   padding: 10px 20px;
+  z-index: 10000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10000;
 }
 
-.navbar-left {
+#navbar-left, #navbar-right{
   display: flex;
   align-items: center;
+  width: 25%;
 }
 
-#navbar-counter {
-  padding-left: 40px;
+#navbar-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
 }
 
-.icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+#navbar-right{
+  display: flex;
+  align-items: center;
+  width: 25%;
+  justify-content: flex-end;
 }
 
-.title {
-  color: white;
-  font-size: 18px;
+#icon {
+  width: 70px;
+  height: 70px;
+  padding: 0;
 }
 
-.navbar-right .menu-btn {
+#counter{
+  padding-left: 10px;
+  width: 100%;
+  cursor: context-menu;
+}
+
+#title {
+  color: rgb(255, 255, 255);
+  font-size: xx-large;
+  padding: 30px;
+}
+
+#menu-btn {
   background: none;
   border: none;
-  font-size: 24px;
-  color: white;
+  font-size: 56px;
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  width: 40px;
-  /* Assurez une largeur fixe /
-  height: 40px; / Facultatif, pour rendre le bouton carré */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-bottom:9px
 }
 
 /* Overlay background */
@@ -134,7 +144,7 @@ html {
   display: block;
   margin: 10px 0;
   font-size: 20px;
-  color: #333;
+  color: #ffffff;
   text-decoration: none;
   padding-top: 100px;
 }
@@ -171,7 +181,7 @@ a {
 }
 
 .offline {
-  box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1)
+  box-shadow: rgb(78, 78, 78) 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1);
 }
 
 .online {
@@ -185,6 +195,7 @@ a {
   align-items: center;
   width: 100%;
   padding-top: 10px;
+  padding-right: 5px;
 }
 
 img {
@@ -196,18 +207,14 @@ img {
 .username {
   font-weight: bold;
   padding-top: 5px;
-  align-self: center;
 }
 
 .uuid {
   font-size: small;
-  text-align: center;
 }
 
 .bottom {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
   width: 100%;
 }
 

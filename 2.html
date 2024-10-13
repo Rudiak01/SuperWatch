@@ -10,14 +10,16 @@
 
 <body>
     
-    <nav class="navbar">
-        <div class="navbar-left">
-            <img src="assets/img/ico.png" alt="Icon" class="icon">
-            <a href="index.html" style="text-decoration: none"><span class="title">Overall</span></a>
-            <div id="player-counter"><span id="navbar-counter">290</span> en ligne</div>
+    <nav>
+        <div id="navbar-left">
+            <img src="assets/img/ico.png" alt="Icon" id="icon">
+            <div id="counter"><span id="navbar-counter">290</span> en ligne</div>
         </div>
-        <div class="navbar-right">
-            <button class="menu-btn" id="menu-btn">&#9776;</button>
+        <div id="navbar-center">
+            <a href="index.html" style="text-decoration: none"><span id="title">Overview</span></a>
+        </div>
+        <div id="navbar-right">
+            <button id="menu-btn">&#9776;</button>
         </div>
     </nav>
 
@@ -35,6 +37,7 @@
     <main>
 
         <p id="here"></p>
+
     </main>
 </body>
 <script src="assets/js/navbar.js"></script>

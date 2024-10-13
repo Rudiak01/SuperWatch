@@ -8,10 +8,12 @@ menuBtn.addEventListener('click', () => {
     overlayBg.classList.add('open');  // Fade in background
     overlayMenu.classList.add('open');  // Slide in menu
     menuBtn.innerHTML = '&times;'; // Change icon to "close"
+    menuBtn.style="padding-right:9px;padding-top:5px";
   } else {
     overlayBg.classList.remove('open');  // Fade out background
     overlayMenu.classList.remove('open');  // Slide out menu
     menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
+    menuBtn.style="padding-right:0";
   }
   isMenuOpen = !isMenuOpen; // Toggle the state
 });
@@ -27,10 +29,13 @@ overlayBg.addEventListener('click', () => {
 });
 
 const alreadyhere = document.getElementById("alreadyhere")
-function clickalreadyhere(){
+if(alreadyhere!=null){
+function clickalreadyhere() {
 
-  alreadyhere.innerHTML="You are already here :)";
+  alreadyhere.innerHTML = "You are already here :)";
   window.setTimeout(function () {
-    alreadyhere.innerHTML="Overall";
-}, 2000);}
-alreadyhere.addEventListener('click', clickalreadyhere);
+    alreadyhere.innerHTML = "Overview";
+    alreadyhere.style = "font-size:xx-large; text-decoration:none"
+  }, 2000);
+}
+alreadyhere.addEventListener('click', clickalreadyhere);}
