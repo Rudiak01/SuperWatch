@@ -25,6 +25,7 @@ function Init(data) {
             transferplayer();
             article.classList.add("etiquette");
             text.className = "text-etiquette";
+            skin.className = "skin";
             skin.title = `Page détaillé de ${playerName}`;
             skin.alt = `skin de ${playerName}`;
             pseudo.innerHTML = `${playerName}`; pseudo.className = "username";
@@ -48,22 +49,13 @@ function Init(data) {
             }
             text.appendChild(uuid);
             text.appendChild(version);
-            if (player.permissions.isOp === true) {
                 if (player.status === "online") {
-                    article.style = "box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1), inset 0 0 50px purple"
+                    article.style = "box-shadow: lime 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
                 }
                 else {
-                    article.style = "box-shadow: red 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1), inset 0 0 50px purple"
+                    article.style = "box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
                 }
-            }
-            else {
-                if (player.status === "online") {
-                    article.style = "box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)"
-                }
-                else {
-                    article.style = "box-shadow: red 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)"
-                }
-            }
+
 
             var bottom = document.createElement("div");
             text.append(bottom); bottom.className = "bottom"
@@ -149,7 +141,7 @@ function Init(data) {
             }
 
             .kicksousbox-clicked${playerName}::before {
-                transform: rotate(-225deg)  scaleX(1.5);
+                transform: rotate(-225deg)  scaleX(1.2);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
                 border-color: rgba(255, 0, 0, 0.5);
@@ -157,7 +149,7 @@ function Init(data) {
             }
 
             .kicksousbox-clicked${playerName}::after {
-                transform: rotate(225deg) scaleX(1.5);
+                transform: rotate(225deg) scaleX(1.2);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
                 border-color: rgba(255, 0, 0, 0.5);
@@ -219,7 +211,7 @@ function Init(data) {
             }
 
             .bansousbox-clicked${playerName}::before {
-                transform: rotate(-225deg)  scaleX(1.5);
+                transform: rotate(-225deg)  scaleX(1.2);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
                 border-color: rgba(255, 0, 0, 0.5);
@@ -227,7 +219,7 @@ function Init(data) {
             }
 
             .bansousbox-clicked${playerName}::after {
-                transform: rotate(225deg) scaleX(1.5);
+                transform: rotate(225deg) scaleX(1.2);
                 background-color: rgba(255, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
                 border-color: rgba(255, 0, 0, 0.5);
