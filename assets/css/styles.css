@@ -175,9 +175,13 @@ a {
   flex-direction: row;
   flex-wrap: nowrap;
 }
-
+/*
 .isOp {
   box-shadow: inset 0 0 50px purple;
+}
+/*to do
+.isCheating{
+  box-shadow: inset 0 0 50px red;
 }
 
 .offline {
@@ -187,7 +191,7 @@ a {
 .online {
   box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)
 }
-
+*/
 .text-etiquette {
   display: flex;
   flex-direction: column;

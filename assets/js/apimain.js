@@ -23,7 +23,7 @@ function Init(data) {
             var skin = document.createElement("img");
             var pagedetail = document.createElement("a");
             transferplayer();
-            article.className = "etiquette";
+            article.classList.add("etiquette");
             text.className = "text-etiquette";
             skin.title = `Page détaillé de ${playerName}`;
             skin.alt = `skin de ${playerName}`;
@@ -48,15 +48,23 @@ function Init(data) {
             }
             text.appendChild(uuid);
             text.appendChild(version);
-            if (player.permissions.isOp == "true") {
-                article.classList.add("isOp");
-            }
-            if (player.status === "online") {
-                article.classList.add("online");
+            if (player.permissions.isOp === true) {
+                if (player.status === "online") {
+                    article.style = "box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1), inset 0 0 50px purple"
+                }
+                else {
+                    article.style = "box-shadow: red 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1), inset 0 0 50px purple"
+                }
             }
             else {
-                article.classList.add("offline");//cheat inset 0 0 50px red
+                if (player.status === "online") {
+                    article.style = "box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)"
+                }
+                else {
+                    article.style = "box-shadow: red 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)"
+                }
             }
+
             var bottom = document.createElement("div");
             text.append(bottom); bottom.className = "bottom"
 
@@ -379,7 +387,7 @@ function Init(data) {
 
 
             function transferplayer() {
-                    url = 'http://127.0.0.1:5500/2.html?name=' + encodeURIComponent(playerName);
+                url = './2.html?name=' + encodeURIComponent(playerName);
                 pagedetail.href = url;
             }
         }
