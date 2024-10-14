@@ -49,19 +49,15 @@ if (alreadyhere != null) {
 
 // -- Search bar -- //
 
-const Searchbtn = document.getElementById('searchclick'); // Sélection du bouton du menu
-const overlaySearch = document.getElementById('searchbar'); // Sélection de l'overlay menu
-const searchbar = document.getElementById('search');
-let isSearchOpen = false; // Variable de suivi pour l'état du menu
+const Searchbtn = document.getElementById('searchclick'); 
+let isSearchOpen = false; 
 
 Searchbtn.addEventListener('click', () => {
   if (!isMenuOpen) {
     if (!isSearchOpen) {
-      overlaySearch.classList.add('open');
-      searchbar.classList.add('open');
+      Searchbtn.classList.add('open');
     } else {
-      overlaySearch.classList.remove('open');
-      searchbar.classList.Remove('open');
+      Searchbtn.classList.remove('open');
     }
     isSearchOpen=!isSearchOpen;
   }
