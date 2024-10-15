@@ -31,11 +31,11 @@ nav {
 #navbar-left {
   display: flex;
   align-items: center;
-  width: 45%;
+  width: 30%;
 }
 
 #navbar-right {
-  width: 45%;
+  width: 30%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -45,7 +45,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10%;
+  width: 40%;
 }
 
 #icon {
@@ -169,20 +169,44 @@ nav {
   width: 35%;
 }
 
+.searchbar {
+  position: fixed;
+  background-color: transparent;
+  width: 20%;
+  height: 7vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+  transition: width 0.4s ease;
+}
+
+.searchbar.open {
+  width: 35%;
+}
+
 .search {
   padding-top: 5px;
   font-size: 30px;
   width: 95%;
-
+  padding-left: 10px;
+  background: none;
+  border: none;
+  border-radius: 50px;
+  height: 50px;
 }
 
 #searchicon {
   font-size: 56px;
   color: rgb(255, 255, 255);
-  padding-right: 50px;
+  padding-right: 55px;
 }
 
-#filtericon {
+
+
+
+
+.filtericon {
   position: fixed;
   height: 30px;
   color: rgb(255, 255, 255);
@@ -191,31 +215,22 @@ nav {
   border-radius: 50px;
 }
 
-.searchbar-content {
-  background-color: rgba(255, 255, 255, 0.35);
-  width: 300px;
+.filter{
+  position: fixed;
   height: 100%;
-  padding: 20px;
-  border-radius: 10px 0 0 10px;
-  text-align: center;
-  position: relative;
-  padding-top: 250px;
-  backdrop-filter: blur(50px);
-  /* Espace pour Ã©viter la collision avec la navbar */
+  width: 10%;
+  top: 0;
+  right: 100px;
+  transform: translateY(-200%);
+  transition: transform 0.4s ease;
+  box-shadow: red 0 0 0 5px;
+  z-index: 500;
 }
 
-.searchbar button {
-  background: none;
-  border: none;
-  font-size: 56px;
-  color: rgb(255, 255, 255);
-  cursor: pointer;
-  padding-right: 15px;
+.filter.open{
+  transform: translateY(100%);
+  z-index: 500;
 }
-
-
-
-
 
 
 

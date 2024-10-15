@@ -10,7 +10,13 @@ menuBtn.addEventListener('click', () => {
     menuBtn.innerHTML = '&times;'; // Change icon to "close"
     menuBtn.style = "padding-right:9px;padding-top:5px";
     if(isSearchOpen){
-      overlaySearch.classList.remove('open');
+      Searchbar.classList.remove('open');
+      Searchbtn.classList.remove('open');
+      isSearchOpen=!isSearchOpen;
+    }
+    if(isFilterOpen){
+      filterMenu.classList.remove('open');
+      isFilterOpen=!isFilterOpen;
     }
   } else {
     overlayBg.classList.remove('open');  // Fade out background
@@ -49,16 +55,47 @@ if (alreadyhere != null) {
 
 // -- Search bar -- //
 
-const Searchbtn = document.getElementById('searchclick'); 
+const Searchbtn = document.getElementById('searchbar'); 
+const Searchbar = document.getElementById('searchclick')
+const navbar = document.getElementById('navbar-center');
 let isSearchOpen = false; 
 
-Searchbtn.addEventListener('click', () => {
+function searchclick(){
   if (!isMenuOpen) {
     if (!isSearchOpen) {
+      Searchbar.classList.add('open');
       Searchbtn.classList.add('open');
-    } else {
-      Searchbtn.classList.remove('open');
     }
     isSearchOpen=!isSearchOpen;
   }
-});
+};
+
+function resetSearch() {
+  if(!isMenuOpen){
+  window.setTimeout(function () {
+      Searchbtn.classList.remove('open');
+      Searchbar.classList.remove('open');
+      isSearchOpen=!isSearchOpen;
+  }, 200);}}
+
+  Searchbtn.addEventListener('click', searchclick);
+  overlayBg.addEventListener('click', resetSearch);
+  menuBtn.addEventListener('click',resetSearch);
+  navbar.addEventListener('click',resetSearch);
+
+  // -- filter -- //
+
+  const filterclick = document.getElementById('filtericon');
+  const filterMenu = document.getElementById('filter')
+  let isFilterOpen = false;
+  filterclick.addEventListener('click',filterui);
+  function filterui(){
+    if(!isMenuOpen){
+    if(!isFilterOpen){
+      filterMenu.classList.add('open');
+    } else {
+      filterMenu.classList.remove('open');
+    }
+    isFilterOpen=!isFilterOpen;
+  }
+}
