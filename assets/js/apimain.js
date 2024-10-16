@@ -10,6 +10,8 @@ function Init(data) {
     // ----- Copy Pasta All js files ----- //
     const playerCounter = document.getElementById("navbar-counter");
     playerCounter.innerHTML = data.players.online;
+    const playerTotal = document.getElementById('navbar-total');
+    playerTotal = data.players.max;
     // ----------------------------------- //
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     for (const playerName in data.players.list) {
