@@ -1,4 +1,4 @@
-fetch('http://arthonetwork.fr:8001/api')
+fetch('http://arthonetwork.fr:8001/apiP')
     .then(response => response.json())
     .then(data => Init(data));
 

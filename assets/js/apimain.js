@@ -1,4 +1,4 @@
-fetch('http://arthonetwork.fr:8001/api')
+fetch('http://arthonetwork.fr:8001/apiP')
     .then(response => response.json())
     .then(data => Init(data));
 /*
@@ -11,21 +11,23 @@ function Init(data) {
     const playerCounter = document.getElementById("navbar-counter");
     playerCounter.innerHTML = data.players.online;
     const playerTotal = document.getElementById('navbar-total');
-    playerTotal = data.players.max;
+    playerTotal.innerHTML = data.players.max;
     // ----------------------------------- //
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     for (const playerName in data.players.list) {
         if (data.players.list.hasOwnProperty(playerName)) {
             const player = data.players.list[playerName];
             var article = document.createElement("article");
-            var text = document.createElement("div");
+            var sousarticle = document.createElement("div");
             var pseudo = document.createElement("p");
             var uuid = document.createElement("p")
             var version = document.createElement("p");
             var skin = document.createElement("img");
             var pagedetail = document.createElement("a");
+            var text = document.createElement("a");
             transferplayer();
             article.classList.add("etiquette");
+            sousarticle.className = "sous-etiquette"
             text.className = "text-etiquette";
             skin.className = "skin";
             skin.title = `Page détaillé de ${playerName}`;
@@ -40,13 +42,15 @@ function Init(data) {
                 article.appendChild(pseudo);
                 article.appendChild(pagedetail);
                 pagedetail.appendChild(skin);
-                article.appendChild(text);
+                article.appendChild(sousarticle);
+                sousarticle.appendChild(text);
             }
             else {
                 skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
                 article.appendChild(pagedetail);
                 pagedetail.appendChild(skin);
-                article.appendChild(text);
+                article.appendChild(sousarticle);
+                sousarticle.appendChild(text);
                 text.appendChild(pseudo);
             }
             text.appendChild(uuid);
@@ -60,7 +64,7 @@ function Init(data) {
 
 
             var bottom = document.createElement("div");
-            text.append(bottom); bottom.className = "bottom"
+            sousarticle.append(bottom); bottom.className = "bottom"
 
 
             var banbox = document.createElement("div");
@@ -383,6 +387,7 @@ function Init(data) {
             function transferplayer() {
                 url = './2.html?name=' + encodeURIComponent(playerName);
                 pagedetail.href = url;
+                text.href = url;
             }
         }
     }

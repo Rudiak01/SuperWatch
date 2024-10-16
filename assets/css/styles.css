@@ -218,9 +218,9 @@ nav {
 .filter{
   position: fixed;
   height: 100%;
-  width: 10%;
+  width: 15%;
   top: 0;
-  right: 90px;
+  right: 70px;
   transform: translateY(-200%);
   transition: transform 0.4s ease;
   box-shadow: gray 0 0 0 2px, gray 0 0 20px;
@@ -231,12 +231,48 @@ nav {
 }
 
 .filter.open{
-  transform: translateY(100%);
+  transform: translateY(110%);
   z-index: 500;
 }
 
 
+#curved-corner-bottomright{
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  position: fixed;
+  right: 35px;
+  top: -40px;
+}
 
+#curved-corner-bottomleft{
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  position: fixed;
+  right: -5px;
+  top: -40px;
+}
+
+#curved-corner-bottomleft:before,
+#curved-corner-bottomright:before{
+  content: "";
+  display: block;
+  width: 200%;
+  height: 200%;
+  position: absolute;
+  border-radius: 50%;
+}
+#curved-corner-bottomleft:before {
+  bottom: 0;
+  left: 0;
+  box-shadow: -50px 50px 0 0 gray;
+}
+#curved-corner-bottomright:before {
+  bottom: 0;
+  right: 0;
+  box-shadow: 50px 50px 0 0 gray;
+}
 
 
 
@@ -290,15 +326,26 @@ a {
   box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)
 }
 */
-.text-etiquette {
+.sous-etiquette{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-top: 10px;
-  padding-right: 5px;
 }
+
+.text-etiquette {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-right: 5px;
+  text-decoration: none;
+}
+
+
 
 .skin {
   padding: 10px;

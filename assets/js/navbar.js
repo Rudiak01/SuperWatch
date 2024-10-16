@@ -25,7 +25,6 @@ menuBtn.addEventListener('click', () => {
     menuBtn.style = "padding-right:0";
   }
   isMenuOpen = !isMenuOpen; // Toggle the state
-  console.log('menutoggle');
 });
 
 // Optional: Close the menu when clicking on the background
@@ -34,7 +33,7 @@ overlayBg.addEventListener('click', () => {
     overlayBg.classList.remove('open');
     overlayMenu.classList.remove('open');
     menuBtn.innerHTML = '&#9776;';
-    isMenuOpen = false;
+    isMenuOpen = !isMenuOpen;
   }
 });
 
