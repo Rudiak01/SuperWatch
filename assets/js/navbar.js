@@ -14,9 +14,9 @@ menuBtn.addEventListener('click', () => {
       Searchclick.classList.remove('open');
       isSearchOpen = !isSearchOpen;
     }
-    if (isFilterOpen) {
-      filterMenu.classList.remove('open');
-      isFilterOpen = !isFilterOpen;
+    if (issorterOpen) {
+      sorterMenu.classList.remove('open');
+      issorterOpen = !issorterOpen;
     }
   } else {
     overlayBg.classList.remove('open');  // Fade out background
@@ -96,37 +96,82 @@ overlayBg.addEventListener('click', resetSearch);
 menuBtn.addEventListener('click', resetSearch);
 navbar.addEventListener('click', resetSearch);
 
-// -- filter -- //
+// -- Sorter Menu -- //
 
-const filterclick = document.getElementById('filtericon');
-const filterMenu = document.getElementById('filter')
-let isFilterOpen = false;
-filterclick.addEventListener('click', filterui);
-function filterui() {
+const sorterclick = document.getElementById('sorticon');
+const sorterMenu = document.getElementById('sortergroup');
+let issorterOpen = false;
+sorterclick.addEventListener('click', sorterui);
+function sorterui() {
   if (!isMenuOpen) {
-    if (!isFilterOpen) {
-      filterMenu.classList.add('open');
+    if (!issorterOpen) {
+      sorterMenu.classList.add('open');
     } else {
-      filterMenu.classList.remove('open');
+      sorterMenu.classList.remove('open');
     }
-    isFilterOpen = !isFilterOpen;
+    issorterOpen = !issorterOpen;
   }
   else {
     overlayBg.classList.remove('open');  // Fade out background
     overlayMenu.classList.remove('open');  // Slide out menu
     menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
     menuBtn.style = "padding-right:0";
-    filterMenu.classList.add('open');
+    sorterMenu.classList.add('open');
     isMenuOpen = !isMenuOpen;
-    isFilterOpen = !isFilterOpen;
+    issorterOpen = !issorterOpen;
   }
 }
 
-function resetfilterui() {
-  if (isFilterOpen) {
-    filterMenu.classList.remove('open');
-    isFilterOpen = !isFilterOpen;
+function resetsorterui() {
+  if (issorterOpen) {
+    sorterMenu.classList.remove('open');
+    issorterOpen = !issorterOpen;
   }
 }
 
-overlayBg.addEventListener('click', resetfilterui);
+overlayBg.addEventListener('click', resetsorterui);
+
+// -- Sorter -- //
+
+const Name = document.getElementById('name');
+const online = document.getElementById('online');
+const cheating = document.getElementById('cheating')
+const croissant = document.getElementById('croissant');
+const decroissant = document.getElementById('decroissant');
+
+Name.addEventListener('click', sortname);
+online.addEventListener('click', sortonline);
+cheating.addEventListener('click', sortcheating);
+croissant.addEventListener('click', sortcroissant);
+decroissant.addEventListener('click', sortdecroissant);
+
+function sortname(){
+  console.log("name");
+  Name.classList.add('sortclicked');
+  online.classList.remove('sortclicked');
+  cheating.classList.remove('sortclicked');
+}
+function sortonline(){
+  console.log("online");
+  Name.classList.remove('sortclicked');
+  online.classList.add('sortclicked');
+  cheating.classList.remove('sortclicked');
+}
+function sortcheating(){
+  console.log("cheating");
+  Name.classList.remove('sortclicked');
+  online.classList.remove('sortclicked');
+  cheating.classList.add('sortclicked');
+}
+
+
+function sortcroissant(){
+  console.log("croissant");
+  croissant.classList.add('sortclicked');
+  decroissant.classList.remove('sortclicked');
+}
+function sortdecroissant(){
+  console.log("decroissant");
+  croissant.classList.remove('sortclicked');
+  decroissant.classList.add('sortclicked');
+}

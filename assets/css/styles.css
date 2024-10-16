@@ -202,11 +202,7 @@ nav {
   padding-right: 55px;
 }
 
-
-
-
-
-.filtericon {
+.sorticon {
   position: fixed;
   height: 30px;
   color: rgb(255, 255, 255);
@@ -215,22 +211,23 @@ nav {
   border-radius: 50px;
 }
 
-.filter{
+.sortergroup{
   position: fixed;
   height: 100%;
-  width: 15%;
+  width: 25%;
   top: 0;
   right: 70px;
   transform: translateY(-200%);
   transition: transform 0.4s ease;
   box-shadow: gray 0 0 0 2px, gray 0 0 20px;
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
   z-index: 500;
   display: flex;
   flex-direction: column;
 }
 
-.filter.open{
+.sortergroup.open{
   transform: translateY(110%);
   z-index: 500;
 }
@@ -273,6 +270,34 @@ nav {
   right: 0;
   box-shadow: 50px 50px 0 0 gray;
 }
+
+#sorter{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+  padding-top: 5px;
+}
+#sortename{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+#sortertype{
+  display: flex;
+  flex-direction: column;
+}
+
+.sortclicked{
+  box-shadow: gray 0 0 0 3px;
+  border-radius: 50px;
+}
+
+#sorter>div>div{
+  padding: 3px;
+}
+
+
 
 
 
