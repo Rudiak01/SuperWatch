@@ -4,6 +4,12 @@
   box-sizing: content-box;
   font-size: 20px;
   color: white;
+
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 html {
@@ -291,6 +297,8 @@ nav {
 .sortclicked{
   box-shadow: gray 0 0 0 3px;
   border-radius: 50px;
+  cursor: context-menu;
+
 }
 
 #sorter>div>div{

@@ -1,6 +1,9 @@
 fetch('http://arthonetwork.fr:8001/apiP')
     .then(response => response.json())
-    .then(data => Init(data));
+    .then(data => {
+        API_Data = data;
+        Name.classList.add('sortclicked');croissant.classList.add('sortclicked');sorted = 1;sortedByName = 1;sortByName();Init(API_Data)
+    });
 /*
 setTimeout(function () {
     window.location.reload(1);
@@ -12,7 +15,6 @@ function Init(data) {
     playerCounter.innerHTML = data.players.online;
     const playerTotal = document.getElementById('navbar-total');
     playerTotal.innerHTML = data.players.max;
-    // ----------------------------------- //
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     for (const playerName in data.players.list) {
         if (data.players.list.hasOwnProperty(playerName)) {
@@ -55,12 +57,12 @@ function Init(data) {
             }
             text.appendChild(uuid);
             text.appendChild(version);
-                if (player.status === "online") {
-                    article.style = "box-shadow: lime 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
-                }
-                else {
-                    article.style = "box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
-                }
+            if (player.status === "online") {
+                article.style = "box-shadow: lime 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
+            }
+            else {
+                article.style = "box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
+            }
 
 
             var bottom = document.createElement("div");
@@ -256,7 +258,7 @@ function Init(data) {
                             kickbutton.innerText = `Vraiment ?`; kickbutton.style = "font-size:small";
                         }
                         else {
-                            kickbutton.innerText = "Joueur hors ligne";
+                            kickbutton.innerText = `Kick ${playerName} ?`;
                         }
                         $(`.kicksousbox${playerName} `).toggleClass(`kicksousbox-clicked${playerName} `);
 
@@ -388,12 +390,150 @@ function Init(data) {
                 url = './2.html?name=' + encodeURIComponent(playerName);
                 pagedetail.href = url;
                 text.href = url;
+                
             }
         }
     }
 }
 
+var sortedByName,sortedByOnline,sortedByCheater,sorted,sortedReversed;
+
+const Name = document.getElementById('name');
+const online = document.getElementById('online');
+const cheating = document.getElementById('cheating');
+const croissant = document.getElementById('croissant');
+const decroissant = document.getElementById('decroissant');
+
+Name.addEventListener('click', sortname);
+online.addEventListener('click', sortonline);
+cheating.addEventListener('click', sortcheating);
+croissant.addEventListener('click', sortcroissant);
+decroissant.addEventListener('click', sortdecroissant);
+
+function sortname(){
+  console.log("name");
+  Name.classList.add('sortclicked');
+  online.classList.remove('sortclicked');
+  cheating.classList.remove('sortclicked');
+  if(sorted==1){sortByName()}
+  else if(sortedReversed==1){sortByNameReverse()};
+  sortedByName = 1;
+  sortedByOnline = 0;
+  sortedByCheater = 0;
+  reloadPlayers();
+}
+function sortonline(){
+  console.log("online");
+  Name.classList.remove('sortclicked');
+  online.classList.add('sortclicked');
+  cheating.classList.remove('sortclicked');
+  if(sorted==1){sortByOnline()}
+  else if(sortedReversed==1){sortByOnlineReverse()};
+  sortedByName = 0;
+  sortedByOnline = 1;
+  sortedByCheater = 0;
+  reloadPlayers();
+}
+function sortcheating(){
+  console.log("cheating");
+  Name.classList.remove('sortclicked');
+  online.classList.remove('sortclicked');
+  cheating.classList.add('sortclicked');
+  sortedByName = 0;
+  sortedByOnline = 0;
+  sortedByCheater = 1;
+  reloadPlayers();
+}
 
 
+function sortcroissant(){
+  console.log("croissant");
+  croissant.classList.add('sortclicked');
+  decroissant.classList.remove('sortclicked');
+  if(sortedByName==1){sortByName();}
+  else if(sortedByOnline==1){sortByOnline();}
+  //else if(sortedByCheater==1){sortByCheater();}
+  sortedReversed =0;
+  sorted =1;
+  reloadPlayers();
+}
+function sortdecroissant(){
+  console.log("decroissant");
+  croissant.classList.remove('sortclicked');
+  decroissant.classList.add('sortclicked');
+  if(sortedByName==1){sortByNameReverse();console.log("done");}
+  else if(sortedByOnline==1){sortByOnlineReverse();}
+  //else if(sortedByCheater==1){sortByCheaterReverse();}
+  sortedReversed = 1;
+  sorted = 0;
+  reloadPlayers();
+}
 
 
+function sortByName(){
+    const nameList = Object.keys(API_Data.players.list)
+    .sort()
+    .reduce((acc, key) => {
+      acc[key] = API_Data.players.list[key];
+      return acc;
+    }, {});
+    API_Data.players.list = nameList;
+}
+function sortByNameReverse(functionName){
+    const reverseNameList = Object.keys(API_Data.players.list)
+    .sort()
+    .reverse()
+    .reduce((acc, key) => {
+      acc[key] = API_Data.players.list[key];
+      return acc;
+    }, {});
+    API_Data.players.list = reverseNameList;
+}
+
+function sortByOnline() {
+    const sortedPlayers = Object.entries(API_Data.players.list)
+        .sort(([playerA, dataA], [playerB, dataB]) => {
+            if (dataA.status === 'online' && dataB.status === 'offline') {
+                return -1; // Place 'online' avant 'offline'
+            } else if (dataA.status === 'offline' && dataB.status === 'online') {
+                return 1; // Place 'offline' après 'online'
+            } else {
+                return 0; // Garde l'ordre initial si les deux sont dans le même état
+            }
+        })
+        .reduce((acc, [playerName, playerData]) => {
+            acc[playerName] = playerData; // Reconstruire l'objet avec les joueurs triés
+            return acc;
+        }, {});
+    
+    API_Data.players.list = sortedPlayers;
+}
+
+function sortByOnlineReverse() {
+    const sortedPlayers = Object.entries(API_Data.players.list)
+        .sort(([playerA, dataA], [playerB, dataB]) => {
+            if (dataA.status === 'online' && dataB.status === 'offline') {
+                return -1; // Place 'online' avant 'offline'
+            } else if (dataA.status === 'offline' && dataB.status === 'online') {
+                return 1; // Place 'offline' après 'online'
+            } else {
+                return 0; // Garde l'ordre initial si les deux sont dans le même état
+            }
+        }).reverse()
+        .reduce((acc, [playerName, playerData]) => {
+            acc[playerName] = playerData; // Reconstruire l'objet avec les joueurs triés
+            return acc;
+        }, {});
+    
+    API_Data.players.list = sortedPlayers;
+}
+
+
+function reloadPlayers() {
+    const parent = document.querySelector("section");
+    parent.innerHTML = '';     
+    Init(API_Data); 
+}
+
+
+//document.getElementById('name').addEventListener('click', () => reorderPlayers('name'));
