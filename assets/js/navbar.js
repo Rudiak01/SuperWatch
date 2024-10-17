@@ -9,15 +9,20 @@ menuBtn.addEventListener('click', () => {
     overlayMenu.classList.add('open');  // Slide in menu
     menuBtn.innerHTML = '&times;'; // Change icon to "close"
     menuBtn.style = "padding-right:9px;padding-top:5px";
-    if (isSearchOpen) {
-      Searchbar.classList.remove('open');
-      Searchclick.classList.remove('open');
-      isSearchOpen = !isSearchOpen;
-    }
-    if (issorterOpen) {
-      sorterMenu.classList.remove('open');
-      issorterOpen = !issorterOpen;
-    }
+    $(function () {
+      if ($('body').is('.IndexPage')) {
+        if (isSearchOpen) {
+          Searchbar.classList.remove('open');
+          Searchclick.classList.remove('open');
+          isSearchOpen = !isSearchOpen;
+        }
+        if (issorterOpen) {
+          sorterMenu.classList.remove('open');
+          issorterOpen = !issorterOpen;
+        }
+      }
+    });
+
   } else {
     overlayBg.classList.remove('open');  // Fade out background
     overlayMenu.classList.remove('open');  // Slide out menu
@@ -50,83 +55,89 @@ if (alreadyhere != null) {
 }
 
 
+$(function () {
+  if ($('body').is('.IndexPage')) {
 
 
-// -- Search bar -- //
 
-const Searchbar = document.getElementById('searchbar');
-const Searchclick = document.getElementById('searchclick')
-const navbar = document.getElementById('navbar-center');
-let isSearchOpen = false;
+    // -- Search bar -- //
 
-function searchclick() {
-  if (!isMenuOpen) {
-    if (!isSearchOpen) {
-      Searchclick.classList.add('open');
-      Searchbar.classList.add('open');
-      document.getElementById('search').focus();
-      isSearchOpen = !isSearchOpen;
+    const Searchbar = document.getElementById('searchbar');
+    const Searchclick = document.getElementById('searchclick')
+    const navbar = document.getElementById('navbar-center');
+    let isSearchOpen = false;
+
+    function searchclick() {
+      if (!isMenuOpen) {
+        if (!isSearchOpen) {
+          Searchclick.classList.add('open');
+          Searchbar.classList.add('open');
+          document.getElementById('search').focus();
+          isSearchOpen = !isSearchOpen;
+        }
+      }
+      else {
+        overlayBg.classList.remove('open');  // Fade out background
+        overlayMenu.classList.remove('open');  // Slide out menu
+        menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
+        menuBtn.style = "padding-right:0";
+        Searchbar.classList.add('open');
+        Searchclick.classList.add('open');
+        isMenuOpen = !isMenuOpen;
+        isSearchOpen = !isSearchOpen;
+      }
+
+    };
+
+    function resetSearch() {
+      if (!isMenuOpen) {
+        window.setTimeout(function () {
+          Searchbar.classList.remove('open');
+          Searchclick.classList.remove('open');
+          isSearchOpen = !isSearchOpen;
+        }, 200);
+      }
     }
-  }
-  else {
-    overlayBg.classList.remove('open');  // Fade out background
-    overlayMenu.classList.remove('open');  // Slide out menu
-    menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
-    menuBtn.style = "padding-right:0";
-    Searchbar.classList.add('open');
-    Searchclick.classList.add('open');
-    isMenuOpen = !isMenuOpen;
-    isSearchOpen = !isSearchOpen;
-  }
 
-};
+    Searchbar.addEventListener('click', searchclick);
+    overlayBg.addEventListener('click', resetSearch);
+    menuBtn.addEventListener('click', resetSearch);
+    navbar.addEventListener('click', resetSearch);
 
-function resetSearch() {
-  if (!isMenuOpen) {
-    window.setTimeout(function () {
-      Searchbar.classList.remove('open');
-      Searchclick.classList.remove('open');
-      isSearchOpen = !isSearchOpen;
-    }, 200);
-  }
-}
+    // -- Sorter Menu -- //
 
-Searchbar.addEventListener('click', searchclick);
-overlayBg.addEventListener('click', resetSearch);
-menuBtn.addEventListener('click', resetSearch);
-navbar.addEventListener('click', resetSearch);
-
-// -- Sorter Menu -- //
-
-const sorterclick = document.getElementById('sorticon');
-const sorterMenu = document.getElementById('sortergroup');
-let issorterOpen = false;
-sorterclick.addEventListener('click', sorterui);
-function sorterui() {
-  if (!isMenuOpen) {
-    if (!issorterOpen) {
-      sorterMenu.classList.add('open');
-    } else {
-      sorterMenu.classList.remove('open');
+    const sorterclick = document.getElementById('sorticon');
+    const sorterMenu = document.getElementById('sortergroup');
+    let issorterOpen = false;
+    sorterclick.addEventListener('click', sorterui);
+    function sorterui() {
+      if (!isMenuOpen) {
+        if (!issorterOpen) {
+          sorterMenu.classList.add('open');
+        } else {
+          sorterMenu.classList.remove('open');
+        }
+        issorterOpen = !issorterOpen;
+      }
+      else {
+        overlayBg.classList.remove('open');  // Fade out background
+        overlayMenu.classList.remove('open');  // Slide out menu
+        menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
+        menuBtn.style = "padding-right:0";
+        sorterMenu.classList.add('open');
+        isMenuOpen = !isMenuOpen;
+        issorterOpen = !issorterOpen;
+      }
     }
-    issorterOpen = !issorterOpen;
-  }
-  else {
-    overlayBg.classList.remove('open');  // Fade out background
-    overlayMenu.classList.remove('open');  // Slide out menu
-    menuBtn.innerHTML = '&#9776;'; // Change back to "menu" icon
-    menuBtn.style = "padding-right:0";
-    sorterMenu.classList.add('open');
-    isMenuOpen = !isMenuOpen;
-    issorterOpen = !issorterOpen;
-  }
-}
 
-function resetsorterui() {
-  if (issorterOpen) {
-    sorterMenu.classList.remove('open');
-    issorterOpen = !issorterOpen;
-  }
-}
+    function resetsorterui() {
+      if (issorterOpen) {
+        sorterMenu.classList.remove('open');
+        issorterOpen = !issorterOpen;
+      }
+    }
 
-overlayBg.addEventListener('click', resetsorterui);
+    overlayBg.addEventListener('click', resetsorterui);
+
+  }
+});
