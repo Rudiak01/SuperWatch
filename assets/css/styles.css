@@ -428,3 +428,70 @@ footer {
     height: 100%;
   }
 }
+
+
+/*style 2eme page*/
+.etiquette_joueur{
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+.img_joueur{
+  height: 400px;
+  width: 400px;
+  padding-top: 25px;
+}
+
+#balise_img_joueur{
+  height: 400px;
+  width: 400px;
+  float: left;
+}
+
+#titre_pseudo_joueur{
+  width: 810px;
+  height: 23.2px;
+  float :right;
+  border-left: 3px solid white;
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: xx-large;
+}
+
+.infos_joueur{
+    width: 800px;
+    height: 400px;
+    float :right;
+    border-left: 3px solid white;
+    padding-left: 25px;
+}
+
+.stats_joueur{
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+#titre_statistiques{
+    height: 44px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: xx-large;
+}
