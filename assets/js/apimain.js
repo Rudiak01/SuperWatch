@@ -57,6 +57,9 @@ function Init(data) {
             }
             text.appendChild(uuid);
             text.appendChild(version);
+            if (player.permissions.isOp==true){
+                pseudo.style = "color : purple"
+            }
             if (player.status === "online") {
                 article.style = "box-shadow: lime 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)"
             }
