@@ -416,8 +416,8 @@ a {
 }
 
 .img_joueur{
-  height: 400px;
-  width: 400px;
+  height: 100%;
+  width: 100%;
   padding-top: 25px;
 }
 
@@ -440,11 +440,11 @@ a {
 }
 
 .infos_joueur{
-    width: 800px;
-    height: 400px;
-    float :right;
-    border-left: 3px solid white;
-    padding-left: 25px;
+  width: 800px;
+  height: 400px;
+  float :right;
+  border-left: 3px solid white;
+  padding-left: 25px;
 }
 
 .stats_joueur{
@@ -469,8 +469,81 @@ a {
 }
 
 
+/* copy*/
+.infos_joueur_copy{
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: fit-content;
+  border-left: 3px solid white;
+  padding-left: 25px;
+}
+.infos_joueur_copy>div{
+  padding-bottom: 10px;
+}
+#etiquette_text_copy{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.etiquette_joueur_copy{
+  display: flex;
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+.img_joueur_copy{
+  height: 100%;
+  width: 100%;
+  padding-top: 25px;
+}
+
+#balise_img_joueur_copy{
+  height: 400px;
+  width: 400px;
+  float: left;
+}
+
+#titre_pseudo_joueur_copy{
+  width: 810px;
+  height: 23.2px;
+  float :right;
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: xx-large;
+}
 
 
+
+.stats_joueur_copy{
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+#titre_statistiques_copy{
+    height: 44px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: xx-large;
+}
 
 
 

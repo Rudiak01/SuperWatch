@@ -2,10 +2,12 @@ fetch('http://arthonetwork.fr:8001/apiP')
     .then(response => response.json())
     .then(data => Init(data));
 
-function Init(data,) {
+function Init(data) {
     // ----- Copy Pasta All js files ----- //
     const playerCounter = document.getElementById("navbar-counter");
     playerCounter.innerHTML = data.players.online;
+    const playerTotal = document.getElementById('navbar-total');
+    playerTotal.innerHTML = data.players.max;
     // ----------------------------------- //
     var url = document.location.href,
         params = url.split('?')[1].split('&'),

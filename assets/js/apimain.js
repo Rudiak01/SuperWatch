@@ -15,6 +15,7 @@ function Init(data) {
     playerCounter.innerHTML = data.players.online;
     const playerTotal = document.getElementById('navbar-total');
     playerTotal.innerHTML = data.players.max;
+    // ----- ----------------------------- //
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     for (const playerName in data.players.list) {
         if (data.players.list.hasOwnProperty(playerName)) {
