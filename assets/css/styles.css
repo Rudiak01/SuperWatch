@@ -14,7 +14,7 @@
 
 html {
   background: rgb(2, 0, 36);
-  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(7, 7, 120, 1) 35%, rgb(0, 129, 155) 100%);
+  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(7, 7, 120, 1) 35%, rgba(2, 0, 36, 1) 100%);
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
