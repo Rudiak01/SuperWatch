@@ -179,7 +179,6 @@ nav {
   position: fixed;
   background-color: transparent;
   width: 20%;
-  height: 7vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -194,12 +193,12 @@ nav {
 .search {
   padding-top: 5px;
   font-size: 30px;
-  width: 95%;
+  width: 93%;
   padding-left: 10px;
   background: none;
   border: none;
   border-radius: 50px;
-  height: 50px;
+  height: 60px;
 }
 
 #searchicon {
@@ -557,7 +556,7 @@ footer {
   box-shadow: 10px;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
   .navbar {
     align-items: center;

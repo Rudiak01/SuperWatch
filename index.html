@@ -12,7 +12,7 @@
 <body class="IndexPage">
     <nav>
         <div id="navbar-left">
-            <img src="assets/img/ico.png" alt="Icon" id="icon">
+            <img src="assets/img/ico.webp" alt="Icon" id="icon">
             <div id="counter"><span id="navbar-counter">290</span> / <span id="navbar-total">1000</span> en ligne</div>
         </div>
         <div id="navbar-center">
@@ -22,7 +22,7 @@
         <div id="navbar-right">
             <div id="searchclick" class="searchclick">
                 <div id="searchbar" class="searchbar">
-                    <input type="text" class="search" id="search" placeholder="Search...">
+                    <input type="text" class="search" id="search" placeholder="Search..." onkeyup="searchPlayers()">
                     <div id="searchicon">&#8981</div>
                 </div>
                 <svg id="sorticon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-funnel sorticon"
@@ -69,6 +69,7 @@
         <section class="playersection">
             <!-- Gérer dans apimain.js -->
         </section>
+        <ul id="playersList"></ul>
     </main>
     <footer>
     </footer>
@@ -76,5 +77,4 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="assets/js/navbar.js"></script>
 <script src="assets/js/apimain.js"></script>
-
 </html>
