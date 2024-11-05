@@ -309,7 +309,7 @@ nav {
   padding: 3px;
 }
 
-main {
+#main {
   padding: 200px 20px;
   /* Ajout de plus d'espace sous la navbar */
 }
@@ -475,7 +475,7 @@ footer {
     align-items: center;
   }
 
-  main {
+  #main {
     padding: 100px 10px;
   }
 
