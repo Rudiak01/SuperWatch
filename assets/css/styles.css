@@ -14,15 +14,9 @@
 
 html {
   background: rgb(2, 0, 36);
-  background: linear-gradient(
-    180deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(7, 7, 120, 1) 35%,
-    rgba(2, 0, 36, 1) 100%
-  );
+  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(7, 7, 120, 1) 35%, rgba(2, 0, 36, 1) 100%);
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  box-shadow: inset 50px 0 50px -50px rgba(255,255,255,0.6);
 }
 
 nav {
@@ -150,7 +144,6 @@ nav {
   position: relative;
   padding-top: 250px;
   backdrop-filter: blur(50px);
-  box-shadow: 0 0 50px rgba(255, 255, 255,0.6);
   /* Espace pour Ã©viter la collision avec la navbar */
 }
 
@@ -205,7 +198,7 @@ nav {
   background: none;
   border: none;
   border-radius: 50px;
-  height: 6.5vh;
+  height: 60px;
 }
 
 #searchicon {
@@ -223,7 +216,7 @@ nav {
   border-radius: 50px;
 }
 
-.sortergroup {
+.sortergroup{
   position: fixed;
   height: 100%;
   width: 25%;
@@ -239,12 +232,13 @@ nav {
   flex-direction: column;
 }
 
-.sortergroup.open {
+.sortergroup.open{
   transform: translateY(110%);
   z-index: 500;
 }
 
-#curved-corner-bottomright {
+
+#curved-corner-bottomright{
   width: 40px;
   height: 40px;
   overflow: hidden;
@@ -253,7 +247,7 @@ nav {
   top: -40px;
 }
 
-#curved-corner-bottomleft {
+#curved-corner-bottomleft{
   width: 40px;
   height: 40px;
   overflow: hidden;
@@ -263,7 +257,7 @@ nav {
 }
 
 #curved-corner-bottomleft:before,
-#curved-corner-bottomright:before {
+#curved-corner-bottomright:before{
   content: "";
   display: block;
   width: 200%;
@@ -282,32 +276,43 @@ nav {
   box-shadow: 50px 50px 0 0 gray;
 }
 
-#sorter {
+#sorter{
   display: flex;
   height: 100%;
   width: 100%;
   justify-content: space-around;
   padding-top: 5px;
 }
-#sortename {
+#sortename{
   display: flex;
   flex-direction: column;
   width: 50%;
 }
-#sortertype {
+#sortertype{
   display: flex;
   flex-direction: column;
 }
 
-.sortclicked {
+.sortclicked{
   box-shadow: gray 0 0 0 3px;
   border-radius: 50px;
   cursor: context-menu;
+
 }
 
-#sorter > div > div {
+#sorter>div>div{
   padding: 3px;
 }
+
+
+
+
+
+
+
+
+
+
 
 main {
   padding: 200px 20px;
@@ -353,7 +358,7 @@ a {
   box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)
 }
 */
-.sous-etiquette {
+.sous-etiquette{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -372,11 +377,12 @@ a {
   text-decoration: none;
 }
 
+
+
 .skin {
   padding: 10px;
   padding-bottom: 0;
   width: 100px;
-  justify-content: center;
 }
 
 .username {
@@ -393,8 +399,11 @@ a {
   width: 100%;
 }
 
+
+
 /*style 2eme page*/
 .etiquette_joueur{
+  display: flex;
   border: gray;
   background: lightgray;
   margin-left: 120px;
@@ -408,7 +417,7 @@ a {
 
 .img_joueur{
   height: 100%;
-  width: 100%;
+  width: fit-content;
   padding-top: 25px;
 }
 
@@ -418,25 +427,31 @@ a {
   float: left;
 }
 
+.texte_etiquette_joueur{
+  display: flex;
+  flex-direction: column;
+
+}
+
 #titre_pseudo_joueur{
-  width: 810px;
+  width: 25%;
   height: 23.2px;
   float :right;
   border-left: 3px solid white;
   padding-left: 15px;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  align-self: center;
   font-size: xx-large;
 }
 
 .infos_joueur{
-  width: 800px;
+  width: fit-content;
   height: 400px;
   float :right;
   border-left: 3px solid white;
   padding-left: 25px;
 }
+
 
 .stats_joueur{
   border: gray;
@@ -452,12 +467,94 @@ a {
 }
 
 #titre_statistiques{
-  height: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: xx-large;
+}
+
+
+/* copy*/
+.infos_joueur_copy{
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: fit-content;
+  border-left: 3px solid white;
+  padding-left: 25px;
+}
+.infos_joueur_copy>div{
+  padding-bottom: 10px;
+}
+#etiquette_text_copy{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.etiquette_joueur_copy{
+  display: flex;
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+.img_joueur_copy{
+  height: 100%;
+  width: 100%;
+  padding-top: 25px;
+}
+
+#balise_img_joueur_copy{
+  height: 400px;
+  width: 400px;
+  float: left;
+}
+
+#titre_pseudo_joueur_copy{
+  width: 810px;
+  height: 23.2px;
+  float :right;
+  padding-left: 15px;
   display: flex;
   align-items: center;
   flex-direction: column;
   font-size: xx-large;
 }
+
+
+
+.stats_joueur_copy{
+  border: gray;
+  background: lightgray;
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 10px 10px 10px 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  height: 500px;
+}
+
+#titre_statistiques_copy{
+    height: 44px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: xx-large;
+}
+
+
+
+
+
 
 footer {
   background-color: rgb(56, 56, 56);
@@ -466,17 +563,14 @@ footer {
   box-shadow: 10px;
 }
 
-.classMagique{
-  display: none;
-}
-
 @media screen and (max-width: 768px) {
+
   .navbar {
     align-items: center;
   }
 
   main {
-    padding: 100px 10px;
+    padding: 50px 10px;
   }
 
   .etiquette {
@@ -484,31 +578,9 @@ footer {
     flex-direction: column;
   }
 
-  .skin {
+  img {
     padding: 0px;
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
   }
-  .LinkToDetailedView{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-  }
-  /*navbar*/
-
-  #counter{
-    position: fixed;
-    top: 125px;
-  }
-  .searchclick{
-    position: fixed;
-    top: 110px;
-    right: -50px;
-    width: 22%;
-  }
-  .overlay {
-    width: 60%;
-  }
-} 
+}
