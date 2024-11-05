@@ -1,14 +1,57 @@
+/*
 fetch("http://arthonetwork.fr:8001/apiP")
   .then((response) => response.json())
   .then((data) => {
-    API_Data = data;
-    Name.classList.add("sortclicked");
-    croissant.classList.add("sortclicked");
-    sorted = 1;
-    sortedByName = 1;
-    sortByName();
-    Init(API_Data);
+    API_Data = data; // stock les données de l'api dans une variable
+    Name.classList.add("sortclicked");  // le bouton "name" est cliqué par défaut
+    croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
+    sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
+    sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
+    sortByName(); // appel tri par nom
+    Init(API_Data); // chargement initial des joueurs
   });
+  */
+ 
+  API_Data={
+    "mods": [],
+    "software": null,
+    "players": {
+      "offline": 1,
+      "max": 20,
+      "online": 1,
+      "list": {
+        "TeALO36": {
+          "level": 11,
+          "permissions": {
+            "isOp": true,
+            "gameMode": "CREATIVE"
+          },
+          "xp": 34,
+          "health": 8,
+          "uuid": "f61c25f61cc74edbb5faed2b061a04ae",
+          "food": 11,
+          "status": "offline"
+        },
+        "Rudiak": {
+          "level": 0,
+          "permissions": {
+            "isOp": true,
+            "gameMode": "CREATIVE"
+          },
+          "xp": 0,
+          "health": 20,
+          "uuid": "2939f22fc68f4deca8b7c62d9de7d2e1",
+          "food": 20,
+          "status": "online"
+        }
+      }
+    },
+    "plugins": [],
+    "icon": null
+  };
+  Init(API_Data);
+  
+
 /*
 setTimeout(function () {
     window.location.reload(1);
@@ -16,56 +59,70 @@ setTimeout(function () {
 */
 function Init(data) {
   // ----- Copy Pasta All js files ----- //
-  const playerCounter = document.getElementById("navbar-counter");
+  const playerCounter = document.getElementById("navbar-counter"); //joueur en ligne
   playerCounter.innerHTML = data.players.online;
-  const playerTotal = document.getElementById("navbar-total");
+  const playerTotal = document.getElementById("navbar-total");  //joueur maximal autorisé par le serveur
   playerTotal.innerHTML = data.players.max;
   // ----- ----------------------------- //
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  for (const playerName in data.players.list) {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches; // si l'écran est plus petit que 768px, on considère que l'utilisateur est sur mobile
+  for (const playerName in data.players.list) {   //repet pour chaque joueur existant dans l'api
     if (data.players.list.hasOwnProperty(playerName)) {
       const player = data.players.list[playerName];
+      const parent = document.querySelector("section");
+
       var article = document.createElement("article");
+      article.className = "etiquette";
+      article.setAttribute("player-id", playerName.toLowerCase())
+
       var sousarticle = document.createElement("div");
-      var pseudo = document.createElement("p");
-      var uuid = document.createElement("p");
-      var version = document.createElement("p");
-      var skin = document.createElement("img");
-      var pagedetail = document.createElement("a");
-      var text = document.createElement("a");
-      transferplayer();
-      article.classList.add("etiquette");
       sousarticle.className = "sous-etiquette";
-      text.className = "text-etiquette";
+
+      var pseudo = document.createElement("p");
+      pseudo.className = "username";
+      pseudo.innerHTML = `${playerName}`;
+
+      var uuid = document.createElement("p");
+      uuid.className = "uuid";
+      uuid.innerHTML = `UUID : ${player.uuid}`;
+
+      var version = document.createElement("p");
+      version.className = "version";
+      version.innerHTML = `Version : ${player.player_version}`;
+
+      var skin = document.createElement("img");
       skin.className = "skin";
       skin.title = `Page détaillé de ${playerName}`;
       skin.alt = `skin de ${playerName}`;
-      pseudo.innerHTML = `${playerName}`;
-      pseudo.className = "username";
-      uuid.innerHTML = `UUID : ${player.uuid}`;
-      uuid.className = "uuid";
-      version.innerHTML = `Version : ${player.player_version}`;
-      version.className = "version";
-      const parent = document.querySelector("section");
+
+      var linkToDetailedView = document.createElement("a");
+      var text = document.createElement("a");
+      text.className = "text-etiquette";
+
+      transferplayer();
+
       parent.appendChild(article);
-      article.setAttribute("player-id", playerName.toLowerCase())
+
       if (isMobile) {
-        skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
         article.appendChild(pseudo);
-        article.appendChild(pagedetail);
-        pagedetail.appendChild(skin);
+        article.appendChild(linkToDetailedView);
         article.appendChild(sousarticle);
+
+        skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
+        linkToDetailedView.appendChild(skin);
         sousarticle.appendChild(text);
       } else {
-        skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
-        article.appendChild(pagedetail);
-        pagedetail.appendChild(skin);
+        article.appendChild(linkToDetailedView);
         article.appendChild(sousarticle);
+
+        skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
+        linkToDetailedView.appendChild(skin);
+
         sousarticle.appendChild(text);
         text.appendChild(pseudo);
         text.appendChild(uuid);
       }
       text.appendChild(version);
+      //   ------- online / op ------- //
       if (player.permissions.isOp == true) {
         pseudo.style = "color : purple";
       }
@@ -77,26 +134,33 @@ function Init(data) {
           "box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)";
       }
 
+        // ban / kick buttons
       var bottom = document.createElement("div");
-      sousarticle.append(bottom);
       bottom.className = "bottom";
+      sousarticle.append(bottom);
 
+        // banbutton
       var banbox = document.createElement("div");
       banbox.className = `banbox${playerName}`;
+
       var bansousbox = document.createElement("div");
       bansousbox.className = `bansousbox${playerName}`;
+
       var ban = document.createElement("span");
-      ban.innerHTML = "ban";
       ban.id = `banbutton${playerName}`;
+      ban.innerHTML = "ban";
 
       bottom.appendChild(banbox);
       banbox.appendChild(bansousbox);
       bansousbox.appendChild(ban);
 
+        // kick button
       var kickbox = document.createElement("div");
       kickbox.className = `kickbox${playerName}`;
+
       var kicksousbox = document.createElement("div");
       kicksousbox.className = `kicksousbox${playerName}`;
+      
       var kick = document.createElement("span");
       kick.innerHTML = "kick";
       kick.id = `kickbutton${playerName}`;
@@ -284,27 +348,26 @@ function Init(data) {
 
           /* -- A FAIRE -- WAITING ON API -- */
 
-          fetch(`http://arthonetwork.fr:8001/api/kick`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uuid: player.uuid }),
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              console.log(`${playerName} a été kick.`);
-              //alert(`${playerName} a été kick.`);
+            fetch(`http://arthonetwork.fr:8001/api/kick`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ uuid: player.uuid }),
             })
-            .catch((error) => {
-              console.error("Erreur, impossible de kick le joueur:", error);
-              alert(`Erreur, impossible de kick ${playerName}.`);
-            });
+              .then((response) => response.json())
+              .then((result) => {
+                console.log(`${playerName} a été kick.`);
+                //alert(`${playerName} a été kick.`);
+              })
+              .catch((error) => {
+                console.error("Erreur, impossible de kick le joueur:", error);
+                alert(`Erreur, impossible de kick ${playerName}.`);
+              });
 
           /* -----------------------  */
         }
       }
-      // Resetkick //
       function resetkickButton() {
         window.setTimeout(function () {
           kickbutton.innerText = "kick";
@@ -352,26 +415,26 @@ function Init(data) {
 
           /* -- A FAIRE -- WAITING ON API -- */
 
-          fetch(`http://arthonetwork.fr:8001/api/ban`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uuid: player.uuid }),
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              console.log(`${playerName} a été banni.`);
-              //alert(`${playerName} a été banni.`);
+            fetch(`http://arthonetwork.fr:8001/api/ban`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ uuid: player.uuid }),
             })
-            .catch((error) => {
-              console.error("Erreur, impossible de bannir le joueur:", error);
-              alert(`Erreur, impossible de bannir ${playerName}.`);
-            });
+              .then((response) => response.json())
+              .then((result) => {
+                console.log(`${playerName} a été banni.`);
+                //alert(`${playerName} a été banni.`);
+              })
+              .catch((error) => {
+                console.error("Erreur, impossible de bannir le joueur:", error);
+                alert(`Erreur, impossible de bannir ${playerName}.`);
+              });
           /* -----------------------  */
         }
       }
-      // Réinitialise le bouton à l'état initial quand la souris quitte le bouton
+      
       function resetBanButton() {
         if (banclickCount != 0) {
           window.setTimeout(function () {
@@ -384,12 +447,10 @@ function Init(data) {
           }, 350);
         }
       }
-
-      // Ajoute les événements
       banbutton.addEventListener("click", handleBanClick);
       banbutton.addEventListener("mouseleave", resetBanButton);
 
-      /* Mobile Specific */
+      // ----- Mobile Specific ----- //
 
       if (isMobile) {
         $(document).on("scroll", function () {
@@ -411,10 +472,10 @@ function Init(data) {
           }
         });
       }
-
+      //------- link beetween overview page and detailed page ------/
       function transferplayer() {
         url = "./2.html?name=" + encodeURIComponent(playerName);
-        pagedetail.href = url;
+        linkToDetailedView.href = url;
         text.href = url;
       }
     }
@@ -437,7 +498,6 @@ croissant.addEventListener("click", sortcroissant);
 decroissant.addEventListener("click", sortdecroissant);
 
 function sortname() {
-  console.log("name");
   Name.classList.add("sortclicked");
   online.classList.remove("sortclicked");
   cheating.classList.remove("sortclicked");
@@ -452,7 +512,6 @@ function sortname() {
   reloadPlayers();
 }
 function sortonline() {
-  console.log("online");
   Name.classList.remove("sortclicked");
   online.classList.add("sortclicked");
   cheating.classList.remove("sortclicked");
@@ -467,7 +526,6 @@ function sortonline() {
   reloadPlayers();
 }
 function sortcheating() {
-  console.log("cheating");
   Name.classList.remove("sortclicked");
   online.classList.remove("sortclicked");
   cheating.classList.add("sortclicked");
@@ -478,7 +536,6 @@ function sortcheating() {
 }
 
 function sortcroissant() {
-  console.log("croissant");
   croissant.classList.add("sortclicked");
   decroissant.classList.remove("sortclicked");
   if (sortedByName == 1) {
@@ -492,12 +549,10 @@ function sortcroissant() {
   reloadPlayers();
 }
 function sortdecroissant() {
-  console.log("decroissant");
   croissant.classList.remove("sortclicked");
   decroissant.classList.add("sortclicked");
   if (sortedByName == 1) {
     sortByNameReverse();
-    console.log("done");
   } else if (sortedByOnline == 1) {
     sortByOnlineReverse();
   }

@@ -25,7 +25,6 @@ menuBtn.addEventListener("click", () => {
           Searchbar.classList.remove("open");
           Searchclick.classList.remove("open");
           isSearchOpen = !isSearchOpen;
-          console.log("search");
         }
         if (isSorterOpen) {
           sorterMenu.classList.remove("open");
@@ -42,7 +41,7 @@ menuBtn.addEventListener("click", () => {
   isMenuOpen = !isMenuOpen; // Toggle the state
 });
 
-// Optional: Close the menu when clicking on the background
+// Close the menu when clicking on the background
 overlayBg.addEventListener("click", () => {
   if (isMenuOpen) {
     overlayBg.classList.remove("open");
@@ -76,6 +75,9 @@ $(function () {
           document.getElementById("search").focus();
           isSearchOpen = !isSearchOpen;
         }
+        else{
+          document.getElementById("search").focus();
+        }
       } else {
         overlayBg.classList.remove("open"); // Fade out background
         overlayMenu.classList.remove("open"); // Slide out menu
@@ -90,7 +92,7 @@ $(function () {
     }
 
     function resetSearch() {
-      if (!isMenuOpen) {
+      if (isSearchOpen) {
           Searchbar.classList.remove("open");
           Searchclick.classList.remove("open");
           isSearchOpen = !isSearchOpen;
