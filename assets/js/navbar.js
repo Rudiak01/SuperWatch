@@ -3,8 +3,8 @@ const overlayMenu = document.getElementById("overlay-menu"); // Sélection de l'
 const overlayBg = document.getElementById("overlay-bg"); // Sélection de l'overlay background
 let isMenuOpen = false; // Variable de suivi pour l'état du menu
 
-const Searchbar = document.getElementById("searchbar");
-const Searchclick = document.getElementById("searchclick");
+const searchBar = document.getElementById("searchbar");
+const searchClick = document.getElementById("searchclick");
 const navbar = document.getElementById("navbar-center");
 const searchicon = document.getElementById("searchicon");
 let isSearchOpen = false;
@@ -13,8 +13,13 @@ const sorterclick = document.getElementById("sorticon");
 const sorterMenu = document.getElementById("sortergroup");
 let isSorterOpen = false;
 
+const isMobile = window.matchMedia("(max-width: 768px)").matches; // si l'écran est plus petit que 768px, on considère que l'utilisateur est sur mobile
+
 menuBtn.addEventListener("click", () => {
   if (!isMenuOpen) {
+    if(isMobile){
+      searchClick.classList.add("classMagique");
+    }
     overlayBg.classList.add("open"); // Fade in background
     overlayMenu.classList.add("open"); // Slide in menu
     menuBtn.innerHTML = "&times;"; // Change icon to "close"
@@ -22,8 +27,8 @@ menuBtn.addEventListener("click", () => {
     $(function () {
       if ($("body").is(".IndexPage")) {
         if (isSearchOpen) {
-          Searchbar.classList.remove("open");
-          Searchclick.classList.remove("open");
+          searchBar.classList.remove("open");
+          searchClick.classList.remove("open");
           isSearchOpen = !isSearchOpen;
         }
         if (isSorterOpen) {
@@ -33,6 +38,9 @@ menuBtn.addEventListener("click", () => {
       }
     });
   } else {
+    if(isMobile){
+      searchClick.classList.remove("classMagique");
+    }
     overlayBg.classList.remove("open"); // Fade out background
     overlayMenu.classList.remove("open"); // Slide out menu
     menuBtn.innerHTML = "&#9776;"; // Change back to "menu" icon
@@ -70,8 +78,8 @@ $(function () {
     function searchclick() {
       if (!isMenuOpen) {
         if (!isSearchOpen) {
-          Searchclick.classList.add("open");
-          Searchbar.classList.add("open");
+          searchClick.classList.add("open");
+          searchBar.classList.add("open");
           document.getElementById("search").focus();
           isSearchOpen = !isSearchOpen;
         }
@@ -83,8 +91,8 @@ $(function () {
         overlayMenu.classList.remove("open"); // Slide out menu
         menuBtn.innerHTML = "&#9776;"; // Change back to "menu" icon
         menuBtn.style = "padding-right:0";
-        Searchbar.classList.add("open");
-        Searchclick.classList.add("open");
+        searchBar.classList.add("open");
+        searchClick.classList.add("open");
         document.getElementById("search").focus();
         isMenuOpen = !isMenuOpen;
         isSearchOpen = !isSearchOpen;
@@ -93,14 +101,14 @@ $(function () {
 
     function resetSearch() {
       if (isSearchOpen) {
-          Searchbar.classList.remove("open");
-          Searchclick.classList.remove("open");
+          searchBar.classList.remove("open");
+          searchClick.classList.remove("open");
           isSearchOpen = !isSearchOpen;
       }
     }
 
     searchicon.addEventListener("click", searchclick);
-    Searchbar.addEventListener("click", searchclick);
+    searchBar.addEventListener("click", searchclick);
     overlayBg.addEventListener("click", resetSearch);
     menuBtn.addEventListener("click", resetSearch);
     navbar.addEventListener("click", resetSearch);
@@ -137,3 +145,4 @@ $(function () {
     overlayBg.addEventListener("click", resetsorterui);
   }
 });
+

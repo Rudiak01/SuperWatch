@@ -1,17 +1,16 @@
-/*
 fetch("http://arthonetwork.fr:8001/apiP")
   .then((response) => response.json())
   .then((data) => {
     API_Data = data; // stock les données de l'api dans une variable
-    Name.classList.add("sortclicked");  // le bouton "name" est cliqué par défaut
+    Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
     croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
     sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
     sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
     sortByName(); // appel tri par nom
     Init(API_Data); // chargement initial des joueurs
   });
-  */
- 
+
+/*
   API_Data={
     "mods": [],
     "software": null,
@@ -50,7 +49,7 @@ fetch("http://arthonetwork.fr:8001/apiP")
     "icon": null
   };
   Init(API_Data);
-  
+  */
 
 /*
 setTimeout(function () {
@@ -61,18 +60,19 @@ function Init(data) {
   // ----- Copy Pasta All js files ----- //
   const playerCounter = document.getElementById("navbar-counter"); //joueur en ligne
   playerCounter.innerHTML = data.players.online;
-  const playerTotal = document.getElementById("navbar-total");  //joueur maximal autorisé par le serveur
+  const playerTotal = document.getElementById("navbar-total"); //joueur maximal autorisé par le serveur
   playerTotal.innerHTML = data.players.max;
   // ----- ----------------------------- //
   const isMobile = window.matchMedia("(max-width: 768px)").matches; // si l'écran est plus petit que 768px, on considère que l'utilisateur est sur mobile
-  for (const playerName in data.players.list) {   //repet pour chaque joueur existant dans l'api
+  for (const playerName in data.players.list) {
+    //repet pour chaque joueur existant dans l'api
     if (data.players.list.hasOwnProperty(playerName)) {
       const player = data.players.list[playerName];
       const parent = document.querySelector("section");
 
       var article = document.createElement("article");
       article.className = "etiquette";
-      article.setAttribute("player-id", playerName.toLowerCase())
+      article.setAttribute("player-id", playerName.toLowerCase());
 
       var sousarticle = document.createElement("div");
       sousarticle.className = "sous-etiquette";
@@ -95,6 +95,7 @@ function Init(data) {
       skin.alt = `skin de ${playerName}`;
 
       var linkToDetailedView = document.createElement("a");
+      linkToDetailedView.className = "LinkToDetailedView";
       var text = document.createElement("a");
       text.className = "text-etiquette";
 
@@ -103,13 +104,12 @@ function Init(data) {
       parent.appendChild(article);
 
       if (isMobile) {
-        article.appendChild(pseudo);
         article.appendChild(linkToDetailedView);
-        article.appendChild(sousarticle);
-
+        linkToDetailedView.appendChild(pseudo);
         skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
         linkToDetailedView.appendChild(skin);
-        sousarticle.appendChild(text);
+        linkToDetailedView.appendChild(version);
+        article.appendChild(sousarticle);
       } else {
         article.appendChild(linkToDetailedView);
         article.appendChild(sousarticle);
@@ -120,8 +120,9 @@ function Init(data) {
         sousarticle.appendChild(text);
         text.appendChild(pseudo);
         text.appendChild(uuid);
+        text.appendChild(version);
       }
-      text.appendChild(version);
+
       //   ------- online / op ------- //
       if (player.permissions.isOp == true) {
         pseudo.style = "color : purple";
@@ -134,12 +135,12 @@ function Init(data) {
           "box-shadow: red 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1),inset 0 0 50px rgba(0, 0, 0, 0.5)";
       }
 
-        // ban / kick buttons
+      // ban / kick buttons
       var bottom = document.createElement("div");
       bottom.className = "bottom";
       sousarticle.append(bottom);
 
-        // banbutton
+      // banbutton
       var banbox = document.createElement("div");
       banbox.className = `banbox${playerName}`;
 
@@ -154,13 +155,13 @@ function Init(data) {
       banbox.appendChild(bansousbox);
       bansousbox.appendChild(ban);
 
-        // kick button
+      // kick button
       var kickbox = document.createElement("div");
       kickbox.className = `kickbox${playerName}`;
 
       var kicksousbox = document.createElement("div");
       kicksousbox.className = `kicksousbox${playerName}`;
-      
+
       var kick = document.createElement("span");
       kick.innerHTML = "kick";
       kick.id = `kickbutton${playerName}`;
@@ -348,22 +349,22 @@ function Init(data) {
 
           /* -- A FAIRE -- WAITING ON API -- */
 
-            fetch(`http://arthonetwork.fr:8001/api/kick`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ uuid: player.uuid }),
+          fetch(`http://arthonetwork.fr:8001/api/kick`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ uuid: player.uuid }),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              console.log(`${playerName} a été kick.`);
+              //alert(`${playerName} a été kick.`);
             })
-              .then((response) => response.json())
-              .then((result) => {
-                console.log(`${playerName} a été kick.`);
-                //alert(`${playerName} a été kick.`);
-              })
-              .catch((error) => {
-                console.error("Erreur, impossible de kick le joueur:", error);
-                alert(`Erreur, impossible de kick ${playerName}.`);
-              });
+            .catch((error) => {
+              console.error("Erreur, impossible de kick le joueur:", error);
+              alert(`Erreur, impossible de kick ${playerName}.`);
+            });
 
           /* -----------------------  */
         }
@@ -415,26 +416,26 @@ function Init(data) {
 
           /* -- A FAIRE -- WAITING ON API -- */
 
-            fetch(`http://arthonetwork.fr:8001/api/ban`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ uuid: player.uuid }),
+          fetch(`http://arthonetwork.fr:8001/api/ban`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ uuid: player.uuid }),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              console.log(`${playerName} a été banni.`);
+              //alert(`${playerName} a été banni.`);
             })
-              .then((response) => response.json())
-              .then((result) => {
-                console.log(`${playerName} a été banni.`);
-                //alert(`${playerName} a été banni.`);
-              })
-              .catch((error) => {
-                console.error("Erreur, impossible de bannir le joueur:", error);
-                alert(`Erreur, impossible de bannir ${playerName}.`);
-              });
+            .catch((error) => {
+              console.error("Erreur, impossible de bannir le joueur:", error);
+              alert(`Erreur, impossible de bannir ${playerName}.`);
+            });
           /* -----------------------  */
         }
       }
-      
+
       function resetBanButton() {
         if (banclickCount != 0) {
           window.setTimeout(function () {
@@ -474,7 +475,7 @@ function Init(data) {
       }
       //------- link beetween overview page and detailed page ------/
       function transferplayer() {
-        url = "./2.html?name=" + encodeURIComponent(playerName);
+        url = "./player.html?name=" + encodeURIComponent(playerName);
         linkToDetailedView.href = url;
         text.href = url;
       }
@@ -631,7 +632,6 @@ function reloadPlayers() {
 // --------------- research ------------------ //
 
 function searchPlayers() {
-
   const input = document.getElementById("search").value.toLowerCase();
   const players = document.querySelectorAll(".playersection article");
 
