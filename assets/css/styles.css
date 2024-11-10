@@ -409,16 +409,10 @@ a {
   margin-left: 120px;
   margin-right: 120px;
   margin-top: 50px;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px;
   background: rgba(0, 120, 215, 0.7);
   padding: 25px;
   height: 500px;
-}
-
-.img_joueur{
-  height: 100%;
-  width: fit-content;
-  padding-top: 25px;
 }
 
 #balise_img_joueur{
@@ -460,7 +454,7 @@ a {
   margin-right: 120px;
   margin-top: 50px;
   margin-bottom: 50px;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px;
   background: rgba(0, 120, 215, 0.7);
   padding: 25px;
   height: 500px;

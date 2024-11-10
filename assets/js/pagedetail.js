@@ -20,26 +20,40 @@ function formatDate(timestamp) {
 }
 
 // Fonction pour mettre à jour l'interface utilisateur avec les données du joueur
-function updatePlayerUI(playerData) {
-  // Mise à jour du pseudo
-  document.getElementById(
-    "titre_pseudo_joueur"
-  ).textContent = `Pseudo : ${playerData.name}`;
+  function updatePlayerUI(playerData) {
+    var article_general = document.createElement("div");
+    article_general.className = "stats_general";
+    
+    // Mise à jour du pseudo
+    var pseudo = document.createElement("p");
+    pseudo.className = "username";
+    pseudo.innerHTML = `${playerName}`;
 
-  // Mise à jour de l'UUID
-  const infosJoueur = document.querySelector(".infos_joueur");
-  const uuidText = `UUID : ${playerData.uuid}`;
-  const statusText = `En ligne : ${
-    playerData.status === "online" ? "Oui" : "Non"
-  }`;
+    // Mise à jour de l'uuid
+    var uuid = document.createElement("p");
+    uuid.className = "uuid";
+    uuid.innerHTML = `UUID : ${player.uuid}`;
 
-  // Calcul des niveaux avec icônes
-  const protectionLevel = getIconString(20, 20, "🛡️"); // Maximum protection assumed as 20
-  const healthLevel = getIconString(playerData.health, 20, "❤️");
-  const foodLevel = getIconString(playerData.food, 20, "🍗");
+    // Mise à jour de l'activité
+    const statusText = `En ligne : ${playerData.status === "online" ? "Oui" : "Non"}`;
 
-  // Mise à jour du contenu
-  infosJoueur.innerHTML = `
+    //Date de la première connexion
+    /*var date_premiere_connexion = document.createElement("p");
+    date_premiere_connexion = "date_premiere_connexion";
+    date_premiere_connexion.innerHTML = `Date de la première connexion : ${player.}`*/
+
+
+
+
+
+
+    // Calcul des niveaux avec icônes
+    const protectionLevel = getIconString(20, 20, "🛡️"); // Maximum protection assumed as 20
+    const healthLevel = getIconString(playerData.health, 20, "❤️");
+    const foodLevel = getIconString(playerData.food, 20, "🍗");
+
+    // Mise à jour du contenu
+    infosJoueur.innerHTML = `
         <br><br><br>${uuidText}
         <br><br>${statusText}
         <br><br>Niveau de protection : ${protectionLevel}
@@ -48,36 +62,44 @@ function updatePlayerUI(playerData) {
         <br><br>Dernière connexion : ${formatDate(playerData.lastSeen)}
     `;
 
-  // Mise à jour de l'image du skin
-  const skinImage = document.querySelector(".img_joueur");
-  if (skinImage) {
-    // Vous pouvez utiliser un service de skin Minecraft comme ceci:
-    skinImage.src = `https://crafatar.com/renders/body/${playerData.uuid}?overlay=true`;
-  }
-}
-
-// Fonction principale pour charger les données du joueur
-async function loadPlayerData() {
-  const playerName = getPlayerNameFromURL();
-
-  if (!playerName) {
-    console.error("Nom du joueur non spécifié dans l'URL");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `http://arthonetwork.fr:8001/apiP?player=${playerName}`
-    );
-    if (!response.ok) {
-      throw new Error("Erreur lors de la récupération des données");
+    // Mise à jour de l'image du skin
+    const skinImage = document.querySelector(".img_joueur");
+    if (skinImage) {
+      // Vous pouvez utiliser un service de skin Minecraft comme ceci:
+      skinImage.src = `https://crafatar.com/renders/body/${playerData.uuid}?overlay=true`;
     }
 
-    const playerData = await response.json();
-    updatePlayerUI(playerData);
-  } catch (error) {
-    console.error("Erreur:", error);
+    stats_general.appendChild(text);
+    text.appendChild(pseudo);
+    text.appendChild(uuid);
   }
-}
 
-document.addEventListener("DOMContentLoaded", loadPlayerData);
+
+
+
+
+  // Fonction principale pour charger les données du joueur
+  async function loadPlayerData() {
+    const playerName = getPlayerNameFromURL();
+
+    if (!playerName) {
+      console.error("Nom du joueur non spécifié dans l'URL");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://arthonetwork.fr:8001/apiP?player=${playerName}`
+      );
+      if (!response.ok) {
+        throw new Error("Erreur lors de la récupération des données");
+      }
+
+      const playerData = await response.json();
+      updatePlayerUI(playerData);
+    } catch (error) {
+      console.error("Erreur:", error);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadPlayerData);
