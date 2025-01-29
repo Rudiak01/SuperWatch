@@ -145,4 +145,3 @@ $(function () {
     overlayBg.addEventListener("click", resetsorterui);
   }
 });
-

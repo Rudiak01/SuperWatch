@@ -1,4 +1,5 @@
-fetch("http://arthonetwork.fr:8001/apiP")
+/*
+fetch("http://arthonetwork.fr:8001/ApiP")
   .then((response) => response.json())
   .then((data) => {
     API_Data = data; // stock les données de l'api dans une variable
@@ -9,47 +10,95 @@ fetch("http://arthonetwork.fr:8001/apiP")
     sortByName(); // appel tri par nom
     Init(API_Data); // chargement initial des joueurs
   });
+*/
 
-/*
-  API_Data={
-    "mods": [],
-    "software": null,
-    "players": {
-      "offline": 1,
-      "max": 20,
-      "online": 1,
-      "list": {
-        "TeALO36": {
-          "level": 11,
-          "permissions": {
-            "isOp": true,
-            "gameMode": "CREATIVE"
-          },
-          "xp": 34,
-          "health": 8,
-          "uuid": "f61c25f61cc74edbb5faed2b061a04ae",
-          "food": 11,
-          "status": "offline"
+  API_Data = {
+  mods: [],
+  software: null,
+  players: {
+    offline: 2,
+    max: 20,
+    online: 2,
+    list: {
+      TeALO36: {
+        level: 11,
+        permissions: {
+          isOp: true,
+          gameMode: "CREATIVE",
         },
-        "Rudiak": {
-          "level": 0,
-          "permissions": {
-            "isOp": true,
-            "gameMode": "CREATIVE"
-          },
-          "xp": 0,
-          "health": 20,
-          "uuid": "2939f22fc68f4deca8b7c62d9de7d2e1",
-          "food": 20,
-          "status": "online"
-        }
-      }
+        xp: 34,
+        health: 8,
+        uuid: "f61c25f61cc74edbb5faed2b061a04ae",
+        food: 11,
+        status: "offline",
+      },
+      Rudiak: {
+        level: 0,
+        permissions: {
+          isOp: true,
+          gameMode: "CREATIVE",
+        },
+        xp: 0,
+        health: 20,
+        uuid: "2939f22fc68f4deca8b7c62d9de7d2e1",
+        food: 20,
+        status: "online",
+      },
+      TeALO36: {
+        level: 11,
+        permissions: {
+          isOp: true,
+          gameMode: "CREATIVE",
+        },
+        xp: 34,
+        health: 8,
+        uuid: "f61c25f61cc74edbb5faed2b061a04ae",
+        food: 11,
+        status: "offline",
+      },
+      Rudiak: {
+        level: 0,
+        permissions: {
+          isOp: true,
+          gameMode: "CREATIVE",
+        },
+        xp: 0,
+        health: 20,
+        uuid: "2939f22fc68f4deca8b7c62d9de7d2e1",
+        food: 20,
+        status: "online",
+      },
+      Artenios: {
+        level: 19,
+        permissions: {
+          isOp: false,
+          gameMode: "SURVIVAL",
+        },
+        xp: 34,
+        health: 8,
+        uuid: "f2r85aud91e45f1geaajf157fafd45df",
+        food: 11,
+        status: "offline",
+      },
+      Mahon_51: {
+        level: 0,
+        permissions: {
+          isOp: false,
+          gameMode: "SURVIVAL",
+        },
+        xp: 0,
+        health: 20,
+        uuid: "aubjlse86sdfes45d6fe1s23dc891zef",
+        food: 20,
+        status: "online",
+      },
     },
-    "plugins": [],
-    "icon": null
-  };
-  Init(API_Data);
-  */
+  },
+  plugins: [],
+  icon: null,
+};
+Init(API_Data);
+  
 
 /*
 setTimeout(function () {
@@ -498,6 +547,14 @@ cheating.addEventListener("click", sortcheating);
 croissant.addEventListener("click", sortcroissant);
 decroissant.addEventListener("click", sortdecroissant);
 
+// -------- Debug W/O API -------- //
+/*
+Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
+croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
+sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
+sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
+sortByName(); // appel tri par nom
+*/
 function sortname() {
   Name.classList.add("sortclicked");
   online.classList.remove("sortclicked");

@@ -14,7 +14,12 @@
 
 html {
   background: rgb(2, 0, 36);
-  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(7, 7, 120, 1) 35%, rgba(2, 0, 36, 1) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(7, 7, 120, 1) 35%,
+    rgba(2, 0, 36, 1) 100%
+  );
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -153,9 +158,16 @@ nav {
   font-size: 20px;
   color: #ffffff;
   text-decoration: none;
-  padding-top: 100px;
+  padding: 40px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  transition: background-color 0.3s, padding 0.3s;
 }
 
+.overlay-content a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 45px;
+}
 .searchclick {
   position: fixed;
   background-color: transparent;
@@ -216,7 +228,7 @@ nav {
   border-radius: 50px;
 }
 
-.sortergroup{
+.sortergroup {
   position: fixed;
   height: 100%;
   width: 25%;
@@ -232,13 +244,12 @@ nav {
   flex-direction: column;
 }
 
-.sortergroup.open{
+.sortergroup.open {
   transform: translateY(110%);
   z-index: 500;
 }
 
-
-#curved-corner-bottomright{
+#curved-corner-bottomright {
   width: 40px;
   height: 40px;
   overflow: hidden;
@@ -247,7 +258,7 @@ nav {
   top: -40px;
 }
 
-#curved-corner-bottomleft{
+#curved-corner-bottomleft {
   width: 40px;
   height: 40px;
   overflow: hidden;
@@ -257,7 +268,7 @@ nav {
 }
 
 #curved-corner-bottomleft:before,
-#curved-corner-bottomright:before{
+#curved-corner-bottomright:before {
   content: "";
   display: block;
   width: 200%;
@@ -276,43 +287,32 @@ nav {
   box-shadow: 50px 50px 0 0 gray;
 }
 
-#sorter{
+#sorter {
   display: flex;
   height: 100%;
   width: 100%;
   justify-content: space-around;
   padding-top: 5px;
 }
-#sortename{
+#sortename {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
-#sortertype{
+#sortertype {
   display: flex;
   flex-direction: column;
 }
 
-.sortclicked{
+.sortclicked {
   box-shadow: gray 0 0 0 3px;
   border-radius: 50px;
   cursor: context-menu;
-
 }
 
-#sorter>div>div{
+#sorter > div > div {
   padding: 3px;
 }
-
-
-
-
-
-
-
-
-
-
 
 #main {
   padding: 200px 20px;
@@ -358,7 +358,7 @@ a {
   box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)
 }
 */
-.sous-etiquette{
+.sous-etiquette {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -376,8 +376,6 @@ a {
   padding-right: 5px;
   text-decoration: none;
 }
-
-
 
 .skin {
   padding: 10px;
@@ -399,10 +397,8 @@ a {
   width: 100%;
 }
 
-
-
 /*style 2eme page*/
-.etiquette_joueur{
+.etiquette_joueur {
   display: flex;
   border: gray;
   background: lightgray;
@@ -415,28 +411,27 @@ a {
   height: 500px;
 }
 
-.img_joueur{
+.img_joueur {
   height: 100%;
   width: fit-content;
   padding-top: 25px;
 }
 
-#balise_img_joueur{
+#balise_img_joueur {
   height: 400px;
   width: 400px;
   float: left;
 }
 
-.texte_etiquette_joueur{
+.texte_etiquette_joueur {
   display: flex;
   flex-direction: column;
-
 }
 
-#titre_pseudo_joueur{
+#titre_pseudo_joueur {
   width: 25%;
   height: 23.2px;
-  float :right;
+  float: right;
   border-left: 3px solid white;
   padding-left: 15px;
   display: flex;
@@ -444,16 +439,15 @@ a {
   font-size: xx-large;
 }
 
-.infos_joueur{
+.infos_joueur {
   width: fit-content;
   height: 400px;
-  float :right;
+  float: right;
   border-left: 3px solid white;
   padding-left: 25px;
 }
 
-
-.stats_joueur{
+.stats_joueur {
   border: gray;
   background: lightgray;
   margin-left: 120px;
@@ -466,17 +460,16 @@ a {
   height: 500px;
 }
 
-#titre_statistiques{
-    height: 44px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-size: xx-large;
+#titre_statistiques {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: xx-large;
 }
 
-
 /* copy*/
-.infos_joueur_copy{
+.infos_joueur_copy {
   display: flex;
   flex-direction: column;
   width: 75%;
@@ -484,15 +477,15 @@ a {
   border-left: 3px solid white;
   padding-left: 25px;
 }
-.infos_joueur_copy>div{
+.infos_joueur_copy > div {
   padding-bottom: 10px;
 }
-#etiquette_text_copy{
+#etiquette_text_copy {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
-.etiquette_joueur_copy{
+.etiquette_joueur_copy {
   display: flex;
   border: gray;
   background: lightgray;
@@ -505,22 +498,22 @@ a {
   height: 500px;
 }
 
-.img_joueur_copy{
+.img_joueur_copy {
   height: 100%;
   width: 100%;
   padding-top: 25px;
 }
 
-#balise_img_joueur_copy{
+#balise_img_joueur_copy {
   height: 400px;
   width: 400px;
   float: left;
 }
 
-#titre_pseudo_joueur_copy{
+#titre_pseudo_joueur_copy {
   width: 810px;
   height: 23.2px;
-  float :right;
+  float: right;
   padding-left: 15px;
   display: flex;
   align-items: center;
@@ -528,9 +521,7 @@ a {
   font-size: xx-large;
 }
 
-
-
-.stats_joueur_copy{
+.stats_joueur_copy {
   border: gray;
   background: lightgray;
   margin-left: 120px;
@@ -543,18 +534,122 @@ a {
   height: 500px;
 }
 
-#titre_statistiques_copy{
-    height: 44px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-size: xx-large;
+#titre_statistiques_copy {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: xx-large;
 }
 
+/* ------------ landing page -----------*/
+#landing_body{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
 
+.landing {
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+}
+.neon-block {
+  .block {
+    padding: 10px;
+    flex-direction: column;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px auto;
+    width: fit-content;
+    background: linear-gradient(45deg, #272325 40%, #020104);
+    color: #fff;
+    letter-spacing: 4px;
+    font-family: monospace;
+    border-radius: 50px;
+    &:after {
+      content: "";
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      bottom: -2px;
+      left: -2px;
+      z-index: -1;
+      background: linear-gradient(45deg, #ff005e, #fbff00);
+      animation: neon-block 1.5s linear infinite;
+      border-radius: 50px;
+    }
+    .rainbow {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      bottom: -4px;
+      left: -4px;
+      filter: blur(15px);
+      z-index: -2;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(315deg, #ff005e, #fbff00);
+        border-radius: 50px;
+      }
+      &:after {
+        animation: neon-block 1.5s linear infinite;
+      }
+    }
+    .Titre{
+      font-size: 80px;
+      text-transform: uppercase;
+    }
+  }
+}
 
+@keyframes neon-block {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
 
-
+#btn_Tutorial{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.btn_Tutorial {
+  justify-self: center;
+  border-radius: 50px;
+  box-shadow: 0 0 5px gray;
+  padding: 20px;
+  font-size: 40px;
+  background: linear-gradient(45deg, #020104, #272325 40%);
+  opacity: 0;
+  animation: fadein 5s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+  text-decoration: none;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 footer {
   background-color: rgb(56, 56, 56);
@@ -564,7 +659,6 @@ footer {
 }
 
 @media screen and (max-width: 768px) {
-
   .navbar {
     align-items: center;
   }
