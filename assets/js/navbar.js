@@ -17,7 +17,7 @@ const isMobile = window.matchMedia("(max-width: 768px)").matches; // si l'écran
 
 menuBtn.addEventListener("click", () => {
   if (!isMenuOpen) {
-    if(isMobile){
+    if (isMobile) {
       searchClick.classList.add("classMagique");
     }
     overlayBg.classList.add("open"); // Fade in background
@@ -38,7 +38,7 @@ menuBtn.addEventListener("click", () => {
       }
     });
   } else {
-    if(isMobile){
+    if (isMobile) {
       searchClick.classList.remove("classMagique");
     }
     overlayBg.classList.remove("open"); // Fade out background
@@ -63,6 +63,7 @@ const alreadyhere = document.getElementById("alreadyhere");
 if (alreadyhere != null) {
   function clickalreadyhere() {
     alreadyhere.innerHTML = "You are already here :)";
+    alreadyhere.style = "font-size:x-large";
     window.setTimeout(function () {
       alreadyhere.innerHTML = "Overview";
       alreadyhere.style = "font-size:xx-large; text-decoration:none";
@@ -82,8 +83,7 @@ $(function () {
           searchBar.classList.add("open");
           document.getElementById("search").focus();
           isSearchOpen = !isSearchOpen;
-        }
-        else{
+        } else {
           document.getElementById("search").focus();
         }
       } else {
@@ -101,9 +101,9 @@ $(function () {
 
     function resetSearch() {
       if (isSearchOpen) {
-          searchBar.classList.remove("open");
-          searchClick.classList.remove("open");
-          isSearchOpen = !isSearchOpen;
+        searchBar.classList.remove("open");
+        searchClick.classList.remove("open");
+        isSearchOpen = !isSearchOpen;
       }
     }
 

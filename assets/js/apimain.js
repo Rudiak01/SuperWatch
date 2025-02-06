@@ -12,7 +12,7 @@ fetch("http://arthonetwork.fr:8001/ApiP")
   });
 */
 
-  API_Data = {
+API_Data = {
   mods: [],
   software: null,
   players: {
@@ -98,7 +98,6 @@ fetch("http://arthonetwork.fr:8001/ApiP")
   icon: null,
 };
 Init(API_Data);
-  
 
 /*
 setTimeout(function () {
@@ -122,19 +121,21 @@ function Init(data) {
       var article = document.createElement("article");
       article.className = "etiquette";
       article.setAttribute("player-id", playerName.toLowerCase());
+      article.setAttribute("player-uuid", player.uuid.toLowerCase());
 
       var sousarticle = document.createElement("div");
       sousarticle.className = "sous-etiquette";
 
-      var pseudo = document.createElement("p");
+      var pseudo = document.createElement("a");
       pseudo.className = "username";
       pseudo.innerHTML = `${playerName}`;
 
       var uuid = document.createElement("p");
       uuid.className = "uuid";
       uuid.innerHTML = `UUID : ${player.uuid}`;
+      uuid.id = player.uuid;
 
-      var version = document.createElement("p");
+      var version = document.createElement("a");
       version.className = "version";
       version.innerHTML = `Version : ${player.player_version}`;
 
@@ -526,7 +527,8 @@ function Init(data) {
       function transferplayer() {
         url = "./player.html?name=" + encodeURIComponent(playerName);
         linkToDetailedView.href = url;
-        text.href = url;
+        pseudo.href = url;
+        version.href = url;
       }
     }
   }
@@ -548,13 +550,15 @@ croissant.addEventListener("click", sortcroissant);
 decroissant.addEventListener("click", sortdecroissant);
 
 // -------- Debug W/O API -------- //
-/*
+
 Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
 croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
 sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
 sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
+sortcroissant(); // ordre croissant
 sortByName(); // appel tri par nom
-*/
+
+// ------------------------------- //
 function sortname() {
   Name.classList.add("sortclicked");
   online.classList.remove("sortclicked");
@@ -694,10 +698,24 @@ function searchPlayers() {
 
   players.forEach(function (player) {
     const playerId = player.getAttribute("player-id");
-    if (playerId.includes(input)) {
+    const playeruuid = player.getAttribute("player-uuid");
+    if (playerId.includes(input) || playeruuid.includes(input)) {
       player.style.display = "";
     } else {
       player.style.display = "none";
     }
   });
+}
+
+const copied = document.getElementById("copied");
+$(".uuid").click(function () {
+  navigator.clipboard.writeText($(this).attr("id"));
+  copied_message();
+});
+
+function copied_message() {
+  copied.classList.add("open");
+  setTimeout(() => {
+    copied.classList.remove("open");
+  }, 1500);
 }
