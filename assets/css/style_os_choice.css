@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    padding: 40px;
+    border-radius: 16px;
+}
+
+h1 {
+    color: white;
+    font-size: xx-large;
+    margin-bottom: 50px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid;
+    padding: 20px;
+    background-color: rgba(0, 120, 215, 0.7);
+    color: white;
+    border-color: #0078d7;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    font-size: 64px;
+    margin-bottom: 15px;
+}
+
+.button-text {
+    margin-top: 10px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-windows-logo {
+    height: 70%;
+}
+
+.image-linux-logo {
+    height: 80%;
+}
