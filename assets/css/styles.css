@@ -14,12 +14,10 @@
 
 html {
   background: rgb(2, 0, 36);
-  background: linear-gradient(
-    180deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(7, 7, 120, 1) 35%,
-    rgba(2, 0, 36, 1) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(7, 7, 120, 1) 35%,
+      rgba(2, 0, 36, 1) 100%);
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -171,6 +169,7 @@ nav {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 45px;
 }
+
 .searchclick {
   position: fixed;
   background-color: transparent;
@@ -199,6 +198,7 @@ nav {
   align-items: center;
   cursor: pointer;
   transition: width 0.4s ease;
+
   ::placeholder {
     color: rgb(220, 220, 220);
   }
@@ -282,11 +282,13 @@ nav {
   position: absolute;
   border-radius: 50%;
 }
+
 #curved-corner-bottomleft:before {
   bottom: 0;
   left: 0;
   box-shadow: -50px 50px 0 0 gray;
 }
+
 #curved-corner-bottomright:before {
   bottom: 0;
   right: 0;
@@ -300,11 +302,13 @@ nav {
   justify-content: space-around;
   padding-top: 5px;
 }
+
 #sortename {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
+
 #sortertype {
   display: flex;
   flex-direction: column;
@@ -316,7 +320,7 @@ nav {
   cursor: context-menu;
 }
 
-#sorter > div > div {
+#sorter>div>div {
   padding: 3px;
 }
 
@@ -381,12 +385,14 @@ a {
   width: 100%;
   height: 100%;
   padding-right: 5px;
+
   p,
   a {
     text-align: center;
     padding: 15px 0;
     width: 100%;
   }
+
   :nth-child(2) {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
@@ -430,13 +436,14 @@ a {
   backdrop-filter: blur(10px);
   z-index: 10000;
 }
+
 #copied.open {
   transform: translate(-50%, 0);
 }
 
 /*style 2eme page*/
-#player{
-  box-shadow: inset 50px 0 50px -50px lime,inset -50px 0 50px -50px lime;
+#player {
+  box-shadow: inset 50px 0 50px -50px lime, inset -50px 0 50px -50px rgba(255, 255, 255, 0.6);
 }
 
 .etiquette_joueur {
@@ -453,55 +460,129 @@ a {
 }
 
 #balise_img_joueur {
-  height: 400px;
-  width: 400px;
+  height: 100%;
+  width: 29%;
   float: left;
+  border-right: 5px solid rgba(2, 0, 41, 255);
+  display: flex;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-.texte_etiquette_joueur {
+.img_joueur {
+  height: 100%;
+}
+
+.flex-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.flex-container span {
+  color: rgba(2, 0, 41, 255);
 }
 
 #titre_pseudo_joueur {
-  width: 25%;
-  height: 23.2px;
-  float: right;
-  border-left: 3px solid white;
-  padding-left: 15px;
+  font-size: 38px;
+  padding-bottom: 30px;
   display: flex;
-  align-self: center;
-  font-size: xx-large;
+  justify-content: center;
+  line-height: 1;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.gras_titre {
+  font-weight: bold;
 }
 
 .infos_joueur {
   width: fit-content;
   height: 400px;
+  width: 75%;
   float: right;
-  border-left: 3px solid white;
   padding-left: 25px;
+  line-height: 2.5;
 }
 
-.stats_joueur {
-  border: gray;
-  background: lightgray;
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-radius: 10px;
-  background: rgba(0, 120, 215, 0.7);
+
+
+/*Style bloc des statistiques*/
+.etiquette_stats_joueur {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: rgba(0, 120, 215, 0.7); 
+  margin: 50px 120px;
   padding: 25px;
+  border-radius: 10px;
   height: 500px;
 }
 
 #titre_statistiques {
-  height: 44px;
+  font-size: 38px;
+  font-weight: bold;
+  color: rgba(2, 0, 41, 255);
+  text-decoration: underline;
+  width: 100%; 
+  text-align: left; 
+  margin-bottom: 20px; 
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-size: xx-large;
+  justify-content: center;
 }
+
+#stats_joueur {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px;
+  padding: 10px;
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  padding: 10px;
+  background: rgba(0, 120, 215, 0.7);
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+
+.stats_nom {
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 5px; 
+  color: rgba(2, 0, 41, 255);
+}
+
+
+.stats_valeur {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(2, 0, 41, 255);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* copy*/
 .infos_joueur_copy {
@@ -512,14 +593,17 @@ a {
   border-left: 3px solid white;
   padding-left: 25px;
 }
-.infos_joueur_copy > div {
+
+.infos_joueur_copy>div {
   padding-bottom: 10px;
 }
+
 #etiquette_text_copy {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
+
 .etiquette_joueur_copy {
   display: flex;
   border: gray;
@@ -556,7 +640,7 @@ a {
   font-size: xx-large;
 }
 
-.stats_joueur_copy {
+.etiquette_stats_joueur_copy {
   border: gray;
   background: lightgray;
   margin-left: 120px;
@@ -592,21 +676,26 @@ a {
   align-items: center;
   width: 100%;
   padding: 20px;
+
   p {
     justify-self: center;
   }
+
   .Titre {
     font-size: 80px;
     text-transform: uppercase;
     justify-self: center;
   }
+
   .etiquette {
     box-shadow: lime 0px 0px 0px 3px, rgb(0, 0, 0) 0px 2px 20px,
       rgba(0, 0, 0, 0.5) 0px 0px 50px inset;
   }
+
   .username {
     color: purple;
   }
+
   .kickbox {
     width: inherit;
     display: flex;
@@ -616,6 +705,7 @@ a {
     padding: 5px;
     border-radius: 5px;
   }
+
   .kicksousbox {
     line-height: 50px;
     height: 50px;
@@ -626,6 +716,7 @@ a {
     transition: all 0.5s;
     position: relative;
   }
+
   .kicksousbox span {
     z-index: 998;
     display: block;
@@ -679,6 +770,7 @@ a {
     border-color: rgba(255, 0, 0, 0.5);
     border-radius: 0;
   }
+
   .banbox {
     width: inherit;
     display: flex;
@@ -688,6 +780,7 @@ a {
     padding: 5px;
     border-radius: 5px;
   }
+
   .bansousbox {
     line-height: 50px;
     height: 50px;
@@ -698,6 +791,7 @@ a {
     transition: all 0.5s;
     position: relative;
   }
+
   .bansousbox span {
     z-index: 998;
     display: block;
@@ -768,6 +862,7 @@ a {
     letter-spacing: 4px;
     font-family: monospace;
     border-radius: 50px;
+
     &:after {
       content: "";
       position: absolute;
@@ -780,6 +875,7 @@ a {
       animation: neon-block 1.5s linear infinite;
       border-radius: 50px;
     }
+
     .rainbow {
       position: absolute;
       top: -4px;
@@ -788,6 +884,7 @@ a {
       left: -4px;
       filter: blur(15px);
       z-index: -2;
+
       &:after {
         content: "";
         position: absolute;
@@ -798,6 +895,7 @@ a {
         background: linear-gradient(315deg, #ff005e, #fbff00);
         border-radius: 50px;
       }
+
       &:after {
         animation: neon-block 1.5s linear infinite;
       }
@@ -809,6 +907,7 @@ a {
   from {
     filter: hue-rotate(0deg);
   }
+
   to {
     filter: hue-rotate(360deg);
   }
@@ -821,6 +920,7 @@ a {
   align-items: center;
   margin-top: 50px;
 }
+
 .btn_Tutorial {
   justify-self: center;
   border-radius: 50px;
@@ -833,10 +933,12 @@ a {
   animation-fill-mode: forwards;
   margin: 20px;
 }
+
 @keyframes fadein {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -903,13 +1005,3 @@ footer {
     height: 100%;
   }
 }
-  .contrast{
-          --primary-background: #5e5c5c;
-          --primary-color: color-contrast(
-            var(--primary-background) vs #fff,
-            #000
-          );
-          background-color: var(--primary-background);
-          color: var(--primary-color);
-  }
-  
