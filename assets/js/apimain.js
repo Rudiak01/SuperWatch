@@ -3,6 +3,7 @@ fetch("http://arthonetwork.fr:8001/ApiP")
   .then((response) => response.json())
   .then((data) => {
     API_Data = data; // stock les données de l'api dans une variable
+    console.log(API_Data);
     Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
     croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
     sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
@@ -10,8 +11,8 @@ fetch("http://arthonetwork.fr:8001/ApiP")
     sortByName(); // appel tri par nom
     Init(API_Data); // chargement initial des joueurs
   });
-*/
 
+*/
 API_Data = {
   mods: [],
   software: null,
@@ -31,6 +32,7 @@ API_Data = {
         uuid: "f61c25f61cc74edbb5faed2b061a04ae",
         food: 11,
         status: "offline",
+        player_version: "1.12.2",
       },
       Rudiak: {
         level: 0,
@@ -43,30 +45,7 @@ API_Data = {
         uuid: "2939f22fc68f4deca8b7c62d9de7d2e1",
         food: 20,
         status: "online",
-      },
-      TeALO36: {
-        level: 11,
-        permissions: {
-          isOp: true,
-          gameMode: "CREATIVE",
-        },
-        xp: 34,
-        health: 8,
-        uuid: "f61c25f61cc74edbb5faed2b061a04ae",
-        food: 11,
-        status: "offline",
-      },
-      Rudiak: {
-        level: 0,
-        permissions: {
-          isOp: true,
-          gameMode: "CREATIVE",
-        },
-        xp: 0,
-        health: 20,
-        uuid: "2939f22fc68f4deca8b7c62d9de7d2e1",
-        food: 20,
-        status: "online",
+        player_version: "1.21.1",
       },
       Artenios: {
         level: 19,
@@ -79,6 +58,7 @@ API_Data = {
         uuid: "f2r85aud91e45f1geaajf157fafd45df",
         food: 11,
         status: "offline",
+        player_version: "1.21.4",
       },
       Mahon_51: {
         level: 0,
@@ -91,6 +71,7 @@ API_Data = {
         uuid: "aubjlse86sdfes45d6fe1s23dc891zef",
         food: 20,
         status: "online",
+        player_version: "1.16.2",
       },
     },
   },
@@ -105,6 +86,7 @@ setTimeout(function () {
 }, 5000);
 */
 function Init(data) {
+  
   // ----- Copy Pasta All js files ----- //
   const playerCounter = document.getElementById("navbar-counter"); //joueur en ligne
   playerCounter.innerHTML = data.players.online;

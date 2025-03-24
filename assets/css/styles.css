@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: content-box;
-  font-size: 20px;
+  font-size: 20px * (-size_of_font);
   color: white;
 
   -webkit-user-select: none;
@@ -436,7 +436,7 @@ a {
 
 /*style 2eme page*/
 #player{
-  box-shadow: inset 50px 0 50px -50px lime,inset -50px 0 50px -50px rgba(255, 255, 255, 0.6);
+  box-shadow: inset 50px 0 50px -50px lime,inset -50px 0 50px -50px lime;
 }
 
 .etiquette_joueur {
@@ -849,6 +849,40 @@ footer {
   box-shadow: 10px;
 }
 
+.settings{
+  display: flex;
+  justify-content: space-around;
+  >div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 996;
+    >div{
+      >select{
+        color: black;
+        cursor: pointer;
+        >option{
+          color:black
+        }
+      }
+      >input{
+        color: black;
+      }
+      >button{
+        color:black;
+        cursor: pointer;
+      }
+      #font-size{
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+
+
+
+
 @media screen and (max-width: 768px) {
   .navbar {
     align-items: center;
@@ -869,3 +903,13 @@ footer {
     height: 100%;
   }
 }
+  .contrast{
+          --primary-background: #5e5c5c;
+          --primary-color: color-contrast(
+            var(--primary-background) vs #fff,
+            #000
+          );
+          background-color: var(--primary-background);
+          color: var(--primary-color);
+  }
+  

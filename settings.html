@@ -8,15 +8,13 @@
     <title>SuperWatch</title>
   </head>
 
-  <body>
+  <body id="body">
     <nav>
       <div id="navbar-left">
         <img src="assets/img/ico.png" alt="Icon" id="icon" />
       </div>
       <div id="navbar-center">
-        <a href="index.html"
-          ><span id="title">Overview</span></a
-        >
+        <a href="index.html"><span id="title">Overview</span></a>
       </div>
       <div id="navbar-right"></div>
       <button id="menu-btn">&#9776;</button>
@@ -26,7 +24,7 @@
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
-        <a href="settings.html">Settings</a>
+        <a href="#">Settings</a>
         <a href="#">Logout</a>
         <a href="landing_page.html">Tutorial</a>
       </div>
@@ -34,12 +32,47 @@
 
     <div class="overlay-bg" id="overlay-bg"></div>
 
-    <main id="main"></main>
+    <main id="main" class="settings">
+      <div>
+        <h1>général</h1>
+        <div>
+          <label for="theme">Thème</label>
+          <select id="theme" class="noir">
+            <option value="light">Clair</option>
+            <option value="dark">Sombre</option>
+          </select>
+          <button id="theme-btn" class="noir">Appliquer</button>
+          <button id="reset-btn" class="noir">Réinitialiser</button>
+        </div>
+      </div>
+      <div>
+        <h1>accessibilité</h1>
+        <button id="contrast" onclick="getContrast()">Générer</button>
+        <div>
+          <label for="contrast" >Contraste</label>
+          <input type="range" id="contrast" min="1" max="100" />
+          <span id="contrast-value"></span>
+        </div>
+        <div>
+          <label for="font-size">Taille de police</label>
+          <input type="range" id="font-size" min="0.5" max="2" />
+          <span id="font-size-value"></span>
+        </div>
+      </div>
+      <div>
+        <h1>token</h1>
+        <div>
+          <label for="token-input">Token</label>
+          <input type="text" id="token-input" />
+          <button id="generate-btn">Générer</button>
+      </div>
+    </main>
     <footer></footer>
     <script
       type="text/javascript"
       src="https://code.jquery.com/jquery-1.7.1.min.js"
     ></script>
     <script src="assets/js/navbar.js"></script>
+    <script src="assets/js/settings.js"></script>
   </body>
 </html>
