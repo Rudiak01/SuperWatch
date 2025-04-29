@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: content-box;
-  font-size: 20px;
+  font-size: 20px * (-size_of_font);
   color: white;
 
   -webkit-user-select: none;
@@ -950,6 +950,40 @@ footer {
   text-align: center;
   box-shadow: 10px;
 }
+
+.settings{
+  display: flex;
+  justify-content: space-around;
+  >div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 996;
+    >div{
+      >select{
+        color: black;
+        cursor: pointer;
+        >option{
+          color:black
+        }
+      }
+      >input{
+        color: black;
+      }
+      >button{
+        color:black;
+        cursor: pointer;
+      }
+      #font-size{
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+
+
+
 
 @media screen and (max-width: 768px) {
   .navbar {
