@@ -14,10 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Git
-        run: |
-          git fetch --tags
-
       - name: Get latest tag
         id: get_tag
         run: |
@@ -27,7 +23,6 @@ jobs:
           fi
           echo "Latest tag: $TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-
 
       - name: Bump version
         id: bump
@@ -40,9 +35,16 @@ jobs:
           echo "New version: $NEW"
           echo "new_tag=$NEW" >> $GITHUB_OUTPUT
 
-      - name: Create ZIP
+      - name: Create ZIP archive
         run: |
-          zip -r release.zip . -x ".git/*" ".github/*"
+          zip -r "release-${{ steps.bump.outputs.new_tag }}.zip" . -x ".git/*" ".github/*"
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.bump.outputs.new_tag }}
+          git push origin ${{ steps.bump.outputs.new_tag }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -50,14 +52,7 @@ jobs:
           tag_name: ${{ steps.bump.outputs.new_tag }}
           name: Release ${{ steps.bump.outputs.new_tag }}
           body: |
-            Automatic release of version ${{ steps.bump.outputs.new_tag }}
-          files: release.zip
+            🔄 Auto-generated release
+          files: release-${{ steps.bump.outputs.new_tag }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
-      - name: Push tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag ${{ steps.bump.outputs.new_tag }}
-          git push origin ${{ steps.bump.outputs.new_tag }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # ← ou secrets.GITHUB_TOKEN si ce n'est pas un fork
