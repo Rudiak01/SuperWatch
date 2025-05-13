@@ -86,7 +86,6 @@ setTimeout(function () {
 }, 5000);
 */
 function Init(data) {
-  
   // ----- Copy Pasta All js files ----- //
   const playerCounter = document.getElementById("navbar-counter"); //joueur en ligne
   playerCounter.innerHTML = data.players.online;
@@ -122,9 +121,7 @@ function Init(data) {
       version.innerHTML = `Version : ${player.player_version}`;
 
       var skin = document.createElement("img");
-      skin.className = "skin";
-      skin.title = `Page détaillé de ${playerName}`;
-      skin.alt = `skin de ${playerName}`;
+      skin.id = "skin";
 
       var linkToDetailedView = document.createElement("a");
       linkToDetailedView.className = "LinkToDetailedView";
@@ -147,6 +144,7 @@ function Init(data) {
         article.appendChild(sousarticle);
 
         skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
+        
         linkToDetailedView.appendChild(skin);
 
         sousarticle.appendChild(text);

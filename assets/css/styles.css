@@ -3,7 +3,6 @@
   margin: 0;
   box-sizing: content-box;
   font-size: 20px * (-size_of_font);
-  color: white;
 
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -14,10 +13,12 @@
 
 html {
   background: rgb(2, 0, 36);
-  background: linear-gradient(180deg,
-      rgba(2, 0, 36, 1) 0%,
-      rgba(7, 7, 120, 1) 35%,
-      rgba(2, 0, 36, 1) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(7, 7, 120, 1) 35%,
+    rgba(2, 0, 36, 1) 100%
+  );
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -58,6 +59,10 @@ nav {
   width: 40%;
 }
 
+.no-style {
+  text-decoration: "none";
+}
+
 #icon {
   width: 70px;
   height: 70px;
@@ -68,6 +73,7 @@ nav {
   padding-left: 10px;
   width: 100%;
   cursor: context-menu;
+  color: white;
 }
 
 #title {
@@ -320,7 +326,7 @@ nav {
   cursor: context-menu;
 }
 
-#sorter>div>div {
+#sorter > div > div {
   padding: 3px;
 }
 
@@ -399,13 +405,14 @@ a {
   }
 }
 
-.skin {
+#skin {
   padding: 10px;
   padding-bottom: 0;
   width: 100px;
 }
 
 .username {
+  color: rgb(255, 255, 255);
   font-weight: bold;
   padding-top: 5px;
 }
@@ -413,7 +420,9 @@ a {
 .uuid {
   font-size: small;
 }
-
+.version{
+  color: white;
+}
 .bottom {
   display: flex;
   width: 100%;
@@ -442,28 +451,45 @@ a {
 }
 
 /*style 2eme page*/
-#player {
-  box-shadow: inset 50px 0 50px -50px lime, inset -50px 0 50px -50px rgba(255, 255, 255, 0.6);
+#canvas {
+  display: none;
 }
-
-.etiquette_joueur {
+#player {
+  box-shadow: inset 50px 0 50px -50px lime,
+    inset -50px 0 50px -50px rgba(255, 255, 255, 0.6);
+}
+#Main_Info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  padding-top: 50px;
+}
+.etiquette_skin {
   display: flex;
   border: gray;
   background: lightgray;
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-top: 50px;
   border-radius: 10px;
   background: rgba(0, 120, 215, 0.7);
   padding: 25px;
-  height: 500px;
+  height: 50vh;
+  flex-direction: row;
+  width: fit-content;
+}
+.etiquette_info {
+  display: flex;
+  border: gray;
+  background: lightgray;
+  border-radius: 10px;
+  background: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  width: 50vw;
 }
 
 #balise_img_joueur {
   height: 100%;
-  width: 29%;
+  width: 100%;
   float: left;
-  border-right: 5px solid rgba(2, 0, 41, 255);
   display: flex;
   justify-content: center;
   padding-left: 20px;
@@ -472,19 +498,17 @@ a {
 
 .img_joueur {
   height: 100%;
+  width: 100%;
 }
 
 .flex-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.flex-container span {
   color: rgba(2, 0, 41, 255);
 }
 
-#titre_pseudo_joueur {
+#pseudo {
   font-size: 38px;
   padding-bottom: 30px;
   display: flex;
@@ -494,20 +518,14 @@ a {
   text-decoration: underline;
 }
 
-.gras_titre {
-  font-weight: bold;
-}
-
 .infos_joueur {
   width: fit-content;
-  height: 400px;
-  width: 75%;
+  height: 100%;
+  width: 100%;
   float: right;
   padding-left: 25px;
   line-height: 2.5;
 }
-
-
 
 /*Style bloc des statistiques*/
 .etiquette_stats_joueur {
@@ -515,7 +533,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: rgba(0, 120, 215, 0.7); 
+  background: rgba(0, 120, 215, 0.7);
   margin: 50px 120px;
   padding: 25px;
   border-radius: 10px;
@@ -527,16 +545,16 @@ a {
   font-weight: bold;
   color: rgba(2, 0, 41, 255);
   text-decoration: underline;
-  width: 100%; 
-  text-align: left; 
-  margin-bottom: 20px; 
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
 }
 
 #stats_joueur {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 10px;
   max-width: 100%;
@@ -546,22 +564,20 @@ a {
 .stats {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   background: rgba(0, 120, 215, 0.7);
   border-radius: 5px;
   font-size: 16px;
 }
 
-
 .stats_nom {
   font-weight: bold;
   font-size: x-large;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
   color: rgba(2, 0, 41, 255);
 }
-
 
 .stats_valeur {
   margin-top: 10px;
@@ -570,95 +586,59 @@ a {
   color: rgba(2, 0, 41, 255);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* copy*/
-.infos_joueur_copy {
+#inventory {
   display: flex;
-  flex-direction: column;
-  width: 75%;
-  height: fit-content;
-  border-left: 3px solid white;
-  padding-left: 25px;
-}
-
-.infos_joueur_copy>div {
-  padding-bottom: 10px;
-}
-
-#etiquette_text_copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.etiquette_joueur_copy {
-  display: flex;
-  border: gray;
-  background: lightgray;
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-top: 50px;
-  border-radius: 10px 10px 10px 10px;
+  align-items: center;
+  justify-content: center;
   background: rgba(0, 120, 215, 0.7);
+  margin: 50px 25px;
   padding: 25px;
-  height: 500px;
+  border-radius: 10px;
 }
-
-.img_joueur_copy {
+#inventory_content {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
   height: 100%;
-  width: 100%;
-  padding-top: 25px;
+  background-color: rgba(0, 120, 215, 0.7);
+  border-radius: 10px;
 }
-
-#balise_img_joueur_copy {
-  height: 400px;
-  width: 400px;
-  float: left;
-}
-
-#titre_pseudo_joueur_copy {
-  width: 810px;
-  height: 23.2px;
-  float: right;
-  padding-left: 15px;
+#hotbar {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
-  font-size: xx-large;
+  margin-top: 10px;
+  height: 100%;
+  padding: 10px;
+  background-color: rgba(0, 120, 215, 0.7);
+  border-radius: 10px;
 }
-
-.etiquette_stats_joueur_copy {
-  border: gray;
-  background: lightgray;
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-radius: 10px 10px 10px 10px;
+.item {
   background: rgba(0, 120, 215, 0.7);
+  margin: 10px;
   padding: 25px;
-  height: 500px;
+  border-radius: 10px;
+}
+.item_text {
+  position: relative;
+  top: -15px;
+  right: -55px;
+  height: 0;
 }
 
-#titre_statistiques_copy {
-  height: 44px;
+#armor {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  font-size: xx-large;
+  background-color: rgba(0, 120, 215, 0.7);
+  padding: 25px;
+  margin: 10px;
+  border-radius: 10px;
+}
+.armor_item {
+  background: rgba(0, 120, 215, 0.7);
+  margin: 10px;
+  padding: 25px;
+  border-radius: 10px;
 }
 
 /* ------------ landing page -----------*/
@@ -951,39 +931,35 @@ footer {
   box-shadow: 10px;
 }
 
-.settings{
+.settings {
   display: flex;
   justify-content: space-around;
-  >div{
+  > div {
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 996;
-    >div{
-      >select{
+    > div {
+      > select {
         color: black;
         cursor: pointer;
-        >option{
-          color:black
+        > option {
+          color: black;
         }
       }
-      >input{
+      > input {
         color: black;
       }
-      >button{
-        color:black;
+      > button {
+        color: black;
         cursor: pointer;
       }
-      #font-size{
+      #font-size {
         font-size: 16px;
       }
     }
   }
 }
-
-
-
-
 
 @media screen and (max-width: 768px) {
   .navbar {

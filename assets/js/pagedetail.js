@@ -1,9 +1,12 @@
 // Fonction pour obtenir le nom du joueur depuis l'URL
 function getPlayerNameFromURL() {
+  return "Rudiak";
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("name");
 }
 
+
+/*
 // Fonction pour convertir la valeur numérique en icônes
 function getIconString(value, maxValue, icon) {
   const iconCount = Math.round((value / maxValue) * 10);
@@ -18,88 +21,297 @@ function formatDate(timestamp) {
     year: "numeric",
   });
 }
-
+*/
 // Fonction pour mettre à jour l'interface utilisateur avec les données du joueur
-  function updatePlayerUI(playerData) {
-    var article_general = document.createElement("div");
-    article_general.className = "stats_general";
-    
-    // Mise à jour du pseudo
-    var pseudo = document.createElement("p");
-    pseudo.className = "username";
-    pseudo.innerHTML = `${playerName}`;
+function updatePlayerUI(player) {
+  const playerName = getPlayerNameFromURL();
 
-    // Mise à jour de l'uuid
-    var uuid = document.createElement("p");
-    uuid.className = "uuid";
-    uuid.innerHTML = `UUID : ${player.uuid}`;
+  // Mise à jour du pseudo
+  var pseudo = document.getElementById("pseudo");
+  pseudo.innerHTML = `${playerName}`;
 
-    // Mise à jour de l'activité
-    const statusText = `En ligne : ${playerData.status === "online" ? "Oui" : "Non"}`;
+  // Mise à jour de l'uuid
+  var uuid = document.getElementById("uuid_player");
+  uuid.innerHTML = `<b>UUID</b> : ${player.uuid}`;
 
-    //Date de la première connexion
-    /*var date_premiere_connexion = document.createElement("p");
-    date_premiere_connexion = "date_premiere_connexion";
-    date_premiere_connexion.innerHTML = `Date de la première connexion : ${player.}`*/
+  // Mise à jour de l'activité
+  var status = document.getElementById("status_player");
+  status.innerHTML = `<b>En ligne : </b>${
+    player.status === "online" ? "Oui" : "Non"
+  }`;
 
+  // Mise à jour du mode de jeu
+  var gamemode = document.getElementById("gamemode_player");
+  gamemode.innerHTML = `<b>Mode de jeu</b> : ${player.gamemode}`;
 
-
-
-
-
-    // Calcul des niveaux avec icônes
-    const protectionLevel = getIconString(20, 20, "🛡️"); // Maximum protection assumed as 20
-    const healthLevel = getIconString(playerData.health, 20, "❤️");
-    const foodLevel = getIconString(playerData.food, 20, "🍗");
-
-    // Mise à jour du contenu
-    infosJoueur.innerHTML = `
-        <br><br><br>${uuidText}
-        <br><br>${statusText}
-        <br><br>Niveau de protection : ${protectionLevel}
-        <br><br>Niveau de vie : ${healthLevel}
-        <br><br>Niveau de faim : ${foodLevel}
-        <br><br>Dernière connexion : ${formatDate(playerData.lastSeen)}
-    `;
-
-    // Mise à jour de l'image du skin
-    const skinImage = document.querySelector(".img_joueur");
-    if (skinImage) {
-      // Vous pouvez utiliser un service de skin Minecraft comme ceci:
-      skinImage.src = `https://crafatar.com/renders/body/${playerData.uuid}?overlay=true`;
+  // Vie
+  const infosJoueur = document.getElementById("barre_statistiques");
+  const health_bar = document.createElement("div");
+  infosJoueur.appendChild(health_bar);
+  if (player.health % 2 == 0) {
+    for (let i = 0; i < player.health; i++) {
+      const health = document.createElement("img");
+      health.src =
+        "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
+      health_bar.appendChild(health);
     }
+  } else {
+    for (let i = 0; i < player.health - 1; i++) {
+      const health = document.createElement("img");
+      health.src =
+        "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
+      health_bar.appendChild(health);
+    }
+    const health = document.createElement("img");
+    health.src = "assets/img/minecraft/textures/gui/sprites/hud/heart/half.png";
+    health_bar.appendChild(health);
+  }
 
-    stats_general.appendChild(text);
-    text.appendChild(pseudo);
-    text.appendChild(uuid);
+  // Food
+  const food_bar = document.createElement("div");
+  infosJoueur.appendChild(food_bar);
+  if (player.food % 2 == 0) {
+    for (let i = 0; i < player.food; i++) {
+      const food = document.createElement("img");
+      food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
+      food_bar.appendChild(food);
+    }
+  } else {
+    for (let i = 0; i < player.food - 1; i++) {
+      const food = document.createElement("img");
+      food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
+      food_bar.appendChild(food);
+    }
+    const food = document.createElement("img");
+    food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_half.png";
+    food_bar.appendChild(food);
+  }
+
+  // Armor
+  /*
+  const armor_bar = document.createElement("div");
+  infosJoueur.appendChild(armor_bar);
+  if (player.protection % 2 == 0) {
+    for (let i = 0; i < player.protection; i++) {
+      const health = document.createElement("img");
+      protection.src =
+        "assets/img/minecraft/textures/gui/sprites/hud/armor_full.png";
+      armor_bar.appendChild(protection);
+    }
+  } else {
+    for (let i = 0; i < player.protection - 1; i++) {
+      const protection = document.createElement("img");
+      health.src =
+        "assets/img/minecraft/textures/gui/sprites/hud/armor_half.png";
+      armor_bar.appendChild(protection);
+    }
   }
 
 
+  //Date de la première connexion
+  /*var date_premiere_connexion = document.createElement("p");
+    date_premiere_connexion = "date_premiere_connexion";
+    date_premiere_connexion.innerHTML = `Date de la première connexion : ${player.}`*/
 
+  // Mise à jour de l'image du skin
+  /*
+    const skinImage = document.querySelector(".img_joueur");
+    if (skinImage) {
+      // Vous pouvez utiliser un service de skin Minecraft comme ceci:
+      skinImage.src = ``;
+    }*/
+}
+function Inventory(player) {
+  const inventory = document.getElementById("inventory");
+  inventory.id = "inventory";
+  const armor = document.createElement("div");
+  armor.id = "armor";
+  const inventory_box = document.createElement("div");
 
-
-  // Fonction principale pour charger les données du joueur
-  async function loadPlayerData() {
-    const playerName = getPlayerNameFromURL();
-
-    if (!playerName) {
-      console.error("Nom du joueur non spécifié dans l'URL");
-      return;
+  inventory.appendChild(armor);
+  inventory.appendChild(inventory_box);
+  const inventory_content = document.createElement("div");
+  inventory_content.id = "inventory_content";
+  inventory_box.appendChild(inventory_content);
+  let i = 39;
+  while (i >= 36) {
+    const armor_item = document.createElement("div");
+    const armorImage = document.createElement("img");
+    const item_slot = player.inventory.find((x) => x.slot === i)?.slot;
+    if (item_slot != null) {
+      armorImage.src = `assets/img/inventory ico/${
+        player.inventory.find((x) => x.slot === i)?.type
+      }.png`;
+      armor_item.appendChild(armorImage);
+      armor_item.className = "armor_item";
+      armor.appendChild(armor_item);
+    } else {
+      armorImage.src = `assets/img/inventory ico/canUse_unknown.png`;
+      armor_item.appendChild(armorImage);
+      armor_item.className = "armor_item";
+      armor.appendChild(armor_item);
     }
+    i--;
+  }
+  for (let i = 9; i < 36; i++) {
+    const item = document.createElement("div");
+    const itemImage = document.createElement("img");
+    const item_slot = player.inventory.find((x) => x.slot === i)?.slot;
+    if (item_slot != null) {
+      itemImage.src = `assets/img/inventory ico/${
+        player.inventory.find((x) => x.slot === i)?.type
+      }.png`;
+      item.appendChild(itemImage);
+      item.className = "item";
+      inventory_content.appendChild(item);
+      const itemText = document.createElement("p");
+      if (player.inventory.find((x) => x.slot === i)?.amount != 1) {
+        itemText.innerHTML = `${
+          player.inventory.find((x) => x.slot === i)?.amount
+        }`;
+        itemText.className = "item_text";
+        item.appendChild(itemText);
+      }
+    } else {
+      itemImage.src = `assets/img/inventory ico/canUse_unknown.png`;
+      item.appendChild(itemImage);
+      item.className = "item";
+      inventory_content.appendChild(item);
+    }
+  }
+  const hotbar = document.createElement("div");
+  hotbar.id = "hotbar";
+  inventory_box.appendChild(hotbar);
+  for (let i = 0; i < 9; i++) {
+    const item = document.createElement("div");
+    const itemImage = document.createElement("img");
+    const item_slot = player.inventory.find((x) => x.slot === i)?.slot;
+    if (item_slot != null) {
+      itemImage.src = `assets/img/inventory ico/${
+        player.inventory.find((x) => x.slot === i)?.type
+      }.png`;
+      item.appendChild(itemImage);
+      item.className = "item";
+      hotbar.appendChild(item);
+      const itemText = document.createElement("p");
+      if (player.inventory.find((x) => x.slot === i)?.amount != 1) {
+        itemText.innerHTML = `${
+          player.inventory.find((x) => x.slot === i)?.amount
+        }`;
+        itemText.className = "item_text";
+        item.appendChild(itemText);
+      }
+    } else {
+      itemImage.src = `assets/img/inventory ico/canUse_unknown.png`;
+      item.appendChild(itemImage);
+      item.className = "item";
+      hotbar.appendChild(item);
+    }
+  }
+}
 
-    try {
-      const response = await fetch(
-        `http://arthonetwork.fr:8001/apiP?player=${playerName}`
+const Player_Data = {
+  armor: {
+    chestplate: {
+      type: "DIAMOND_CHESTPLATE",
+    },
+    helmet: {
+      type: "CHAINMAIL_HELMET",
+    },
+    boots: {
+      type: "DIAMOND_BOOTS",
+    },
+    leggings: {
+      type: "NETHERITE_LEGGINGS",
+    },
+  },
+  level: 0,
+  name: "TeALO36",
+  xp: 0,
+  health: 15,
+  inventory: [
+    {
+      amount: 1,
+      slot: 3,
+      type: "BIRCH_PLANKS",
+    },
+    {
+      amount: 1,
+      slot: 4,
+      type: "BONE_MEAL",
+    },
+    {
+      amount: 1,
+      slot: 6,
+      type: "GOLDEN_SWORD",
+    },
+    {
+      amount: 64,
+      slot: 11,
+      type: "PODZOL",
+    },
+    {
+      amount: 1,
+      slot: 21,
+      type: "MOSS_BLOCK",
+    },
+    {
+      amount: 1,
+      slot: 33,
+      type: "LAPIS_LAZULI",
+    },
+    {
+      amount: 1,
+      slot: 36,
+      type: "DIAMOND_BOOTS",
+    },
+    {
+      amount: 1,
+      slot: 37,
+      type: "NETHERITE_LEGGINGS",
+    },
+    {
+      amount: 1,
+      slot: 38,
+      type: "DIAMOND_CHESTPLATE",
+    },
+    {
+      amount: 1,
+      slot: 39,
+      type: "CHAINMAIL_HELMET",
+    },
+  ],
+  uuid: "56f8a578-1d45-487c-95f8-28dceb437595",
+  gamemode: "CREATIVE",
+  food: 20,
+  status: "online",
+};
+
+async function loadPlayerData() {
+  const playerName = getPlayerNameFromURL();
+
+  if (!playerName) {
+    console.error("Nom du joueur non spécifié dans l'URL");
+    return;
+  }
+
+  try {
+    /*const response = await fetch(
+        `http://arthonetwork.fr:8001/players/${playerName}`
       );
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des données");
       }
 
-      const playerData = await response.json();
-      updatePlayerUI(playerData);
-    } catch (error) {
-      console.error("Erreur:", error);
-    }
+      const playerData = await response.json();*/
+    const playerData = Player_Data;
+    updatePlayerUI(playerData);
+    Inventory(playerData);
+    console.log(playerData.uuid);
+    localStorage.setItem('uuid',  playerData.uuid);
+  } catch (error) {
+    console.error("Erreur:", error);
   }
+}
 
-  document.addEventListener("DOMContentLoaded", loadPlayerData);
+document.addEventListener("DOMContentLoaded", loadPlayerData);

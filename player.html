@@ -2,66 +2,132 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/styles.css" rel="stylesheet">
-    <link rel="icon" href="assets/img/ico.png">
-    <title>SuperWatch</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="assets/css/styles.css" rel="stylesheet" />
+  <link rel="icon" href="assets/img/ico.png" />
+  <title>SuperWatch</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.min.js"></script>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .skin-viewer {
+      width: 300px;
+      height: 400px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background-color: transparent;
+    }
+
+    #player_canvas {
+      width: 100%;
+      height: 100%;
+      /* Changé de 90% à 100% */
+      display: block;
+    }
+
+    #status {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      background-color: transparent;
+      z-index: 10;
+    }
+  </style>
 </head>
 
-<body id="player">
-
-    <nav>
-        <div id="navbar-left">
-            <img src="assets/img/ico.png" alt="Icon" id="icon">
-            <div id="counter"><span id="navbar-counter">290</span> / <span id="navbar-total">1000</span> en ligne</div>
-        </div>
-        <div id="navbar-center">
-            <a href="index.html"><span id="title">Overview</span></a>
-        </div>
-        <div id="navbar-right">
-        </div>
-        <button id="menu-btn">&#9776;</button>
-        </div>
-    </nav>
-<!--
-    <div class="overlay-bg" id="overlay-bg"></div>
--->
-
-    <div class="overlay" id="overlay-menu">
-        <div class="overlay-content">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </div>
+<body>
+  <nav>
+    <div id="navbar-left">
+      <img src="assets/img/ico.png" alt="Icon" id="icon" />
+      <div id="counter">
+        <span id="navbar-counter">290</span> /
+        <span id="navbar-total">1000</span> en ligne
+      </div>
     </div>
+    <div id="navbar-center">
+      <a href="index.html" class="no-style"><span id="title">Overview</span></a>
+    </div>
+    <div id="navbar-right">
+      <button id="menu-btn">&#9776;</button>
+    </div>
+  </nav>
 
-    <main id="main">
-    
-        <section class="etiquette_joueur">
-            <img class="img_joueur" src="assets/img/body.png" alt="Skin du joueur" width="350">
-            <div class="info_article">
+  <div class="overlay-bg" id="overlay-bg"></div>
 
-            <span id="titre_pseudo_joueur">Pseudo : Artenios</span>
-            <span class="infos_joueur">
-                <br><br><br>UUID : 2939f-22fc68f4-deca8b7c62d-9de7d2e1
-                <br><br>En ligne : Oui
-                <br><br>Niveau de protection : 🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️
-                <br><br>Niveau de vie : ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️
-                <br><br>Niveau de faim :🍗🍗🍗🍗🍗🍗🍗🍗🍗🍗
-                <br><br>Derniere connexion : 22 octobre 2023
-            </span>
+  <div class="overlay" id="overlay-menu">
+    <div class="overlay-content">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="settings.html">Settings</a>
+      <a href="#">Logout</a>
+      <a href="landing_page.html">Tutorial</a>
+    </div>
+  </div>
+
+  <main>
+    <section id="Main_Info">
+      <div class="container">
+        <div class="skin-viewer">
+          <canvas id="player_canvas"></canvas>
         </div>
-        </section>
-
-        <section class="stats_joueur">
-            <span id="titre_statistiques"><br>Statistiques</span>
-
-        </section>
-    </main>
+      </div>
+      <article class="etiquette_info">
+        <div class="infos_joueur flex-container">
+          <div id="pseudo">?</div>
+          <p id="uuid_player"><b>UUID :</b> ?</p>
+          <p id="status_player"><b>En ligne :</b> ?</p>
+          <p id="gamemode_player"><b>Mode de jeu :</b> ?</p>
+          <div id="barre_statistiques"></div>
+          <p id="time_played"><b>-- Temps de jeu :</b> 5j 21h 52m</p>
+          <p><b>-- Connexion :</b> 22 octobre 2023 - 5 janvier 2025</p>
+        </div>
+      </article>
+    </section>
+    <section id="inventory"></section>
+    <section class="etiquette_stats_joueur">
+      <span id="titre_statistiques">Statistiques</span>
+      <span id="stats_joueur">
+        <span class="stats">
+          <div class="stats_nom">Nombre de minerais minés</div>
+          <div class="stats_valeur">150</div>
+        </span>
+        <span class="stats">
+          <div class="stats_nom">Dégats reçus</div>
+          <div class="stats_valeur">45</div>
+        </span>
+        <span class="stats">
+          <div class="stats_nom">Dégats infligés</div>
+          <div class="stats_valeur">200</div>
+        </span>
+        <span class="stats">
+          <div class="stats_nom">Nombre de morts</div>
+          <div class="stats_valeur">3</div>
+        </span>
+        <span class="stats">
+          <div class="stats_nom">Distance parcourue</div>
+          <div class="stats_valeur">5000m</div>
+        </span>
+        <span class="stats">
+          <div class="stats_nom">Niveau d'expérience</div>
+          <div class="stats_valeur">25</div>
+        </span>
+      </span>
+    </section>
+  </main>
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="assets/js/navbar.js"></script>
-<script src="assets/js/pagedetail.js"></script>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="assets/js/navbar.js" type="text/javascript"></script>
+<script src="assets/js/skin3D.js" type="text/javascript"></script>
+<script src="assets/js/pagedetail.js" type="text/javascript"></script>
 </html>
