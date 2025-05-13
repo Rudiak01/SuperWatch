@@ -1,0 +1,62 @@
+name: Release ZIP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git fetch --tags
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          if [[ "$TAG" == "" ]]; then
+            TAG="v0.0.0"
+          fi
+          echo "Latest tag: $TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        id: bump
+        run: |
+          OLD=${{ steps.get_tag.outputs.tag }}
+          OLD=${OLD#v}
+          IFS='.' read -r -a parts <<< "$OLD"
+          PATCH=$((parts[2]+1))
+          NEW="v${parts[0]}.${parts[1]}.$PATCH"
+          echo "New version: $NEW"
+          echo "new_tag=$NEW" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP
+        run: |
+          zip -r release.zip . -x ".git/*" ".github/*"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.bump.outputs.new_tag }}
+          name: Release ${{ steps.bump.outputs.new_tag }}
+          body: |
+            Automatic release of version ${{ steps.bump.outputs.new_tag }}
+          files: release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.bump.outputs.new_tag }}
+          git push origin ${{ steps.bump.outputs.new_tag }}
