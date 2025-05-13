@@ -1,58 +1,29 @@
-name: Release ZIP
+name: Release on tag
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*.*.*'  # Se déclenche sur v0.1.0, v1.2.3, etc.
 
 jobs:
   release:
-    name: Build & Release
+    name: Create GitHub Release
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get latest tag
-        id: get_tag
+      - name: Create ZIP
         run: |
-          TAG=$(git tag --sort=-creatordate | head -n 1)
-          if [ -z "$TAG" ]; then
-            TAG="v0.0.0"
-          fi
-          echo "Latest tag: $TAG"
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-
-      - name: Bump version
-        id: bump
-        run: |
-          OLD=${{ steps.get_tag.outputs.tag }}
-          OLD=${OLD#v}
-          IFS='.' read -r -a parts <<< "$OLD"
-          PATCH=$((parts[2]+1))
-          NEW="v${parts[0]}.${parts[1]}.$PATCH"
-          echo "New version: $NEW"
-          echo "new_tag=$NEW" >> $GITHUB_OUTPUT
-
-      - name: Create ZIP archive
-        run: |
-          zip -r "release-${{ steps.bump.outputs.new_tag }}.zip" . -x ".git/*" ".github/*"
-
-      - name: Create Git Tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag ${{ steps.bump.outputs.new_tag }}
-          git push origin ${{ steps.bump.outputs.new_tag }}
+          zip -r source.zip . -x ".git/*" ".github/*"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.bump.outputs.new_tag }}
-          name: Release ${{ steps.bump.outputs.new_tag }}
-          body: |
-            🔄 Auto-generated release
-          files: release-${{ steps.bump.outputs.new_tag }}.zip
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: Auto-generated release from tag
+          files: source.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # ← ou secrets.GITHUB_TOKEN si ce n'est pas un fork
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
