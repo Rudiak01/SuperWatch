@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/css/styles.css" rel="stylesheet">
+    <link href="assets/css/style_os_choice.css" rel="stylesheet">
+    <link rel="icon" href="assets/img/ico.png">
+    <title>SuperWatch</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Choisissez votre système d'exploitation</h1>
+        <div class="buttons">
+            <button class="button" onclick="selectWindows('Windows')">
+                <div class="logo"><img class="image-windows-logo" src="assets/img/os_icon/icon_windows.png"></div>
+                <div class="button-text">Windows</div>
+            </button>
+
+            <button class="button" onclick="selectLinux('Linux')">
+                <div class="logo"><img class="image-linux-logo" src="assets/img/os_icon/icon_linux.png"></div>
+                <div class="button-text">Linux</div>
+            </button>
+        </div>
+    </div>
+</body>
+
+    <script>
+        function selectWindows(os) {
+            alert("Vous avez choisi : Windows");
+        }
+
+        function selectLinux(os) {
+            alert("Vous avez choisi : Linux");
+        }
+    </script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="assets/js/navbar.js"></script>
+
+</html>
