@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="assets/css/styles.css" rel="stylesheet" />
-  <link rel="icon" href="assets/img/ico.png" />
+  <link rel="icon" href="assets/img/ico.webp" />
   <title>SuperWatch</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.min.js"></script>
 </head>
@@ -16,7 +17,15 @@
       <img src="assets/img/ico.webp" alt="Icon" id="icon" />
     </div>
     <div id="navbar-center">
-      <a href="index.html" class="no-style"><span id="title">Overview</span></a>
+      <a href="index.php" class="no-style"><span id="title">Overview</span></a>
+      <?php if (isset($_SESSION['username'])): ?>
+        <!-- Si l'utilisateur est connecté -->
+        <span class="user-info" id="title_2">Connected as <?= htmlspecialchars($_SESSION['username']) ?></span>
+      <?php else: ?>
+        <!-- Si l'utilisateur n'est pas connecté -->
+        <a href="login.php" id="title_2">Sign in</a>
+        <a href="register.php" id="title_2">Register</a>
+      <?php endif; ?>
     </div>
     <div id="navbar-right">
       <button id="menu-btn">&#9776;</button>
@@ -30,8 +39,8 @@
       <a href="#">Home</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
-      <a href="settings.html">Settings</a>
-      <a href="#">Logout</a>
+      <a href="settings.php">Settings</a>
+      <a href="logout.php">Logout</a>
     </div>
   </div>
 
@@ -91,4 +100,5 @@
 <script src="assets/js/navbar.js" type="text/javascript"></script>
 <script src="assets/js/skin3D.js" type="text/javascript"></script>
 <script src="assets/js/pagedetail.js" type="text/javascript"></script>
+
 </html>
