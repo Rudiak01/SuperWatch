@@ -16,7 +16,7 @@
         <img src="assets/img/ico.png" alt="Icon" id="icon" />
       </div>
       <div id="navbar-center">
-      <a href="#" id="alreadyhere"><span id="title" id="alreadyhere">Overview</span></a>
+      <a href="index.php" id="alreadyhere"><span id="title" id="alreadyhere">Overview</span></a>
       <?php if (isset($_SESSION['username'])): ?>
         <!-- Si l'utilisateur est connecté -->
         <span class="user-info" id="title_2">Connected as <?= htmlspecialchars($_SESSION['username']) ?></span>
