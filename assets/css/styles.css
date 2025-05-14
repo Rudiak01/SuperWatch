@@ -82,6 +82,13 @@ nav {
   padding: 30px;
 }
 
+#title_2 {
+  color: rgb(159, 233, 252);
+  font-size: xx-large;
+  padding: 30px;
+  white-space: nowrap;
+}
+
 #menu-btn {
   background: none;
   border: none;
