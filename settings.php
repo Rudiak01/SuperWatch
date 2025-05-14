@@ -31,7 +31,7 @@
     </nav>
     <div class="overlay" id="overlay-menu">
       <div class="overlay-content">
-        <a href="#">Home</a>
+        <a href="index.php">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
         <a href="#">Settings</a>
