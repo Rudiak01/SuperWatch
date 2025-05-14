@@ -1,5 +1,10 @@
 // Variables globales
-let scene, camera, renderer, player, animationId;
+let scene,
+  camera,
+  renderer,
+  player,
+  animationId,
+  isSlim = false;
 const canvas = document.getElementById("player_canvas");
 const statusElement = document.getElementById("status");
 
@@ -175,32 +180,44 @@ function loadTexture(url, callback) {
 
 // Créer une texture pour une face spécifique
 function createTexture(originalTexture, x, y, width, height) {
-  // Créer un canvas temporaire
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext("2d");
 
-  // Dessiner la partie spécifique du skin sur le canvas
   ctx.drawImage(
     originalTexture.image,
     x,
-    y, // Position source
+    y,
     width,
-    height, // Taille source
+    height,
     0,
-    0, // Position destination
+    0,
     width,
-    height // Taille destination
+    height
   );
 
-  // Créer une nouvelle texture à partir du canvas
   const newTexture = new THREE.CanvasTexture(canvas);
-  newTexture.magFilter = THREE.NearestFilter; // Définir le filtre à "nearest" pour les pixels nets
+  newTexture.magFilter = THREE.NearestFilter;
   newTexture.minFilter = THREE.NearestFilter;
   newTexture.needsUpdate = true;
 
   return newTexture;
+}
+
+// Nouvelle fonction pour détecter le modèle slim
+function detectSlimModel(texture) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d");
+
+  // Dessiner l'image complète
+  ctx.drawImage(texture.image, 0, 0);
+
+  // Vérifier la zone spécifique du bras (pixel transparent à 47,52)
+  const imageData = ctx.getImageData(47, 52, 1, 1);
+  return imageData.data[3] === 0; // Si alpha = 0, c'est un modèle slim
 }
 
 // Créer un matériau pour une face spécifique
@@ -322,19 +339,20 @@ function createRotatedOverlayMaterialForFace(texture, x, y, width, height) {
 // Applique la texture du skin Minecraft au modèle 3D
 function applyTexture(texture) {
   try {
-    // Supprimer l'ancien joueur s'il existe
     if (player) {
       scene.remove(player);
     }
 
-    // Créer un groupe pour le nouveau joueur
     player = new THREE.Group();
 
-    // Vérifier que l'image est chargée
     if (!texture.image || !texture.image.width) {
       setStatus("Texture non valide ou non chargée", true);
       return;
     }
+
+    // Détecter si c'est un modèle slim avant de continuer
+    isSlim = detectSlimModel(texture);
+    console.log("Modèle slim détecté:", isSlim);
 
     // Dimensions de la texture
     const textureWidth = texture.image.width;
@@ -381,13 +399,22 @@ function applyTexture(texture) {
 
     // --- BRAS GAUCHE ---
     // Coordonnées UV pour le bras gauche (en fonction du format)
-    let leftArmX = 40,
-      leftArmY = 16;
-    if (!isNewFormat) {
-      leftArmX = 40;
-      leftArmY = 20;
-    }
 
+    if (isSlim == true) {
+      var leftArmX = 38,
+        leftArmY = 16;
+      if (!isNewFormat) {
+        leftArmX = 38;
+        leftArmY = 20;
+      }
+    } else {
+      var leftArmX = 40,
+        leftArmY = 16;
+      if (!isNewFormat) {
+        leftArmX = 40;
+        leftArmY = 20;
+      }
+    }
     // CORRECTION DE L'ORDRE DES FACES DU BRAS GAUCHE
     const leftArmMaterials = [
       createMaterialForFace(texture, leftArmX + 8, leftArmY + 4, 4, 12), // Droite (+x)
@@ -406,12 +433,23 @@ function applyTexture(texture) {
 
     // --- BRAS DROIT ---
     // Coordonnées UV pour le bras droit (en fonction du format)
-    let rightArmX = 48,
-      rightArmY = 32;
-    if (isNewFormat) {
-      // Le nouveau format a des textures séparées pour le bras droit
-      rightArmX = 40;
-      rightArmY = 16;
+
+    if (isSlim == true) {
+      var rightArmX = 46,
+        rightArmY = 32;
+      if (isNewFormat) {
+        // Le nouveau format a des textures séparées pour le bras droit
+        rightArmX = 38;
+        rightArmY = 16;
+      }
+    } else {
+      var rightArmX = 48,
+        rightArmY = 32;
+      if (isNewFormat) {
+        // Le nouveau format a des textures séparées pour le bras droit
+        rightArmX = 40;
+        rightArmY = 16;
+      }
     }
 
     // CORRECTION DE L'ORDRE DES FACES DU BRAS DROIT
@@ -524,9 +562,13 @@ function applyTexture(texture) {
 
       // --- BRAS GAUCHE OVERLAY ---
       // Coordonnées UV pour l'overlay du bras gauche
-      const leftArmOverlayX = 40,
-        leftArmOverlayY = 32;
-
+      if (isSlim == true) {
+        var leftArmOverlayX = 38,
+          leftArmOverlayY = 32;
+      } else {
+        var leftArmOverlayX = 40,
+          leftArmOverlayY = 32;
+      }
       const leftArmOverlayMaterials = [
         createOverlayMaterialForFace(
           texture,
@@ -551,7 +593,7 @@ function applyTexture(texture) {
         ), // Haut (+y)
         createOverlayMaterialForFace(
           texture,
-          leftArmOverlayX + 8,
+          leftArmOverlayX +8,
           leftArmOverlayY + 0,
           4,
           4
@@ -583,9 +625,13 @@ function applyTexture(texture) {
 
       // --- BRAS DROIT OVERLAY ---
       // Coordonnées UV pour l'overlay du bras droit
-      const rightArmOverlayX = 48,
-        rightArmOverlayY = 48;
-
+      if (isSlim == true) {
+        var rightArmOverlayX = 46,
+          rightArmOverlayY = 48;
+      } else {
+        var rightArmOverlayX = 48,
+          rightArmOverlayY = 48;
+      }
       const rightArmOverlayMaterials = [
         createOverlayMaterialForFace(
           texture,
@@ -777,7 +823,6 @@ function getPlayerNameFromURL() {
   const name = urlParams.get("name");
   return name || "^^^^^^^^^^^^^^^^"; // Valeur par défaut si aucun nom n'est spécifié
 }
-
 
 // Gestion du redimensionnement de la fenêtre
 function handleResize() {

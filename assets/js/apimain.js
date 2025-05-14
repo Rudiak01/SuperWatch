@@ -1,5 +1,5 @@
 /*
-fetch("http://arthonetwork.fr:8001/ApiP")
+fetch("http://127.0.0.1:8090/api/players")
   .then((response) => response.json())
   .then((data) => {
     API_Data = data; // stock les données de l'api dans une variable
@@ -55,7 +55,7 @@ API_Data = {
         },
         xp: 34,
         health: 8,
-        uuid: "f2r85aud91e45f1geaajf157fafd45df",
+        uuid: "f35259a1377a4a8dba1a8c51990745e1",
         food: 11,
         status: "offline",
         player_version: "1.21.4",
@@ -68,7 +68,7 @@ API_Data = {
         },
         xp: 0,
         health: 20,
-        uuid: "aubjlse86sdfes45d6fe1s23dc891zef",
+        uuid: "8373f5e9f78b46ae8ff0768e218df07b",
         food: 20,
         status: "online",
         player_version: "1.16.2",
@@ -120,8 +120,17 @@ function Init(data) {
       version.className = "version";
       version.innerHTML = `Version : ${player.player_version}`;
 
-      var skin = document.createElement("img");
-      skin.id = "skin";
+      var skin = document.createElement("canvas");
+      skin.id = "player_canvas";
+
+      // Initialiser la scène 3D
+      if (initplayerScene(skin)) {
+        // Charger le skin avec le nom récupéré
+        loadSkinByUsername(playerName, skin);
+
+        // Gérer le redimensionnement de la fenêtre
+        //window.addEventListener("resize", handleResize);
+      }
 
       var linkToDetailedView = document.createElement("a");
       linkToDetailedView.className = "LinkToDetailedView";
@@ -135,7 +144,6 @@ function Init(data) {
       if (isMobile) {
         article.appendChild(linkToDetailedView);
         linkToDetailedView.appendChild(pseudo);
-        skin.src = `https://mineskin.eu/helm/${playerName}/100.png`;
         linkToDetailedView.appendChild(skin);
         linkToDetailedView.appendChild(version);
         article.appendChild(sousarticle);
@@ -143,10 +151,7 @@ function Init(data) {
         article.appendChild(linkToDetailedView);
         article.appendChild(sousarticle);
 
-        skin.src = `https://mineskin.eu/armor/body/${playerName}/100.png`;
-        
         linkToDetailedView.appendChild(skin);
-
         sousarticle.appendChild(text);
         text.appendChild(pseudo);
         text.appendChild(uuid);
@@ -698,4 +703,745 @@ function copied_message() {
   setTimeout(() => {
     copied.classList.remove("open");
   }, 1500);
+}
+
+// ---------------- SKIN RENDERER ----------------- //
+
+// Initialiser la scène Three.js
+function initplayerScene(canvas) {
+  try {
+    // Create renderer
+    const playerRenderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+      alpha: true,
+    });
+    playerRenderer.setSize(120, 240);
+    playerRenderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create scene and camera
+    const playerScene = new THREE.Scene();
+    const playerCamera = new THREE.PerspectiveCamera(70, 120 / 240, 0.1, 1000);
+    playerCamera.position.z = 30;
+    playerCamera.position.y = -1;
+
+    // Ajouter un éclairage
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    playerScene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(1, 1, 1);
+    playerScene.add(directionalLight);
+
+    // Créer un cube simple pour représenter le joueur en attendant la texture
+    const playerModel = createSimpleCube(playerScene);
+
+    // Store context
+    canvas.playerContext = {
+      renderer: playerRenderer,
+      scene: playerScene,
+      camera: playerCamera,
+      model: playerModel
+    };
+
+    // Start animation
+    animate(canvas.playerContext);
+
+    return true;
+  } catch (error) {
+    console.error("Erreur détaillée:", error);
+    return false;
+  }
+}
+
+function createSimpleCube(scene) {
+  const model = new THREE.Group();
+  
+  // Create materials
+  const materials = {
+    head: new THREE.MeshLambertMaterial({
+      color: 0x1a1a1a,
+      opacity: 0.3,
+      transparent: true,
+    }),
+    body: new THREE.MeshLambertMaterial({
+      color: 0x1a1a1a,
+      opacity: 0.3,
+      transparent: true,
+    }),
+    limbs: new THREE.MeshLambertMaterial({
+      color: 0x1a1a1a,
+      opacity: 0.3,
+      transparent: true,
+    })
+  };
+
+  // Create body parts
+  const head = new THREE.Mesh(new THREE.BoxGeometry(8, 8, 8), materials.head);
+  head.position.y = 10;
+  model.add(head);
+
+  const body = new THREE.Mesh(new THREE.BoxGeometry(8, 12, 4), materials.body);
+  body.position.y = 0;
+  model.add(body);
+
+  const leftArm = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  leftArm.position.set(-6, 0, 0);
+  model.add(leftArm);
+
+  const rightArm = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  rightArm.position.set(6, 0, 0);
+  model.add(rightArm);
+
+  const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  leftLeg.position.set(-2, -12, 0);
+  model.add(leftLeg);
+
+  const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  rightLeg.position.set(2, -12, 0);
+  model.add(rightLeg);
+
+  scene.add(model);
+  return model;
+}
+
+function animate(context) {
+  const { renderer, scene, camera} = context;
+  renderer.render(scene, camera);
+  requestAnimationFrame(() => animate(context));
+}
+
+// Charger une texture à partir d'une URL
+function loadTexture(url, callback) {
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.crossOrigin = "Anonymous";
+
+  textureLoader.load(
+    url,
+    function (texture) {
+      // Configuration pour améliorer la netteté
+      texture.magFilter = THREE.NearestFilter;
+      texture.minFilter = THREE.NearestFilter;
+      texture.needsUpdate = true;
+
+      if (callback) callback(texture);
+    },
+    // Fonction de progression (optionnelle)
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% chargé");
+    },
+    // Fonction d'erreur
+    function (error) {
+      console.error("Erreur lors du chargement de la texture:", error);
+      // Créer le modèle avec les matériaux transparents
+      createSimpleCube();
+    }
+  );
+}
+
+// Créer une texture pour une face spécifique
+function createTexture(originalTexture, x, y, width, height) {
+  // Créer un canvas temporaire
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+
+  // Dessiner la partie spécifique du skin sur le canvas
+  ctx.drawImage(
+    originalTexture.image,
+    x,
+    y, // Position source
+    width,
+    height, // Taille source
+    0,
+    0, // Position destination
+    width,
+    height // Taille destination
+  );
+
+  // Créer une nouvelle texture à partir du canvas
+  const newTexture = new THREE.CanvasTexture(canvas);
+  newTexture.magFilter = THREE.NearestFilter; // Définir le filtre à "nearest" pour les pixels nets
+  newTexture.minFilter = THREE.NearestFilter;
+  newTexture.needsUpdate = true;
+
+  return newTexture;
+}
+
+// Créer un matériau pour une face spécifique
+function createMaterialForFace(originalTexture, x, y, width, height) {
+  const texture = createTexture(originalTexture, x, y, width, height);
+  return new THREE.MeshLambertMaterial({
+    map: texture,
+    transparent: true,
+  });
+}
+
+// Créer une fonction pour créer un matériau avec texture tournée
+function createRotatedMaterialForFace(texture, x, y, width, height) {
+  // Créer un canvas temporaire
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+
+  // Dessiner d'abord la texture originale sur le canvas
+  ctx.drawImage(
+    texture.image,
+    x,
+    y, // Position source
+    width,
+    height, // Taille source
+    0,
+    0, // Position destination
+    width,
+    height // Taille destination
+  );
+
+  // Créer un second canvas pour la transformation finale
+  const finalCanvas = document.createElement("canvas");
+  finalCanvas.width = width;
+  finalCanvas.height = height;
+  const finalCtx = finalCanvas.getContext("2d");
+
+  // Appliquer la symétrie horizontale (miroir) et la rotation en une seule transformation
+  finalCtx.translate(width / 2, height / 2);
+  finalCtx.rotate(Math.PI); // 180 degrés en radians
+  finalCtx.scale(-1, 1); // Symétrie horizontale
+  finalCtx.translate(-width / 2, -height / 2);
+
+  // Dessiner le canvas original avec les transformations appliquées
+  finalCtx.drawImage(canvas, 0, 0);
+
+  // Créer une nouvelle texture à partir du canvas transformé
+  const newTexture = new THREE.CanvasTexture(finalCanvas);
+  newTexture.magFilter = THREE.NearestFilter;
+  newTexture.minFilter = THREE.NearestFilter;
+  newTexture.needsUpdate = true;
+
+  return new THREE.MeshLambertMaterial({
+    map: newTexture,
+    transparent: true,
+  });
+}
+
+// Fonction pour créer un matériau pour une face spécifique de la deuxième couche
+function createOverlayMaterialForFace(originalTexture, x, y, width, height) {
+  const texture = createTexture(originalTexture, x, y, width, height);
+  return new THREE.MeshLambertMaterial({
+    map: texture,
+    transparent: true,
+    alphaTest: 0.1, // Ignorer les pixels presque transparents
+  });
+}
+
+// Fonction pour créer un matériau avec texture tournée et symétrie axiale pour la deuxième couche
+function createRotatedOverlayMaterialForFace(texture, x, y, width, height) {
+  // Créer un canvas temporaire
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+
+  // Dessiner d'abord la texture originale sur le canvas
+  ctx.drawImage(
+    texture.image,
+    x,
+    y, // Position source
+    width,
+    height, // Taille source
+    0,
+    0, // Position destination
+    width,
+    height // Taille destination
+  );
+
+  // Créer un second canvas pour la transformation finale
+  const finalCanvas = document.createElement("canvas");
+  finalCanvas.width = width;
+  finalCanvas.height = height;
+  const finalCtx = finalCanvas.getContext("2d");
+
+  // Appliquer la symétrie horizontale (miroir) et la rotation en une seule transformation
+  finalCtx.translate(width / 2, height / 2);
+  finalCtx.rotate(Math.PI); // 180 degrés en radians
+  finalCtx.scale(-1, 1); // Symétrie horizontale
+  finalCtx.translate(-width / 2, -height / 2);
+
+  // Dessiner le canvas original avec les transformations appliquées
+  finalCtx.drawImage(canvas, 0, 0);
+
+  // Créer une nouvelle texture à partir du canvas transformé
+  const newTexture = new THREE.CanvasTexture(finalCanvas);
+  newTexture.magFilter = THREE.NearestFilter;
+  newTexture.minFilter = THREE.NearestFilter;
+  newTexture.needsUpdate = true;
+
+  return new THREE.MeshLambertMaterial({
+    map: newTexture,
+    transparent: true,
+    alphaTest: 0.1, // Ignorer les pixels presque transparents
+  });
+}
+
+// Applique la texture du skin Minecraft au modèle 3D
+function applyTexture(texture, context) {
+  try {
+    const { scene, model } = context;
+
+    // Supprimer l'ancien joueur s'il existe
+    if (model) {
+      scene.remove(model);
+    }
+
+    // Créer un groupe pour le nouveau joueur
+    const playerModel = new THREE.Group();
+
+    // Dimensions de la texture
+    const textureWidth = texture.image.width;
+    const textureHeight = texture.image.height;
+
+    // Vérifier si c'est un skin de format 64x64 (nouveau format) ou 64x32 (ancien format)
+    const isNewFormat = textureHeight === 64;
+
+    // ------------------------- PREMIÈRE COUCHE (BASE) ------------------------- //
+    // --- TÊTE --- //
+    // CORRECTION DE L'ORDRE DES FACES
+    // Le bon ordre pour BoxGeometry: [+x, -x, +y, -y, +z, -z] ou [droite, gauche, haut, bas, devant, derrière]
+    const headMaterials = [
+      createMaterialForFace(texture, 16, 8, 8, 8), // Droite (+x)
+      createMaterialForFace(texture, 0, 8, 8, 8), // Gauche (-x)
+      createMaterialForFace(texture, 8, 0, 8, 8), // Haut (+y)
+      createRotatedMaterialForFace(texture, 16, 0, 8, 8), // Bas (-y)
+      createMaterialForFace(texture, 8, 8, 8, 8), // Devant (+z)
+      createMaterialForFace(texture, 24, 8, 8, 8), // Derrière (-z)
+    ];
+
+    // Créer la tête
+    const headGeometry = new THREE.BoxGeometry(8, 8, 8);
+    const head = new THREE.Mesh(headGeometry, headMaterials);
+    head.position.y = 10;
+    playerModel.add(head);
+
+    // --- CORPS ---
+    // CORRECTION DE L'ORDRE DES FACES DU CORPS
+    const bodyMaterials = [
+      createMaterialForFace(texture, 28, 20, 4, 12), // Droite (+x)
+      createMaterialForFace(texture, 16, 20, 4, 12), // Gauche (-x)
+      createMaterialForFace(texture, 20, 16, 8, 4), // Haut (+y)
+      createMaterialForFace(texture, 28, 16, 8, 4), // Bas (-y)
+      createMaterialForFace(texture, 20, 20, 8, 12), // Devant (+z)
+      createMaterialForFace(texture, 32, 20, 8, 12), // Derrière (-z)
+    ];
+
+    // Créer le corps
+    const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterials);
+    body.position.y = 0;
+    playerModel.add(body);
+
+    // --- BRAS GAUCHE ---
+    // Coordonnées UV pour le bras gauche (en fonction du format)
+    let leftArmX = 40,
+      leftArmY = 16;
+    if (!isNewFormat) {
+      leftArmX = 40;
+      leftArmY = 16;
+    }
+
+    // CORRECTION DE L'ORDRE DES FACES DU BRAS GAUCHE
+    const leftArmMaterials = [
+      createMaterialForFace(texture, leftArmX + 8, leftArmY + 4, 4, 12), // Droite (+x)
+      createMaterialForFace(texture, leftArmX + 0, leftArmY + 4, 4, 12), // Gauche (-x)
+      createMaterialForFace(texture, leftArmX + 4, leftArmY + 4, 4, 4), // Haut (+y)
+      createMaterialForFace(texture, leftArmX + 4, leftArmY + 16, 4, 4), // Bas (-y)
+      createMaterialForFace(texture, leftArmX + 4, leftArmY + 4, 4, 12), // Devant (+z)
+      createMaterialForFace(texture, leftArmX + 12, leftArmY + 4, 4, 12), // Derrière (-z)
+    ];
+
+    // Créer le bras gauche
+    const leftArmGeometry = new THREE.BoxGeometry(4, 12, 4);
+    const leftArm = new THREE.Mesh(leftArmGeometry, leftArmMaterials);
+    leftArm.position.set(-6, 0, 0);
+    playerModel.add(leftArm);
+
+    // --- BRAS DROIT ---
+    // Coordonnées UV pour le bras droit (en fonction du format)
+    let rightArmX = 48,
+      rightArmY = 32;
+    if (isNewFormat) {
+      // Le nouveau format a des textures séparées pour le bras droit
+      rightArmX = 40;
+      rightArmY = 16;
+    }
+
+    // CORRECTION DE L'ORDRE DES FACES DU BRAS DROIT
+    const rightArmMaterials = [
+      createMaterialForFace(texture, rightArmX + 0, rightArmY + 36, 4, 12), // Droite (+x)
+      createMaterialForFace(texture, rightArmX + -8, rightArmY + 36, 4, 12), // Gauche (-x)
+      createMaterialForFace(texture, rightArmX + 4, rightArmY + 4, 4, 4), // Haut (+y)
+      createMaterialForFace(texture, rightArmX + 4, rightArmY + 16, 4, 4), // Bas (-y)
+      createMaterialForFace(texture, rightArmX - 4, rightArmY + 36, 4, 12), // Devant (+z)
+      createMaterialForFace(texture, rightArmX + 4, rightArmY + 36, 4, 12), // Derrière (-z)
+    ];
+
+    // Créer le bras droit
+    const rightArmGeometry = new THREE.BoxGeometry(4, 12, 4);
+    const rightArm = new THREE.Mesh(rightArmGeometry, rightArmMaterials);
+    rightArm.position.set(6, 0, 0);
+    playerModel.add(rightArm);
+
+    // --- JAMBE GAUCHE ---
+    // Coordonnées UV pour la jambe gauche (en fonction du format)
+    let leftLegX = 0,
+      leftLegY = 16;
+    if (!isNewFormat) {
+      leftLegX = 16;
+      leftLegY = 48;
+    }
+
+    // CORRECTION DE L'ORDRE DES FACES DE LA JAMBE GAUCHE
+    const leftLegMaterials = [
+      createMaterialForFace(texture, leftLegX + 8, leftLegY + 0, 4, 12), // Droite (+x)
+      createMaterialForFace(texture, leftLegX + 0, leftLegY + 4, 4, 12), // Gauche (-x)
+      createMaterialForFace(texture, leftLegX + 4, leftLegY - 4, 4, 4), // Haut (+y)
+      createMaterialForFace(texture, leftLegX + 8, leftLegY - 4, 4, 4), // Bas (-y)
+      createMaterialForFace(texture, leftLegX + 4, leftLegY + 4, 4, 12), // Devant (+z)
+      createMaterialForFace(texture, leftLegX + 12, leftLegY + 4, 4, 12), // Derrière (-z)
+    ];
+
+    // Créer la jambe gauche
+    const leftLegGeometry = new THREE.BoxGeometry(4, 12, 4);
+    const leftLeg = new THREE.Mesh(leftLegGeometry, leftLegMaterials);
+    leftLeg.position.set(-2, -12, 0);
+    playerModel.add(leftLeg);
+
+    // --- JAMBE DROITE ---
+    // Coordonnées UV pour la jambe droite (en fonction du format)
+    let rightLegX = 0,
+      rightLegY = 16;
+    if (isNewFormat) {
+      // Le nouveau format a des textures séparées pour la jambe droite
+      rightLegX = 16;
+      rightLegY = 48;
+    }
+
+    // CORRECTION DE L'ORDRE DES FACES DE LA JAMBE DROITE
+    const rightLegMaterials = [
+      createMaterialForFace(texture, rightLegX + 8, rightLegY + 4, 4, 12), // Droite (+x)
+      createMaterialForFace(texture, rightLegX + 0, rightLegY + 4, 4, 12), // Gauche (-x)
+      createMaterialForFace(texture, rightLegX + 4, rightLegY - 4, 4, 4), // Haut (+y)
+      createMaterialForFace(texture, rightLegX + 8, rightLegY - 4, 4, 4), // Bas (-y)
+      createMaterialForFace(texture, rightLegX + 4, rightLegY + 4, 4, 12), // Devant (+z)
+      createMaterialForFace(texture, rightLegX + 12, rightLegY + 4, 4, 12), // Derrière (-z)
+    ];
+
+    // Créer la jambe droite
+    const rightLegGeometry = new THREE.BoxGeometry(4, 12, 4);
+    const rightLeg = new THREE.Mesh(rightLegGeometry, rightLegMaterials);
+    rightLeg.position.set(2, -12, 0);
+    playerModel.add(rightLeg);
+
+    // ------------------------- DEUXIÈME COUCHE (OVERLAY) ------------------------- //
+    // Seulement si c'est un skin au nouveau format 64x64 //
+    if (isNewFormat) {
+      // --- TÊTE OVERLAY (CHAPEAU) ---
+      const headOverlayMaterials = [
+        createOverlayMaterialForFace(texture, 48, 8, 8, 8), // Droite (+x)
+        createOverlayMaterialForFace(texture, 32, 8, 8, 8), // Gauche (-x)
+        createOverlayMaterialForFace(texture, 40, 0, 8, 8), // Haut (+y)
+        createRotatedOverlayMaterialForFace(texture, 48, 0, 8, 8), // Bas (-y)
+        createOverlayMaterialForFace(texture, 40, 8, 8, 8), // Devant (+z)
+        createOverlayMaterialForFace(texture, 56, 8, 8, 8), // Derrière (-z)
+      ];
+
+      // Créer le chapeau (overlay de la tête)
+      const headOverlayGeometry = new THREE.BoxGeometry(8.5, 8.5, 8.5);
+      const headOverlay = new THREE.Mesh(
+        headOverlayGeometry,
+        headOverlayMaterials
+      );
+      headOverlay.position.y = 10;
+      playerModel.add(headOverlay);
+
+      // --- CORPS OVERLAY ---
+      const bodyOverlayMaterials = [
+        createOverlayMaterialForFace(texture, 28, 36, 4, 12), // Droite (+x)
+        createOverlayMaterialForFace(texture, 16, 36, 4, 12), // Gauche (-x)
+        createOverlayMaterialForFace(texture, 20, 32, 8, 4), // Haut (+y)
+        createOverlayMaterialForFace(texture, 28, 32, 8, 4), // Bas (-y)
+        createOverlayMaterialForFace(texture, 20, 36, 8, 12), // Devant (+z)
+        createOverlayMaterialForFace(texture, 32, 36, 8, 12), // Derrière (-z)
+      ];
+
+      // Créer l'overlay du corps
+      const bodyOverlayGeometry = new THREE.BoxGeometry(8.5, 12.5, 4.5);
+      const bodyOverlay = new THREE.Mesh(
+        bodyOverlayGeometry,
+        bodyOverlayMaterials
+      );
+      bodyOverlay.position.y = 0;
+      playerModel.add(bodyOverlay);
+
+      // --- BRAS GAUCHE OVERLAY ---
+      // Coordonnées UV pour l'overlay du bras gauche
+      const leftArmOverlayX = 40,
+        leftArmOverlayY = 32;
+
+      const leftArmOverlayMaterials = [
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 8,
+          leftArmOverlayY + 4,
+          4,
+          12
+        ), // Droite (+x)
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 0,
+          leftArmOverlayY + 4,
+          4,
+          12
+        ), // Gauche (-x)
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 4,
+          leftArmOverlayY + 0,
+          4,
+          4
+        ), // Haut (+y)
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 8,
+          leftArmOverlayY + 0,
+          4,
+          4
+        ), // Bas (-y)
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 4,
+          leftArmOverlayY + 4,
+          4,
+          12
+        ), // Devant (+z)
+        createOverlayMaterialForFace(
+          texture,
+          leftArmOverlayX + 12,
+          leftArmOverlayY + 4,
+          4,
+          12
+        ), // Derrière (-z)
+      ];
+
+      // Créer l'overlay du bras gauche
+      const leftArmOverlayGeometry = new THREE.BoxGeometry(4.5, 12.5, 4.5);
+      const leftArmOverlay = new THREE.Mesh(
+        leftArmOverlayGeometry,
+        leftArmOverlayMaterials
+      );
+      leftArmOverlay.position.set(-6, 0, 0);
+      playerModel.add(leftArmOverlay);
+
+      // --- BRAS DROIT OVERLAY ---
+      // Coordonnées UV pour l'overlay du bras droit
+      const rightArmOverlayX = 48,
+        rightArmOverlayY = 48;
+
+      const rightArmOverlayMaterials = [
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 8,
+          rightArmOverlayY + 4,
+          4,
+          12
+        ), // Droite (+x)
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 0,
+          rightArmOverlayY + 4,
+          4,
+          12
+        ), // Gauche (-x)
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 4,
+          rightArmOverlayY + 0,
+          4,
+          4
+        ), // Haut (+y)
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 8,
+          rightArmOverlayY + 0,
+          4,
+          4
+        ), // Bas (-y)
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 4,
+          rightArmOverlayY + 4,
+          4,
+          12
+        ), // Devant (+z)
+        createOverlayMaterialForFace(
+          texture,
+          rightArmOverlayX + 12,
+          rightArmOverlayY + 4,
+          4,
+          12
+        ), // Derrière (-z)
+      ];
+
+      // Créer l'overlay du bras droit
+      const rightArmOverlayGeometry = new THREE.BoxGeometry(4.5, 12.5, 4.5);
+      const rightArmOverlay = new THREE.Mesh(
+        rightArmOverlayGeometry,
+        rightArmOverlayMaterials
+      );
+      rightArmOverlay.position.set(6, 0, 0);
+      playerModel.add(rightArmOverlay);
+
+      // --- JAMBE GAUCHE OVERLAY ---
+      // Coordonnées UV pour l'overlay de la jambe gauche
+      const leftLegOverlayX = 0,
+        leftLegOverlayY = 32;
+
+      const leftLegOverlayMaterials = [
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 8,
+          leftLegOverlayY + 4,
+          4,
+          12
+        ), // Droite (+x)
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 0,
+          leftLegOverlayY + 4,
+          4,
+          12
+        ), // Gauche (-x)
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 4,
+          leftLegOverlayY + 0,
+          4,
+          4
+        ), // Haut (+y)
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 8,
+          leftLegOverlayY + 0,
+          4,
+          4
+        ), // Bas (-y)
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 4,
+          leftLegOverlayY + 4,
+          4,
+          12
+        ), // Devant (+z)
+        createOverlayMaterialForFace(
+          texture,
+          leftLegOverlayX + 12,
+          leftLegOverlayY + 4,
+          4,
+          12
+        ), // Derrière (-z)
+      ];
+
+      // Créer l'overlay de la jambe gauche
+      const leftLegOverlayGeometry = new THREE.BoxGeometry(4.5, 12.5, 4.5);
+      const leftLegOverlay = new THREE.Mesh(
+        leftLegOverlayGeometry,
+        leftLegOverlayMaterials
+      );
+      leftLegOverlay.position.set(-2, -12, 0);
+      playerModel.add(leftLegOverlay);
+
+      // --- JAMBE DROITE OVERLAY ---
+      // Coordonnées UV pour l'overlay de la jambe droite
+      const rightLegOverlayX = 0,
+        rightLegOverlayY = 48;
+
+      const rightLegOverlayMaterials = [
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 8,
+          rightLegOverlayY + 4,
+          4,
+          12
+        ), // Droite (+x)
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 0,
+          rightLegOverlayY + 4,
+          4,
+          12
+        ), // Gauche (-x)
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 4,
+          rightLegOverlayY + 0,
+          4,
+          4
+        ), // Haut (+y)
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 8,
+          rightLegOverlayY + 0,
+          4,
+          4
+        ), // Bas (-y)
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 4,
+          rightLegOverlayY + 4,
+          4,
+          12
+        ), // Devant (+z)
+        createOverlayMaterialForFace(
+          texture,
+          rightLegOverlayX + 12,
+          rightLegOverlayY + 4,
+          4,
+          12
+        ), // Derrière (-z)
+      ];
+
+      // Créer l'overlay de la jambe droite
+      const rightLegOverlayGeometry = new THREE.BoxGeometry(4.5, 12.5, 4.5);
+      const rightLegOverlay = new THREE.Mesh(
+        rightLegOverlayGeometry,
+        rightLegOverlayMaterials
+      );
+      rightLegOverlay.position.set(2, -12, 0);
+      playerModel.add(rightLegOverlay);
+    }
+
+    // Ajouter le joueur à la scène
+    scene.add(playerModel);
+    context.model = playerModel;
+  } catch (error) {
+    console.error("Erreur détaillée:", error);
+    createSimpleCube(context.scene); // Fallback au cube simple en cas d'erreur
+  }
+}
+
+// Charger le skin par nom d'utilisateur
+function loadSkinByUsername(username, canvas) {
+  if (!username || !canvas.playerContext) {
+    console.error("Invalid username or canvas context");
+    return;
+  }
+
+  const skinUrl = `https://mc-heads.net/skin/${encodeURIComponent(username)}`;
+
+  loadTexture(skinUrl, function(texture) {
+    if (texture && canvas.playerContext) {
+      applyTexture(texture, canvas.playerContext);
+    }
+  });
 }

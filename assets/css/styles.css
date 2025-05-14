@@ -358,23 +358,6 @@ a {
   flex-wrap: nowrap;
 }
 
-/*
-.isOp {
-  box-shadow: inset 0 0 50px purple;
-}
-/*to do
-.isCheating{
-  box-shadow: inset 0 0 50px red;
-}
-
-.offline {
-  box-shadow: rgb(78, 78, 78) 0 0 0 3px, 0 2px 20px rgba(0, 0, 0, 1);
-}
-
-.online {
-  box-shadow: lime 0px 0px 0px 3px, 0 2px 20px rgba(0, 0, 0, 1)
-}
-*/
 .sous-etiquette {
   display: flex;
   flex-direction: column;
@@ -405,12 +388,6 @@ a {
   }
 }
 
-#skin {
-  padding: 10px;
-  padding-bottom: 0;
-  width: 100px;
-}
-
 .username {
   color: rgb(255, 255, 255);
   font-weight: bold;
@@ -420,7 +397,7 @@ a {
 .uuid {
   font-size: small;
 }
-.version{
+.version {
   color: white;
 }
 .bottom {
@@ -451,6 +428,39 @@ a {
 }
 
 /*style 2eme page*/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.skin-viewer {
+  width: 400px;
+  height: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background-color: transparent;
+}
+
+#player_canvas {
+  width: 100%;
+  height: 100%;
+  /* Changé de 90% à 100% */
+  display: block;
+}
+
+#status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: transparent;
+  z-index: 10;
+}
 #canvas {
   display: none;
 }
@@ -585,7 +595,37 @@ a {
   font-weight: bold;
   color: rgba(2, 0, 41, 255);
 }
-
+#barre_statistiques {
+  height: fit-content;
+}
+#health_bar {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  height: 9px; /* Match image height */
+  scale: 2 ;
+  img {
+    height: 9px;
+    width: auto;
+  }
+}
+#health_value {
+  padding-bottom: 20px;
+  text-align: center;
+}
+#food_bar {
+  display: flex;
+  align-items: center;
+  height: 9px; /* Match image height */
+  scale: 2 ;
+  img {
+    height: 9px;
+    width: auto;
+  }
+}
+#food_value {
+  text-align: center;
+}
 #inventory {
   display: flex;
   align-items: center;

@@ -1,6 +1,5 @@
 // Fonction pour obtenir le nom du joueur depuis l'URL
 function getPlayerNameFromURL() {
-  return "Rudiak";
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("name");
 }
@@ -47,16 +46,17 @@ function updatePlayerUI(player) {
   // Vie
   const infosJoueur = document.getElementById("barre_statistiques");
   const health_bar = document.createElement("div");
+  health_bar.id='health_bar'
   infosJoueur.appendChild(health_bar);
   if (player.health % 2 == 0) {
-    for (let i = 0; i < player.health; i++) {
+    for (let i = 0; i < player.health/2; i++) {
       const health = document.createElement("img");
       health.src =
         "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
       health_bar.appendChild(health);
     }
   } else {
-    for (let i = 0; i < player.health - 1; i++) {
+    for (let i = 0; i < player.health/2 - 1; i++) {
       const health = document.createElement("img");
       health.src =
         "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
@@ -66,18 +66,23 @@ function updatePlayerUI(player) {
     health.src = "assets/img/minecraft/textures/gui/sprites/hud/heart/half.png";
     health_bar.appendChild(health);
   }
+  const health_value = document.createElement("p");
+  health_value.innerHTML = player.health/2;
+  health_value.id="health_value"
+  infosJoueur.appendChild(health_value)
 
   // Food
   const food_bar = document.createElement("div");
+  food_bar.id='food_bar'
   infosJoueur.appendChild(food_bar);
   if (player.food % 2 == 0) {
-    for (let i = 0; i < player.food; i++) {
+    for (let i = 0; i < player.food/2; i++) {
       const food = document.createElement("img");
       food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
       food_bar.appendChild(food);
     }
   } else {
-    for (let i = 0; i < player.food - 1; i++) {
+    for (let i = 0; i < player.food/2 - 1; i++) {
       const food = document.createElement("img");
       food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
       food_bar.appendChild(food);
@@ -86,7 +91,10 @@ function updatePlayerUI(player) {
     food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_half.png";
     food_bar.appendChild(food);
   }
-
+  const food_value = document.createElement("p");
+  food_value.innerHTML = player.food/2;
+  food_value.id="food_value"
+  infosJoueur.appendChild(food_value)
   // Armor
   /*
   const armor_bar = document.createElement("div");
@@ -281,7 +289,7 @@ const Player_Data = {
       type: "CHAINMAIL_HELMET",
     },
   ],
-  uuid: "56f8a578-1d45-487c-95f8-28dceb437595",
+  uuid: "f61c25f61cc74edbb5faed2b061a04ae",
   gamemode: "CREATIVE",
   food: 20,
   status: "online",
@@ -297,7 +305,7 @@ async function loadPlayerData() {
 
   try {
     /*const response = await fetch(
-        `http://arthonetwork.fr:8001/players/${playerName}`
+        `http://127.0.0.1:8090/api/player/${playerName}`
       );
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des données");
