@@ -35,7 +35,7 @@
         <a href="#">About</a>
         <a href="#">Contact</a>
         <a href="#">Settings</a>
-        <a href="#">Logout</a>
+        <a href="logout.php">Logout</a>
         <a href="landing_page.php">Tutorial</a>
       </div>
     </div>
