@@ -14,7 +14,7 @@ function showStep(step) {
 
   if (step === totalSteps) {
     document.getElementById("nextBtn").textContent = "Terminer ↓";
-    document.getElementById("nextBtn").href = "index.html";
+    document.getElementById("nextBtn").href = "index.php";
   } else {
     document.getElementById("nextBtn").textContent = "Suivant →";
     document.getElementById("nextBtn").href = "#";
