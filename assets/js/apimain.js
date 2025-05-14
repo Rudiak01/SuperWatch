@@ -505,7 +505,7 @@ function Init(data) {
       }
       //------- link beetween overview page and detailed page ------/
       function transferplayer() {
-        url = "./player.html?name=" + encodeURIComponent(playerName);
+        url = "./player.php?name=" + encodeURIComponent(playerName);
         linkToDetailedView.href = url;
         pseudo.href = url;
         version.href = url;
