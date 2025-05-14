@@ -98,7 +98,7 @@
           <a href="#">About</a>
           <a href="#">Contact</a>
           <a href="settings.php">Settings</a>
-          <a href="#">Logout</a>
+          <a href="logout.php">Logout</a>
           <a href="landing_page.php">Tutorial</a>
         </div>
       </div>
