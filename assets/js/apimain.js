@@ -1,4 +1,3 @@
-/*
 fetch("http://127.0.0.1:8090/api/players")
   .then((response) => response.json())
   .then((data) => {
@@ -11,74 +10,6 @@ fetch("http://127.0.0.1:8090/api/players")
     sortByName(); // appel tri par nom
     Init(API_Data); // chargement initial des joueurs
   });
-
-*/
-API_Data = {
-  mods: [],
-  software: null,
-  players: {
-    offline: 2,
-    max: 20,
-    online: 2,
-    list: {
-      TeALO36: {
-        level: 11,
-        permissions: {
-          isOp: true,
-          gameMode: "CREATIVE",
-        },
-        xp: 34,
-        health: 8,
-        uuid: "f61c25f61cc74edbb5faed2b061a04ae",
-        food: 11,
-        status: "offline",
-        player_version: "1.12.2",
-      },
-      Rudiak: {
-        level: 0,
-        permissions: {
-          isOp: true,
-          gameMode: "CREATIVE",
-        },
-        xp: 0,
-        health: 20,
-        uuid: "2939f22fc68f4deca8b7c62d9de7d2e1",
-        food: 20,
-        status: "online",
-        player_version: "1.21.1",
-      },
-      Artenios: {
-        level: 19,
-        permissions: {
-          isOp: false,
-          gameMode: "SURVIVAL",
-        },
-        xp: 34,
-        health: 8,
-        uuid: "f35259a1377a4a8dba1a8c51990745e1",
-        food: 11,
-        status: "offline",
-        player_version: "1.21.4",
-      },
-      Mahon_51: {
-        level: 0,
-        permissions: {
-          isOp: false,
-          gameMode: "SURVIVAL",
-        },
-        xp: 0,
-        health: 20,
-        uuid: "8373f5e9f78b46ae8ff0768e218df07b",
-        food: 20,
-        status: "online",
-        player_version: "1.16.2",
-      },
-    },
-  },
-  plugins: [],
-  icon: null,
-};
-Init(API_Data);
 
 /*
 setTimeout(function () {
@@ -534,16 +465,6 @@ cheating.addEventListener("click", sortcheating);
 croissant.addEventListener("click", sortcroissant);
 decroissant.addEventListener("click", sortdecroissant);
 
-// -------- Debug W/O API -------- //
-
-Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
-croissant.classList.add("sortclicked"); // le bouton "croissant" est cliqué par défaut
-sorted = 1; // permet aux fonctions de savoir qu'on tri par ordre croissant (l'autre est sortedreversed)
-sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
-sortcroissant(); // ordre croissant
-sortByName(); // appel tri par nom
-
-// ------------------------------- //
 function sortname() {
   Name.classList.add("sortclicked");
   online.classList.remove("sortclicked");

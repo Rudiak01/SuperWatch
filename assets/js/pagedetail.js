@@ -218,83 +218,6 @@ function Inventory(player) {
   }
 }
 
-const Player_Data = {
-  armor: {
-    chestplate: {
-      type: "DIAMOND_CHESTPLATE",
-    },
-    helmet: {
-      type: "CHAINMAIL_HELMET",
-    },
-    boots: {
-      type: "DIAMOND_BOOTS",
-    },
-    leggings: {
-      type: "NETHERITE_LEGGINGS",
-    },
-  },
-  level: 0,
-  name: "TeALO36",
-  xp: 0,
-  health: 15,
-  inventory: [
-    {
-      amount: 1,
-      slot: 3,
-      type: "BIRCH_PLANKS",
-    },
-    {
-      amount: 1,
-      slot: 4,
-      type: "BONE_MEAL",
-    },
-    {
-      amount: 1,
-      slot: 6,
-      type: "GOLDEN_SWORD",
-    },
-    {
-      amount: 64,
-      slot: 11,
-      type: "PODZOL",
-    },
-    {
-      amount: 1,
-      slot: 21,
-      type: "MOSS_BLOCK",
-    },
-    {
-      amount: 1,
-      slot: 33,
-      type: "LAPIS_LAZULI",
-    },
-    {
-      amount: 1,
-      slot: 36,
-      type: "DIAMOND_BOOTS",
-    },
-    {
-      amount: 1,
-      slot: 37,
-      type: "NETHERITE_LEGGINGS",
-    },
-    {
-      amount: 1,
-      slot: 38,
-      type: "DIAMOND_CHESTPLATE",
-    },
-    {
-      amount: 1,
-      slot: 39,
-      type: "CHAINMAIL_HELMET",
-    },
-  ],
-  uuid: "f61c25f61cc74edbb5faed2b061a04ae",
-  gamemode: "CREATIVE",
-  food: 20,
-  status: "online",
-};
-
 async function loadPlayerData() {
   const playerName = getPlayerNameFromURL();
 
@@ -304,15 +227,14 @@ async function loadPlayerData() {
   }
 
   try {
-    /*const response = await fetch(
+    const response = await fetch(
         `http://127.0.0.1:8090/api/player/${playerName}`
       );
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des données");
       }
 
-      const playerData = await response.json();*/
-    const playerData = Player_Data;
+      const playerData = await response.json();
     updatePlayerUI(playerData);
     Inventory(playerData);
     console.log(playerData.uuid);
