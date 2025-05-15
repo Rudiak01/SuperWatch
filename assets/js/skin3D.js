@@ -874,13 +874,14 @@ async function loadSkinByUUID() {
     const cleanUUID = uuid.replace(/-/g, "");
 
     // Use mc-heads.net as it supports CORS and provides skins directly
-    const skinUrl = `https://mc-heads.net/skin/${cleanUUID}`;
+    const skinUrl = `https://crafatar.com/skins/${cleanUUID}`;
 
     loadTexture(skinUrl, function (texture) {
       if (texture) {
         applyTexture(texture);
       } else {
-        throw new Error("Failed to load texture");
+        throw new Error("Failed to load texture, using default");
+        texture
       }
     });
   } catch (error) {

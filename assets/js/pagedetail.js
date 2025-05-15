@@ -4,23 +4,35 @@ function getPlayerNameFromURL() {
   return urlParams.get("name");
 }
 
-
 /*
 // Fonction pour convertir la valeur numérique en icônes
 function getIconString(value, maxValue, icon) {
   const iconCount = Math.round((value / maxValue) * 10);
   return icon.repeat(iconCount);
 }
+*/
 
 function formatDate(timestamp) {
+  // Crée un objet Date
   const date = new Date(timestamp);
-  return date.toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long",
+
+  // Convertit en heure de Paris
+  const options = {
+    timeZone: "Europe/Paris",
     year: "numeric",
-  });
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+
+  // Formate la date
+  const formattedDate = new Intl.DateTimeFormat("fr-FR", options).format(date);
+
+  return formattedDate; // Ex: "15/05/2025 15:29"
 }
-*/
+
 // Fonction pour mettre à jour l'interface utilisateur avec les données du joueur
 function updatePlayerUI(player) {
   const playerName = getPlayerNameFromURL();
@@ -46,17 +58,17 @@ function updatePlayerUI(player) {
   // Vie
   const infosJoueur = document.getElementById("barre_statistiques");
   const health_bar = document.createElement("div");
-  health_bar.id='health_bar'
+  health_bar.id = "health_bar";
   infosJoueur.appendChild(health_bar);
   if (player.health % 2 == 0) {
-    for (let i = 0; i < player.health/2; i++) {
+    for (let i = 0; i < player.health / 2; i++) {
       const health = document.createElement("img");
       health.src =
         "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
       health_bar.appendChild(health);
     }
   } else {
-    for (let i = 0; i < player.health/2 - 1; i++) {
+    for (let i = 0; i < player.health / 2 - 1; i++) {
       const health = document.createElement("img");
       health.src =
         "assets/img/minecraft/textures/gui/sprites/hud/heart/full.png";
@@ -67,22 +79,22 @@ function updatePlayerUI(player) {
     health_bar.appendChild(health);
   }
   const health_value = document.createElement("p");
-  health_value.innerHTML = player.health/2;
-  health_value.id="health_value"
-  infosJoueur.appendChild(health_value)
+  health_value.innerHTML = player.health / 2;
+  health_value.id = "health_value";
+  infosJoueur.appendChild(health_value);
 
   // Food
   const food_bar = document.createElement("div");
-  food_bar.id='food_bar'
+  food_bar.id = "food_bar";
   infosJoueur.appendChild(food_bar);
   if (player.food % 2 == 0) {
-    for (let i = 0; i < player.food/2; i++) {
+    for (let i = 0; i < player.food / 2; i++) {
       const food = document.createElement("img");
       food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
       food_bar.appendChild(food);
     }
   } else {
-    for (let i = 0; i < player.food/2 - 1; i++) {
+    for (let i = 0; i < player.food / 2 - 1; i++) {
       const food = document.createElement("img");
       food.src = "assets/img/minecraft/textures/gui/sprites/hud/food_full.png";
       food_bar.appendChild(food);
@@ -92,9 +104,9 @@ function updatePlayerUI(player) {
     food_bar.appendChild(food);
   }
   const food_value = document.createElement("p");
-  food_value.innerHTML = player.food/2;
-  food_value.id="food_value"
-  infosJoueur.appendChild(food_value)
+  food_value.innerHTML = player.food / 2;
+  food_value.id = "food_value";
+  infosJoueur.appendChild(food_value);
   // Armor
   /*
   const armor_bar = document.createElement("div");
@@ -121,13 +133,8 @@ function updatePlayerUI(player) {
     date_premiere_connexion = "date_premiere_connexion";
     date_premiere_connexion.innerHTML = `Date de la première connexion : ${player.}`*/
 
-  // Mise à jour de l'image du skin
-  /*
-    const skinImage = document.querySelector(".img_joueur");
-    if (skinImage) {
-      // Vous pouvez utiliser un service de skin Minecraft comme ceci:
-      skinImage.src = ``;
-    }*/
+  const lastSeen = document.getElementById("lastSeen");
+  lastSeen.innerHTML = `<b>Dernière Connexion </b>: ${formatDate(player.lastSeen)}`;
 }
 function Inventory(player) {
   const inventory = document.getElementById("inventory");
@@ -218,6 +225,94 @@ function Inventory(player) {
   }
 }
 
+const Player_Data = {
+  level: 0,
+  health: 20,
+  inventory: [
+    {
+      amount: 1,
+      slot: 3,
+      type: "BIRCH_PLANKS",
+    },
+    {
+      amount: 1,
+      slot: 4,
+      type: "BONE_MEAL",
+    },
+    {
+      amount: 1,
+      slot: 5,
+      type: "MOSS_BLOCK",
+    },
+    {
+      amount: 1,
+      slot: 6,
+      type: "GOLDEN_SWORD",
+    },
+    {
+      amount: 64,
+      slot: 11,
+      type: "PODZOL",
+    },
+    {
+      amount: 1,
+      slot: 21,
+      type: "MOSS_BLOCK",
+    },
+    {
+      amount: 1,
+      slot: 33,
+      type: "LAPIS_LAZULI",
+    },
+    {
+      amount: 1,
+      slot: 36,
+      type: "DIAMOND_BOOTS",
+    },
+    {
+      amount: 1,
+      slot: 37,
+      type: "NETHERITE_LEGGINGS",
+    },
+    {
+      amount: 1,
+      slot: 38,
+      type: "DIAMOND_CHESTPLATE",
+    },
+    {
+      amount: 1,
+      slot: 39,
+      type: "CHAINMAIL_HELMET",
+    },
+  ],
+  uuid: "2c86831e-bab9-3cd1-a4f0-41fb7fc8686c",
+  gamemode: "CREATIVE",
+  food: 20,
+  lastSeen: 1747315758622,
+  armor: {
+    chestplate: {
+      type: "DIAMOND_CHESTPLATE",
+    },
+    helmet: {
+      type: "CHAINMAIL_HELMET",
+    },
+    boots: {
+      type: "DIAMOND_BOOTS",
+    },
+    leggings: {
+      type: "NETHERITE_LEGGINGS",
+    },
+  },
+  permissions: {
+    isOp: true,
+    gameMode: "CREATIVE",
+  },
+  name: "TeALO36",
+  xp: 0,
+  isOp: true,
+  status: "offline",
+};
+
 async function loadPlayerData() {
   const playerName = getPlayerNameFromURL();
 
@@ -227,18 +322,19 @@ async function loadPlayerData() {
   }
 
   try {
-    const response = await fetch(
+    /*const response = await fetch(
         `http://127.0.0.1:8090/api/player/${playerName}`
       );
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des données");
       }
 
-      const playerData = await response.json();
+      const playerData = await response.json();*/
+    const playerData = Player_Data;
     updatePlayerUI(playerData);
     Inventory(playerData);
     console.log(playerData.uuid);
-    localStorage.setItem('uuid',  playerData.uuid);
+    localStorage.setItem("uuid", playerData.uuid);
   } catch (error) {
     console.error("Erreur:", error);
   }

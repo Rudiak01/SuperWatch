@@ -59,7 +59,7 @@
           <p id="gamemode_player"><b>Mode de jeu :</b> ?</p>
           <div id="barre_statistiques"></div>
           <p id="time_played"><b>Temps de jeu :</b> 5j 21h 52m</p>
-          <p><b>Connexion :</b> 22 octobre 2023 - 5 janvier 2025</p>
+          <p id="lastSeen"><b>Connexion :</b> ?</p>
         </div>
       </article>
     </section>
