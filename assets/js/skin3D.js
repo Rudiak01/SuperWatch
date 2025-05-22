@@ -593,7 +593,7 @@ function applyTexture(texture) {
         ), // Haut (+y)
         createOverlayMaterialForFace(
           texture,
-          leftArmOverlayX +8,
+          leftArmOverlayX + 8,
           leftArmOverlayY + 0,
           4,
           4
@@ -849,7 +849,7 @@ window.addEventListener("load", function () {
     const playerName = getPlayerNameFromURL();
 
     const playerUUID = localStorage.getItem("uuid");
-    loadSkinByUUID(playerUUID);
+    loadSkinByUUID(playerName);
 
     // Mettre à jour le titre de la page
     document.title = `Joueur - ${playerName}`;
@@ -862,7 +862,7 @@ window.addEventListener("load", function () {
 // Nettoyer avant de quitter la page
 window.addEventListener("unload", cleanupScene);
 
-async function loadSkinByUUID() {
+async function loadSkinByUUID(playerName) {
   const uuid = localStorage.getItem("uuid");
   if (!uuid) {
     console.error("No UUID found in localStorage");
@@ -874,14 +874,14 @@ async function loadSkinByUUID() {
     const cleanUUID = uuid.replace(/-/g, "");
 
     // Use mc-heads.net as it supports CORS and provides skins directly
-    const skinUrl = `https://crafatar.com/skins/${cleanUUID}`;
+    const skinUrl = `https://mc-heads.net/skin/${playerName}`;
 
     loadTexture(skinUrl, function (texture) {
       if (texture) {
         applyTexture(texture);
       } else {
         throw new Error("Failed to load texture, using default");
-        texture
+        texture;
       }
     });
   } catch (error) {
