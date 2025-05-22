@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -81,7 +83,7 @@
 
     </section>
     <p id="copied">UUID copié dans le presse papier</p>
-  </main>
+  </main> 
   <footer></footer>
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script src="assets/js/navbar.js"></script>
