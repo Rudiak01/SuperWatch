@@ -134,7 +134,11 @@ function updatePlayerUI(player) {
     date_premiere_connexion.innerHTML = `Date de la première connexion : ${player.}`*/
 
   const lastSeen = document.getElementById("lastSeen");
-  lastSeen.innerHTML = `<b>Dernière Connexion </b>: ${formatDate(player.lastSeen)}`;
+  if (player.status === "online") {
+    lastSeen.innerHTML = "<b>Dernière Connexion</b>: En ligne";
+  } else {
+    lastSeen.innerHTML = `<b>Dernière Connexion</b>: ${formatDate(player.lastSeen)}`;
+  }
 }
 function Inventory(player) {
   const inventory = document.getElementById("inventory");

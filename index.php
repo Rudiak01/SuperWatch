@@ -19,8 +19,8 @@
     <div id="navbar-left">
       <img src="assets/img/ico.webp" alt="Icon" id="icon" />
       <div id="counter">
-        <span id="navbar-counter">290</span> /
-        <span id="navbar-total">1000</span> en ligne
+        <span id="navbar-counter">Online</span> /
+        <span id="navbar-total">Total</span> en ligne
       </div>
     </div>
     <div id="navbar-center">
@@ -67,8 +67,8 @@
 
   <div class="overlay" id="overlay-menu">
     <div class="overlay-content">
-      <a href="#">Home</a>
-      <a href="#">About</a>
+      <a href="index.php">Home</a>
+      <a href="https://superwatch.arthonetwork.fr/" target="_blank">About</a>
       <a href="#">Contact</a>
       <a href="settings.php">Settings</a>
       <a href="logout.php">Logout</a>

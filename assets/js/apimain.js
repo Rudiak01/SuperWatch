@@ -1,6 +1,49 @@
-fetch("http://127.0.0.1:8090/api/players")
-  .then((response) => response.json())
-  .then((data) => {
+// Add this at the top of the file with other variables
+let banned_players = [];
+
+// Add this function to parse the ban list
+function parseBanList(banListText) {
+  // Reset the array
+  banned_players = [];
+
+  try {
+    // Remove the initial count text
+    const withoutPrefix = banListText.split("ban(s):")[1];
+
+    // Split by periods to separate each ban entry
+    const banEntries = withoutPrefix.split(".");
+
+    // Process each entry
+    for (let entry of banEntries) {
+      // Skip empty entries or null characters
+      if (!entry.trim() || entry.includes("\x00")) continue;
+
+      // Extract player name - everything before " was banned by"
+      const playerName = entry.trim().split(" was banned by")[0];
+      if (playerName && playerName.length > 0) {
+        banned_players.push(playerName);
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing ban list:", error);
+  }
+
+  console.log("Banned players:", banned_players);
+  return banned_players;
+}
+
+async function loadPlayerData() {
+  try {
+    await $.post("/assets/commands/banlist.php", function (banListText) {
+      parseBanList(banListText);
+      console.log(banListText);
+    });
+    const response = await fetch(`http://127.0.0.1:8090/api/players`);
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des données");
+    }
+
+    const data = await response.json();
     API_Data = data; // stock les données de l'api dans une variable
     console.log(API_Data);
     Name.classList.add("sortclicked"); // le bouton "name" est cliqué par défaut
@@ -9,8 +52,11 @@ fetch("http://127.0.0.1:8090/api/players")
     sortedByName = 1; // permet aux fonctions de savoir qu'on tri par nom
     sortByName(); // appel tri par nom
     Init(API_Data); // chargement initial des joueurs
-  });
-
+  } catch (error) {
+    console.error("Erreur:", error);
+  }
+}
+loadPlayerData();
 /*
 setTimeout(function () {
     window.location.reload(1);
@@ -47,10 +93,6 @@ function Init(data) {
       uuid.innerHTML = `UUID : ${player.uuid}`;
       uuid.id = player.uuid;
 
-      var version = document.createElement("a");
-      version.className = "version";
-      version.innerHTML = `Version : ${player.player_version}`;
-
       var skin = document.createElement("canvas");
       skin.id = "player_canvas";
 
@@ -76,7 +118,6 @@ function Init(data) {
         article.appendChild(linkToDetailedView);
         linkToDetailedView.appendChild(pseudo);
         linkToDetailedView.appendChild(skin);
-        linkToDetailedView.appendChild(version);
         article.appendChild(sousarticle);
       } else {
         article.appendChild(linkToDetailedView);
@@ -86,7 +127,6 @@ function Init(data) {
         sousarticle.appendChild(text);
         text.appendChild(pseudo);
         text.appendChild(uuid);
-        text.appendChild(version);
       }
 
       //   ------- online / op ------- //
@@ -115,7 +155,11 @@ function Init(data) {
 
       var ban = document.createElement("span");
       ban.id = `banbutton${playerName}`;
-      ban.innerHTML = "ban";
+      if (banned_players.includes(playerName)) {
+        ban.innerHTML = "unban";
+      } else {
+        ban.innerHTML = "ban";
+      }
 
       bottom.appendChild(banbox);
       banbox.appendChild(bansousbox);
@@ -313,26 +357,9 @@ function Init(data) {
           kickbutton.innerText = "Kicked";
           kickbutton.style = "font-size:large";
 
-          /* -- A FAIRE -- WAITING ON API -- */
-
-          fetch(`http://arthonetwork.fr:8001/api/kick`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uuid: player.uuid }),
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              console.log(`${playerName} a été kick.`);
-              //alert(`${playerName} a été kick.`);
-            })
-            .catch((error) => {
-              console.error("Erreur, impossible de kick le joueur:", error);
-              alert(`Erreur, impossible de kick ${playerName}.`);
-            });
-
-          /* -----------------------  */
+          $.post("/assets/commands/kick.php", {
+            name: playerName,
+          });
         }
       }
       function resetkickButton() {
@@ -360,45 +387,56 @@ function Init(data) {
       function handleBanClick() {
         banclickCount++;
         if (banclickCount == 1) {
-          if (isMobile) {
-            banbutton.innerText = `Vraiment ?`;
-            banbutton.style = "font-size:small";
+          if (banned_players.includes(playerName)) {
+            // Unban confirmation
+            if (isMobile) {
+              banbutton.innerText = `Vraiment ?`;
+              banbutton.style = "font-size:small";
+            } else {
+              banbutton.innerText = `Unban ${playerName} ?`;
+            }
           } else {
-            banbutton.innerText = `Ban ${playerName} ?`;
+            // Ban confirmation
+            if (isMobile) {
+              banbutton.innerText = `Vraiment ?`;
+              banbutton.style = "font-size:small";
+            } else {
+              banbutton.innerText = `Ban ${playerName} ?`;
+            }
           }
 
-          $(`.bansousbox${playerName} `).toggleClass(
-            `bansousbox-clicked${playerName} `
+          $(`.bansousbox${playerName}`).toggleClass(
+            `bansousbox-clicked${playerName}`
           );
         }
         if (banclickCount === 2) {
-          if (isMobile) {
-            banbutton.innerText = `banni`;
-            banbutton.style = "font-size:large";
-          } else {
-            banbutton.innerText = `${playerName} banni`;
-            banbutton.style = "font-size:large";
-          }
+          if (banned_players.includes(playerName)) {
+            // Handle unban
+            if (isMobile) {
+              banbutton.innerText = `débanni`;
+              banbutton.style = "font-size:large";
+            } else {
+              banbutton.innerText = `${playerName} débanni`;
+              banbutton.style = "font-size:large";
+            }
 
-          /* -- A FAIRE -- WAITING ON API -- */
-
-          fetch(`http://arthonetwork.fr:8001/api/ban`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uuid: player.uuid }),
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              console.log(`${playerName} a été banni.`);
-              //alert(`${playerName} a été banni.`);
-            })
-            .catch((error) => {
-              console.error("Erreur, impossible de bannir le joueur:", error);
-              alert(`Erreur, impossible de bannir ${playerName}.`);
+            $.post("/assets/commands/unban.php", {
+              name: playerName,
             });
-          /* -----------------------  */
+          } else {
+            // Handle ban
+            if (isMobile) {
+              banbutton.innerText = `banni`;
+              banbutton.style = "font-size:large";
+            } else {
+              banbutton.innerText = `${playerName} banni`;
+              banbutton.style = "font-size:large";
+            }
+
+            $.post("/assets/commands/ban.php", {
+              name: playerName,
+            });
+          }
         }
       }
 
@@ -444,7 +482,6 @@ function Init(data) {
         url = "./player.php?name=" + encodeURIComponent(playerName);
         linkToDetailedView.href = url;
         pseudo.href = url;
-        version.href = url;
       }
     }
   }
@@ -614,8 +651,9 @@ function searchPlayers() {
 }
 
 const copied = document.getElementById("copied");
-$(".uuid").click(function () {
-  navigator.clipboard.writeText($(this).attr("id"));
+$(document).on("click", ".uuid", function () {
+  const uuidText = $(this).text().split(": ")[1]; // Get the UUID part after ": "
+  navigator.clipboard.writeText(uuidText);
   copied_message();
 });
 
@@ -662,7 +700,7 @@ function initplayerScene(canvas) {
       renderer: playerRenderer,
       scene: playerScene,
       camera: playerCamera,
-      model: playerModel
+      model: playerModel,
     };
 
     // Start animation
@@ -677,7 +715,7 @@ function initplayerScene(canvas) {
 
 function createSimpleCube(scene) {
   const model = new THREE.Group();
-  
+
   // Create materials
   const materials = {
     head: new THREE.MeshLambertMaterial({
@@ -694,7 +732,7 @@ function createSimpleCube(scene) {
       color: 0x1a1a1a,
       opacity: 0.3,
       transparent: true,
-    })
+    }),
   };
 
   // Create body parts
@@ -706,19 +744,31 @@ function createSimpleCube(scene) {
   body.position.y = 0;
   model.add(body);
 
-  const leftArm = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  const leftArm = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 12, 4),
+    materials.limbs
+  );
   leftArm.position.set(-6, 0, 0);
   model.add(leftArm);
 
-  const rightArm = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  const rightArm = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 12, 4),
+    materials.limbs
+  );
   rightArm.position.set(6, 0, 0);
   model.add(rightArm);
 
-  const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  const leftLeg = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 12, 4),
+    materials.limbs
+  );
   leftLeg.position.set(-2, -12, 0);
   model.add(leftLeg);
 
-  const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(4, 12, 4), materials.limbs);
+  const rightLeg = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 12, 4),
+    materials.limbs
+  );
   rightLeg.position.set(2, -12, 0);
   model.add(rightLeg);
 
@@ -727,7 +777,7 @@ function createSimpleCube(scene) {
 }
 
 function animate(context) {
-  const { renderer, scene, camera} = context;
+  const { renderer, scene, camera } = context;
   renderer.render(scene, camera);
   requestAnimationFrame(() => animate(context));
 }
@@ -1360,7 +1410,7 @@ function loadSkinByUsername(username, canvas) {
 
   const skinUrl = `https://mc-heads.net/skin/${encodeURIComponent(username)}`;
 
-  loadTexture(skinUrl, function(texture) {
+  loadTexture(skinUrl, function (texture) {
     if (texture && canvas.playerContext) {
       applyTexture(texture, canvas.playerContext);
     }

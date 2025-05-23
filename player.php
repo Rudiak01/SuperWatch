@@ -36,8 +36,8 @@
 
   <div class="overlay" id="overlay-menu">
     <div class="overlay-content">
-      <a href="#">Home</a>
-      <a href="#">About</a>
+      <a href="index.php">Home</a>
+      <a href="https://superwatch.arthonetwork.fr/" target="_blank">About</a>
       <a href="#">Contact</a>
       <a href="settings.php">Settings</a>
       <a href="logout.php">Logout</a>
